@@ -3,56 +3,78 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./bookstall.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model TestTemplate {
+  id            Int            @id @default(autoincrement())
+  questions     Question[]
+  assignedTests AssignedTest[]
+}
+
+model Question {
+  id            Int          @id @default(autoincrement())
+  content       Json
+  correctAnswer String
+  testId        Int
+  test          TestTemplate @relation(fields: [testId], references: [id])
+  answers       Answer[]
+}
+
+model AssignedTest {
+  id        Int          @id @default(autoincrement())
+  testId    Int
+  test      TestTemplate @relation(fields: [testId], references: [id])
+  groupId   Int
+  group     Group        @relation(fields: [groupId], references: [id])
+  startTime DateTime     @default(now())
+  endTime   DateTime
+}
+
+model Answer {
+  id         Int      @id @default(autoincrement())
+  value      String
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id])
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model Group {
+  id            Int              @id @default(autoincrement())
+  name          String
+  admins        AdminsOnGroups[]
+  users         User[]
+  assignedTests AssignedTest[]
+}
+
+model Admin {
+  id       Int              @id @default(autoincrement())
+  name     String
+  surname  String
+  email    String           @unique
+  password String
+  groups   AdminsOnGroups[]
+}
+
+model AdminsOnGroups {
+  id      Int   @id @default(autoincrement())
+  adminId Int
+  admin   Admin @relation(fields: [adminId], references: [id])
+  groupId Int
+  group   Group @relation(fields: [groupId], references: [id])
 }
 
 model User {
-  id           String   @id @default(cuid())
-  name         String
-  email        String   @unique
-  passwordHash String
-  updatedAt    DateTime @updatedAt
-
-  updatedAuthors Author[]
-  updatedBooks   Book[]
-  updatedStores  Store[]
-}
-
-model Author {
-  id              String   @id @default(cuid())
-  firstName       String
-  lastName        String
-  bio             String?
-  updatedAt       DateTime @updatedAt
-  updatedByUserId String?
-
-  books     Book[]
-  updatedBy User?  @relation(fields: [updatedByUserId], references: [id])
-
-  @@unique([firstName, lastName])
-}
-
-model Book {
-  id              String   @id @default(cuid())
-  title           String
-  excerpt         String?
-  authorId        String
-  price           Decimal
-  updatedAt       DateTime @updatedAt
-  updatedByUserId String?
-  author          Author   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  stores    Store[]
-  updatedBy User?   @relation(fields: [updatedByUserId], references: [id])
-}
-
-model Store {
-  id              String   @id @default(cuid())
-  name            String
-  updatedAt       DateTime @updatedAt
-  updatedByUserId String?
-
-  books     Book[]
-  updatedBy User?  @relation(fields: [updatedByUserId], references: [id])
+  id       Int      @id @default(autoincrement())
+  name     String
+  surname  String
+  email    String   @unique
+  password String
+  groupId  Int
+  group    Group    @relation(fields: [groupId], references: [id])
+  answers  Answer[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
