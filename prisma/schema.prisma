@@ -9,6 +9,7 @@ datasource db {
 
 model TestTemplate {
   id            Int            @id @default(autoincrement())
+  title         String
   questions     Question[]
   assignedTests AssignedTest[]
 }
@@ -51,6 +52,7 @@ model Group {
 
 model Admin {
   id       Int              @id @default(autoincrement())
+  username String           @unique
   name     String
   surname  String
   email    String           @unique

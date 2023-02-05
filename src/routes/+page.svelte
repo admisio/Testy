@@ -1,8 +1,16 @@
 <script lang="ts">
   import trpcLogoSrc from '$lib/assets/trpc-logo.png';
   import type { PageData } from './$types';
+  import { trpc } from '$lib/trpc/client';
 
   export let data: PageData;
+
+  const createTest = async () => {
+    await trpc().tests.create.mutate({ title: 'ahoj', content: 'ahoj' });
+    const tests = await trpc().tests.list.query();
+    console.log("done");
+    console.log(tests);
+  };
 </script>
 
 <svelte:head>
@@ -10,6 +18,7 @@
 </svelte:head>
 
 <div class="root">
+  <button on:click={createTest}>Create test</button>
   <p class="emoji">😎</p>
   <p>
     Welcome to Bookstall, a sample SvelteKit application built to illustrate the usage of ✨
