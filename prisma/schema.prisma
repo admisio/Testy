@@ -67,14 +67,14 @@ model AdminsOnGroups {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  surname  String
-  email    String   @unique
-  password String
-  groupId  Int
-  group    Group    @relation(fields: [groupId], references: [id])
-  answers  Answer[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  surname   String
+  email     String   @unique
+  password  String
+  groupId   Int
+  group     Group    @relation(fields: [groupId], references: [id])
+  answers   Answer[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
