@@ -5,7 +5,7 @@
     import type { ActionData } from './$types';
     export let form: ActionData;
     let error = false;
-    let emailInput: HTMLInputElement;
+    let usernameInput: HTMLInputElement;
     let passwordInput: HTMLInputElement;
     $: returnTo = $page.url.searchParams.get('returnTo');
     $: (async () => {
@@ -16,10 +16,6 @@
         error = true;
       }
     })();
-    const autofill = (user: 'john' | 'jane') => () => {
-      emailInput.value = `${user}@mail.com`;
-      passwordInput.value = user === 'john' ? '1234' : 'qwer';
-    };
     const clearError = () => {
       error = false;
     };
@@ -30,15 +26,9 @@
   <form method="POST" use:enhance>
     <article>
       <header>Login</header>
-      <!-- svelte-ignore a11y-label-has-associated-control -->
-      <label>Autofill</label>
-      <div class="grid">
-        <button class="secondary" on:click|preventDefault={autofill('john')}>John</button>
-        <button class="secondary" on:click|preventDefault={autofill('jane')}>Jane</button>
-      </div>
       <label>
-        Email
-        <input name="email" type="email" required bind:this={emailInput} />
+        Username
+        <input name="username" type="username" required bind:this={usernameInput} />
       </label>
       <label>
         Password

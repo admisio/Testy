@@ -1,6 +1,7 @@
 import { t } from '$lib/trpc/t';
 import { z } from 'zod';
 import prisma from '$lib/prisma';
+import { adminAuth } from '../middleware/adminAuth';
 
 export const tests = t.router({
     create: t.procedure
@@ -16,6 +17,7 @@ export const tests = t.router({
         });
     }),
     list: t.procedure
+        .use(adminAuth)
         .input(z.string().optional())
         .query(async ({ input }) => {
             return prisma.testTemplate.findMany();

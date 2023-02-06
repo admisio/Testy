@@ -1,7 +1,7 @@
 import { JWT_SECRET } from '$env/static/private';
 import prisma from '$lib/prisma';
 import { invalid } from '@sveltejs/kit';
-import { md5 } from 'hash-wasm';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import type { Actions } from './$types';
 
@@ -9,18 +9,16 @@ export const actions: Actions = {
   default: async ({ request, cookies }) => {
     try {
       const data = await request.formData();
-      const email = data.get('email') as string;
+      const username = data.get('username') as string;
       const password = data.get('password') as string;
 
-      // 👇 replace this with a non-naiive hashing algorithm
-      const passwordHash = await md5(password);
-
-      const { id, name } = await prisma.user.findFirstOrThrow({
-        where: { email, password: passwordHash },
-        select: { id: true, name: true }
+      const { id, password: passwordHash } = await prisma.admin.findFirstOrThrow({
+        where: { username },
+        select: { id: true, password: true }
       });
+      await bcrypt.compare(password, passwordHash);
 
-      cookies.set('jwt', jwt.sign({ id, name }, JWT_SECRET), { path: '/' });
+      cookies.set('jwt', jwt.sign({ id: id, name: username, role: 'admin' }, JWT_SECRET), { path: '/' });
 
       return { success: true };
       // 👆 or, if we're using HTTP headers based auth, we could return the token,
