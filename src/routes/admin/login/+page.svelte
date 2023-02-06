@@ -12,7 +12,7 @@
       if (form?.success) {
         await invalidateAll();
         await goto(returnTo || '/');
-      } else if (form?.error) {
+      } else if (form?.incorrect) {
         error = true;
       }
     })();
