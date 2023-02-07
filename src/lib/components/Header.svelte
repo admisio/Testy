@@ -12,15 +12,15 @@
 
 <header>
   <a class="title-link" href="/">
-    <h1>Bookstall</h1>
-    <p>Fantasy novels</p>
+    <h1>ADMIN MENU</h1>
+    <p>TRPC je fancy</p>
   </a>
   <hr />
   <nav>
     <ul>
       <HeaderNavLink to="/admin/tests" title="List Tests" />
       <HeaderNavLink to="/admin/tests/create" title="Create Test" />
-      <HeaderNavLink to="/books" title="Books" />
+      <HeaderNavLink to="/admin/groups" title="Groups" />
       <HeaderNavLink to="/stores" title="Stores" />
       {#if isAuthenticated}
         <HeaderNavLink on:click={logout} title="Logout" />

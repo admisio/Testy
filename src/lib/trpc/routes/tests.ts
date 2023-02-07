@@ -32,13 +32,14 @@ export const tests = t.router({
     list: t.procedure
         .use(adminAuth)
         .input(z.string().optional())
-        .query(async ({ input }) => {
+        .query(async () => {
             return prisma.testTemplate.findMany({ include: { questions: true } });
         }),
     get: t.procedure
         .use(adminAuth)
         .input(z.number())
-        .query(async ({ input }) => prisma.testTemplate.findUnique({
+        .query(async ({ input }) =>
+            prisma.testTemplate.findUnique({
                 where: {
                     id: input
                 },
@@ -46,5 +47,5 @@ export const tests = t.router({
                     questions: true
                 }
             })
-        )
+        ),
 });
