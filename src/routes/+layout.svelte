@@ -23,49 +23,9 @@
 </main>
 <Footer />
 
-<style lang="scss">
-  main {
-    flex: 1 0 auto;
-  }
-
-  :global {
-    body > div {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    dialog,
-    form {
-      > article {
-        width: 100%;
-        border: 1px solid var(--muted-border-color);
-        > header {
-          margin-bottom: 0.5em;
-          padding-top: 0.75em;
-          padding-bottom: 0.75em;
-          font-size: 1.25rem;
-          font-weight: 500;
-          border-bottom: 1px solid var(--muted-border-color);
-          .close {
-            margin-top: 0.5em;
-          }
-        }
-        > footer {
-          display: flex;
-          gap: 1em;
-          justify-content: center;
-          margin-top: 1em;
-          padding-top: 1em;
-          padding-bottom: 1em;
-          border-top: 1px solid var(--muted-border-color);
-          > button {
-            display: inline-block;
-            margin-bottom: 0;
-            max-width: 160px;
-          }
-        }
-      }
-    }
-  }
+<style windi:preflights:global windi:safelist:global>
+	:global(html) {
+		font-family: 'Poppins', sans-serif;
+	}
 </style>
+

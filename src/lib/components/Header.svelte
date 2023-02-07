@@ -18,13 +18,14 @@
   <hr />
   <nav>
     <ul>
-      <HeaderNavLink to="/authors" title="Authors" />
+      <HeaderNavLink to="/admin/tests" title="List Tests" />
+      <HeaderNavLink to="/admin/tests/create" title="Create Test" />
       <HeaderNavLink to="/books" title="Books" />
       <HeaderNavLink to="/stores" title="Stores" />
       {#if isAuthenticated}
         <HeaderNavLink on:click={logout} title="Logout" />
       {:else}
-        <HeaderNavLink to="/login" title="Login" />
+        <HeaderNavLink to="/admin/login" title="Login" />
       {/if}
     </ul>
   </nav>
