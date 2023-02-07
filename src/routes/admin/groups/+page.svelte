@@ -1,7 +1,7 @@
 <script lang="ts">
     import { invalidateAll } from "$app/navigation";
     import { trpc } from "$lib/trpc/client";
-import type { PageData } from "./$types";
+    import type { PageData } from "./$types";
 
     export let data: PageData;
 
@@ -11,10 +11,10 @@ import type { PageData } from "./$types";
     }
 </script>
 
-<h1>Skupiny</h1>
+<h1 class="font-bold text-blue-700 text-6xl">Skupiny</h1>
 
 {#each data.groups as group, i}
     <p>{group.name}</p>
 {/each}
-<button on:click={createGroup} >Přidat skupinu</button>
+<button on:click={createGroup}>Přidat skupinu</button>
 

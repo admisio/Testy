@@ -1,27 +1,27 @@
 <script lang="ts">
-  import Footer from '$lib/components/Footer.svelte';
   import Header from '$lib/components/Header.svelte';
-  import '@picocss/pico';
   import type { LayoutData } from './$types';
+  import 'virtual:windi.css'
 
   export let data: LayoutData;
 </script>
 
-<svelte:head>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500&display=swap&text=BOOKSTALFNTYVE"
-    rel="stylesheet"
-  />
-</svelte:head>
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap"
+	rel="stylesheet"
+/>
+
 
 <Header isAuthenticated={data.isAuthenticated} />
+<div class="text-green-700 font-bold text-4xl">
+  <span class="">TTT</span>
+</div>
 <main class="container">
   <slot />
 </main>
-<Footer />
 
 <style windi:preflights:global windi:safelist:global>
 	:global(html) {
