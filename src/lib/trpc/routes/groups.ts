@@ -64,5 +64,18 @@ export const groups = t.router({
                     }
                 }
             })
+        ),
+    get: t.procedure
+        .use(adminAuth)
+        .input(z.number())
+        .query(async ({ input }) =>
+            prisma.group.findUnique({
+                where: {
+                    id: input
+                },
+                include: {
+                    users: true
+                }
+            })
         )
 });

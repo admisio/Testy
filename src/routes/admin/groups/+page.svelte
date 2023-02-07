@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { invalidateAll } from "$app/navigation";
+    import { goto, invalidateAll } from "$app/navigation";
     import { trpc } from "$lib/trpc/client";
     import type { PageData } from "./$types";
 
@@ -13,8 +13,8 @@
 
 <h1 class="font-bold text-blue-700 text-6xl">Skupiny</h1>
 
-{#each data.groups as group, i}
-    <p>{group.name}</p>
+{#each data.groups as group}
+    <p class="hover:underline hover:cursor-pointer" on:click={(_) => goto('/admin/groups/' + group.id)}>{group.name}</p>
 {/each}
-<button on:click={createGroup}>Přidat skupinu</button>
+<button class="font-bold" on:click={createGroup}>Přidat skupinu</button>
 

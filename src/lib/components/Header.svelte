@@ -5,7 +5,6 @@
   export let isAuthenticated: boolean;
 
   const logout = async () => {
-    await fetch('/logout', { method: 'POST' });
     invalidateAll();
   };
 </script>
