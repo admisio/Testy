@@ -15,12 +15,13 @@ model TestTemplate {
 }
 
 model Question {
-  id            Int          @id @default(autoincrement())
-  content       Json
-  correctAnswer String
-  testId        Int
-  test          TestTemplate @relation(fields: [testId], references: [id])
-  answers       Answer[]
+  id               Int          @id @default(autoincrement())
+  title            String
+  content          Json
+  correctAnswer    String
+  testId           Int
+  test             TestTemplate @relation(fields: [testId], references: [id])
+  submittedAnswers Answer[]
 }
 
 model AssignedTest {
