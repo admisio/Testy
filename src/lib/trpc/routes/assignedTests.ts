@@ -4,7 +4,7 @@ import { adminAuth } from '../middleware/adminAuth';
 import prisma from '$lib/prisma';
 
 export const assignedTests = t.router({
-    create: t.procedure
+    assignToGroup: t.procedure
         .use(adminAuth)
         .input(
             z.object({
@@ -15,10 +15,17 @@ export const assignedTests = t.router({
         .mutation(async ({ input }) => {
             const assignedTest = await prisma.assignedTest.create({
                 data: {
-                    testId: input.templateId,
-                    groupId: input.groupId,
-                    startTime: new Date(),
-                    endTime: new Date()
+                    test: {
+                        connect: {
+                            id: input.templateId
+                        }
+                    },
+                    group: {
+                        connect: {
+                            id: input.groupId
+                        }
+                    },
+                    started: false
                 }
             });
             await prisma.group.update({
@@ -31,6 +38,25 @@ export const assignedTests = t.router({
                             id: assignedTest.id
                         }
                     }
+                }
+            });
+        }),
+    start: t.procedure
+        .use(adminAuth)
+        .input(
+            z.object({
+                assignedTestId: z.number()
+            })
+        )
+        .mutation(async ({ input }) => {
+            await prisma.assignedTest.update({
+                where: {
+                    id: input.assignedTestId
+                },
+                data: {
+                    started: true,
+                    startTime: new Date(),
+                    endTime: new Date()
                 }
             });
         }),

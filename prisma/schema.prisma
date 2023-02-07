@@ -30,8 +30,9 @@ model AssignedTest {
   test      TestTemplate @relation(fields: [testId], references: [id])
   groupId   Int
   group     Group        @relation(fields: [groupId], references: [id])
-  startTime DateTime     @default(now())
-  endTime   DateTime
+  started   Boolean      @default(false)
+  startTime DateTime?
+  endTime   DateTime?
 }
 
 model Answer {
