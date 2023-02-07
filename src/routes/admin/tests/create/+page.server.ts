@@ -1,11 +1,7 @@
-import { JWT_SECRET } from '$env/static/private';
 import { fail } from '@sveltejs/kit';
-import jwt from 'jsonwebtoken';
 import type { Actions } from './$types';
-import { adminContextValid } from '$lib/trpc/middleware/adminAuth';
-import type { Context } from '$lib/trpc/context';
 import { parseMd } from '$lib/trpc/utils/mdParser';
-import { createTest } from '$lib/trpc/services/questionService';
+import { createTest } from '$lib/trpc/services/testService';
 
 export const actions: Actions = {
   default: async ({ request, cookies }) => {
