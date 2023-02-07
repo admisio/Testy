@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
     await prisma.adminsOnGroups.deleteMany();
     await prisma.admin.deleteMany();
+    await prisma.user.deleteMany();
     const admin = await prisma.admin.create({
         data: {
             name: 'Admin',
@@ -26,7 +27,6 @@ async function main() {
           groupId: group.id
         }
     });
-    await prisma.user.deleteMany();
     await prisma.user.create({
         data: {
             name: 'User',
