@@ -20,7 +20,7 @@
       <HeaderNavLink to="/admin/tests" title="List Tests" />
       <HeaderNavLink to="/admin/tests/create" title="Create Test" />
       <HeaderNavLink to="/admin/groups" title="Groups" />
-      <HeaderNavLink to="/stores" title="Stores" />
+      <HeaderNavLink to="/login" title="User login" />
       {#if isAuthenticated}
         <HeaderNavLink on:click={logout} title="Logout" />
       {:else}

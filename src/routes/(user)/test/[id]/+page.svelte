@@ -1,22 +1,40 @@
 <script lang="ts">
-    import type { PageData } from "./$types";
-
+    import { trpc } from '$lib/trpc/client';
+    import type { PageData } from './$types';
 
     export let data: PageData;
     const test = data.test!;
-</script>
 
+    const answers: Array<string> =
+        test.test.questions.length > 0
+            ? test.test.questions.flatMap((q) => q.submittedAnswers.map((a) => a.value))
+            : new Array<string>(test.test.questions.length);
+
+    const submitAnswer = async (e: Event, questionId: number) => {
+        const value = (e.target as HTMLInputElement).value;
+        await trpc().assignedTests.submitAnswer.mutate({
+            assignedTestId: test.id,
+            answer: value,
+            questionId
+        });
+    };
+</script>
 
 <h1>Test was {test.id} assigned to you</h1>
 <h2>Start time: {test.startTime}</h2>
 <h2>End time: {test.endTime}</h2>
 
 <h1>{test.test.title}</h1>
-{#each test.test.questions as question}
+{#each test.test.questions as question, i}
     <h2 class="text-xl font-bold">{question.title}</h2>
     <ul>
         {#each question.content.answers as answer}
             <li>{answer}</li>
         {/each}
     </ul>
+    <select on:input={(e) => submitAnswer(e, question.id)} bind:value={answers[i]}>
+        {#each question.content.answers as answer}
+            <option>{answer}</option>
+        {/each}
+    </select>
 {/each}

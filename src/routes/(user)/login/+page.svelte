@@ -11,7 +11,7 @@
     $: (async () => {
       if (form?.success) {
         await invalidateAll();
-        await goto(returnTo || '/');
+        await goto(returnTo || '/test');
       } else if (form?.incorrect) {
         error = true;
       }
