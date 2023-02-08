@@ -5,12 +5,17 @@
 
     export let data: PageData;
     const group = data.group;
+    const templates = data.templates || [];
     const users = group?.users || [];
     const assignedTests = group?.assignedTests || [];
-    console.log(group);
+
+    let inputTemplateId: number;
+
+    $: console.log(inputTemplateId);
+    
 
     const assignTest = async () => {
-        await trpc().assignedTests.assignToGroup.mutate({ groupId: group?.id!, templateId: 47 });
+        await trpc().assignedTests.assignToGroup.mutate({ groupId: group?.id!, templateId: inputTemplateId });
         invalidateAll();
     };
 
@@ -37,4 +42,9 @@
     </div>
 {/each}
 
+<select bind:value={inputTemplateId}>
+    {#each templates as template}
+        <option value={template.id}>{template.title}</option>
+    {/each}
+</select>
 <button on:click={assignTest}>Assign test</button>
