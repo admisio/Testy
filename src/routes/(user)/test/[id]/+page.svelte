@@ -5,11 +5,13 @@
     export let data: PageData;
     const test = data.test!;
 
-    const answers: Array<string> =
-        test.test.questions.length > 0
-            ? test.test.questions.flatMap((q) => q.submittedAnswers.map((a) => a.value))
-            : new Array<string>(test.test.questions.length);
-
+    const questions = test.test.questions;
+    const answers: Array<string> = new Array<string>(questions.length);
+    for (let i = 0; i < answers.length; i++) {
+        if (questions[i].submittedAnswers[0]) {
+            answers[i] = questions[i].submittedAnswers[0].value;
+        }
+    }
     const submitAnswer = async (e: Event, questionId: number) => {
         const value = (e.target as HTMLInputElement).value;
         await trpc().assignedTests.submitAnswer.mutate({
@@ -26,7 +28,7 @@
 
 <h1>{test.test.title}</h1>
 {#each test.test.questions as question, i}
-    <h2 class="text-xl font-bold">{question.title}</h2>
+    <h2 class="text-xl font-bold">{question.id} {question.title}</h2>
     <ul>
         {#each question.content.answers as answer}
             <li>{answer}</li>
