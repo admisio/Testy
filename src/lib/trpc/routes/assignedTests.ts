@@ -4,7 +4,7 @@ import { adminAuth } from '../middleware/adminAuth';
 import prisma from '$lib/prisma';
 import { userAuth } from '../middleware/userAuth';
 import { TRPCError } from '@trpc/server';
-import type { Answer, AssignedTest, Prisma, TestTemplate } from '@prisma/client';
+import type { Answer, AssignedTest, TestTemplate } from '@prisma/client';
 import type { QuestionContent } from '../model/Question';
 import { findUniqueWithSubmission } from '../query/user';
 
@@ -131,7 +131,8 @@ export const assignedTests = t.router({
                                 }
                             }
                         }
-                    }
+                    },
+                    testSubmission: {}
                 }
             });
             if (!assignedTest) {
@@ -249,12 +250,12 @@ export const assignedTests = t.router({
             if (!assignedTest.started) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
-            
+
             return prisma.testSubmission.create({
                 data: {
                     user: {
                         connect: {
-                            id: user.id   
+                            id: user.id
                         }
                     },
                     assignedTest: {
@@ -265,7 +266,5 @@ export const assignedTests = t.router({
                     submittedAt: new Date()
                 }
             });
-        }
-    )
-
+        })
 });

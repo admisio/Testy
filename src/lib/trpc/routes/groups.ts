@@ -80,7 +80,16 @@ export const groups = t.router({
                                 id: true,
                                 name: true,
                                 surname: true,
-                                email: true
+                                email: true,
+                                testSubmissions: {
+                                    include: {
+                                        assignedTest: {
+                                            select: {
+                                                id: true,
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         },
                         assignedTests: {
