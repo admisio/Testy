@@ -1,18 +1,19 @@
 <script lang="ts">
-    import type { Question } from "$lib/trpc/model/Question";
     import type { PageData } from "./$types";
 
 
     export let data: PageData;
     const test = data.test!;
-    const questions = test.questions.map((q) => q as unknown as Question); 
 </script>
 
-<h1>Úprava testu</h1>
 
-<h1>{test.title}</h1>
-{#each questions as question}
-    <h2>{question.title}</h2>
+<h1>Test was {test.id} assigned to you</h1>
+<h2>Start time: {test.startTime}</h2>
+<h2>End time: {test.endTime}</h2>
+
+<h1>{test.test.title}</h1>
+{#each test.test.questions as question}
+    <h2 class="text-xl font-bold">{question.title}</h2>
     <ul>
         {#each question.content.answers as answer}
             <li>{answer}</li>

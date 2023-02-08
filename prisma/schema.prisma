@@ -72,6 +72,7 @@ model AdminsOnGroups {
 
 model User {
   id        Int      @id @default(autoincrement())
+  username  String   @unique
   name      String
   surname   String
   email     String   @unique

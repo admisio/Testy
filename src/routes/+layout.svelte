@@ -13,8 +13,7 @@
     rel="stylesheet"
 />
 
-<template class="bg-[#313131]">
-    <Header isAuthenticated={data.isAuthenticated} />
+<template>
     <main class="container">
         <slot />
     </main>

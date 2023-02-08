@@ -31,6 +31,7 @@ async function main() {
         data: {
             name: 'User',
             surname: 'User',
+            username: 'testuser',
             email: 'testuser@test.test',
             password: await bcrypt.hash('testuser', 12),
             group: {
