@@ -6,6 +6,7 @@ import { userAuth } from '../middleware/userAuth';
 import { TRPCError } from '@trpc/server';
 import type { Answer, AssignedTest, Prisma, TestTemplate } from '@prisma/client';
 import type { QuestionContent } from '../model/Question';
+import { findUniqueWithSubmission } from '../query/user';
 
 export const assignedTests = t.router({
     assignToGroup: t.procedure
@@ -107,11 +108,7 @@ export const assignedTests = t.router({
             })
         )
         .query(async ({ ctx, input }) => {
-            const user = await prisma.user.findUniqueOrThrow({
-                where: {
-                    id: Number(ctx.userId)
-                }
-            });
+            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignedTestId);
             const assignedTest = await prisma.assignedTest.findUnique({
                 where: {
                     id: input.assignedTestId
@@ -170,16 +167,15 @@ export const assignedTests = t.router({
             })
         )
         .mutation(async ({ ctx, input }) => {
-            const user = await prisma.user.findUnique({
-                where: {
-                    id: Number(ctx.userId)
-                }
-            });
+            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignedTestId);
             const assignedTest = await prisma.assignedTest.findUnique({
                 where: {
                     id: input.assignedTestId
                 }
             });
+            if (user.testSubmissions.length > 0) {
+                throw new TRPCError({ code: 'FORBIDDEN', message: 'Test already submitted' });
+            }
             if (!assignedTest) {
                 throw new TRPCError({ code: 'NOT_FOUND', message: 'Test not found' });
             }
@@ -224,5 +220,52 @@ export const assignedTests = t.router({
                     }
                 });
             }
-        })
+        }),
+    submitTest: t.procedure
+        .use(userAuth)
+        .input(
+            z.object({
+                assignedTestId: z.number()
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignedTestId);
+            const assignedTest = await prisma.assignedTest.findUniqueOrThrow({
+                where: {
+                    id: input.assignedTestId
+                }
+            });
+
+            if (user.testSubmissions.length > 0) {
+                throw new TRPCError({ code: 'FORBIDDEN', message: 'Test already submitted' });
+            }
+
+            if (assignedTest.groupId !== user.groupId) {
+                throw new TRPCError({
+                    code: 'FORBIDDEN',
+                    message: 'Test was not assigned to your group'
+                });
+            }
+            if (!assignedTest.started) {
+                throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
+            }
+            
+            return prisma.testSubmission.create({
+                data: {
+                    user: {
+                        connect: {
+                            id: user.id   
+                        }
+                    },
+                    assignedTest: {
+                        connect: {
+                            id: assignedTest.id
+                        }
+                    },
+                    submittedAt: new Date()
+                }
+            });
+        }
+    )
+
 });

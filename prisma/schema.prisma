@@ -25,14 +25,24 @@ model Question {
 }
 
 model AssignedTest {
-  id        Int          @id @default(autoincrement())
-  testId    Int
-  test      TestTemplate @relation(fields: [testId], references: [id])
-  groupId   Int
-  group     Group        @relation(fields: [groupId], references: [id])
-  started   Boolean      @default(false)
-  startTime DateTime?
-  endTime   DateTime?
+  id             Int              @id @default(autoincrement())
+  testId         Int
+  test           TestTemplate     @relation(fields: [testId], references: [id])
+  groupId        Int
+  group          Group            @relation(fields: [groupId], references: [id])
+  started        Boolean          @default(false)
+  startTime      DateTime?
+  endTime        DateTime?
+  testSubmission TestSubmission[]
+}
+
+model TestSubmission {
+  id           Int          @id @default(autoincrement())
+  userId       Int
+  user         User         @relation(fields: [userId], references: [id])
+  testId       Int
+  assignedTest AssignedTest @relation(fields: [testId], references: [id])
+  submittedAt  DateTime
 }
 
 model Answer {
@@ -71,15 +81,16 @@ model AdminsOnGroups {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  name      String
-  surname   String
-  email     String   @unique
-  password  String
-  groupId   Int
-  group     Group    @relation(fields: [groupId], references: [id])
-  answers   Answer[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id              Int              @id @default(autoincrement())
+  username        String           @unique
+  name            String
+  surname         String
+  email           String           @unique
+  password        String
+  groupId         Int
+  group           Group            @relation(fields: [groupId], references: [id])
+  answers         Answer[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @default(now())
+  testSubmissions TestSubmission[]
 }

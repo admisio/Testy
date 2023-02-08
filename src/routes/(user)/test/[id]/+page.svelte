@@ -40,3 +40,5 @@
         {/each}
     </select>
 {/each}
+
+<button class="mt-8 bg-red-700 font-bold text-4xl" on:click={() => trpc().assignedTests.submitTest.mutate({assignedTestId: test.id})}>Submit test</button>
