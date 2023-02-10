@@ -1,4 +1,4 @@
-export interface QuestionContent {
+/* export interface QuestionContent {
     description?: string;
     codeBlocks?: string[];
     images?: string[];
@@ -8,4 +8,11 @@ export interface QuestionContent {
 export interface Question {
     title: string;
     content: QuestionContent;
+} */
+
+export interface Question {
+    title: string;
+    description?: string;
+    answers: string[];
+    correctAnswer: number;
 }

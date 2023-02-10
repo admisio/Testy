@@ -49,6 +49,7 @@
     "prettier-plugin-svelte": "^2.9.0",
     "prisma": "^4.10.1",
     "trpc-sveltekit": "^3.2.9",
+    "ts-node": "^10.9.1",
     "zod": "^3.20.6"
   },
   "prisma": {

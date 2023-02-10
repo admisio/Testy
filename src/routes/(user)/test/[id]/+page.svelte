@@ -29,13 +29,14 @@
 <h1>{test.test.title}</h1>
 {#each test.test.questions as question, i}
     <h2 class="text-xl font-bold">{question.id} {question.title}</h2>
+    <div>{@html question.description}</div>
     <ul>
-        {#each question.content.answers as answer}
+        {#each question.answers as answer}
             <li>{answer}</li>
         {/each}
     </ul>
     <select on:input={(e) => submitAnswer(e, question.id)} bind:value={answers[i]}>
-        {#each question.content.answers as answer}
+        {#each question.answers as answer}
             <option>{answer}</option>
         {/each}
     </select>

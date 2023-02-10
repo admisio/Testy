@@ -21,7 +21,7 @@ const parseQuestion = (questionHTML: string): Question => {
     const description = document('ol').nextUntil('.answers').html();
     console.log('description:', description);
 
-    return { title, content: { description: description ?? undefined, answers } };
+    return { title, description: description ?? undefined, answers, correctAnswer: 0  }
 };
 
 export const parseMd = async (md: string): Promise<TestTemplateType> => {
@@ -43,5 +43,5 @@ export const parseMd = async (md: string): Promise<TestTemplateType> => {
         }
     }).filter((q) => q !== null) as Array<Question>;
 
-    return { title: 'test', questions };
+    return { title: 'test222', questions };
 };

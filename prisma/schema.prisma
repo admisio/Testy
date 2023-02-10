@@ -17,7 +17,8 @@ model TestTemplate {
 model Question {
   id               Int          @id @default(autoincrement())
   title            String
-  content          Json
+  description      String?
+  answers          String[]
   correctAnswer    String
   testId           Int
   test             TestTemplate @relation(fields: [testId], references: [id])

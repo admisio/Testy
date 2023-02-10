@@ -10,12 +10,8 @@ export const createTest = async (test: TestTemplateType): Promise<TestTemplateFu
                 createMany: {
                     data: questions.map((question) => ({
                         title: question.title,
-                        content: {
-                            description: question.content.description,
-                            codeBlocks: question.content.codeBlocks,
-                            images: question.content.images,
-                            answers: question.content.answers
-                        },
+                        description: question.description,
+                        answers: question.answers,
                         correctAnswer: 'neznam'
                     }))
                 }

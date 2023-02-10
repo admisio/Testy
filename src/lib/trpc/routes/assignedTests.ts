@@ -4,8 +4,6 @@ import { adminAuth } from '../middleware/adminAuth';
 import prisma from '$lib/prisma';
 import { userAuth } from '../middleware/userAuth';
 import { TRPCError } from '@trpc/server';
-import type { Answer, AssignedTest, TestTemplate } from '@prisma/client';
-import type { QuestionContent } from '../model/Question';
 import { findUniqueWithSubmission } from '../query/user';
 
 export const assignedTests = t.router({
@@ -120,7 +118,8 @@ export const assignedTests = t.router({
                                 select: {
                                     id: true,
                                     title: true,
-                                    content: true,
+                                    description: true,
+                                    answers: true,
                                     submittedAnswers: {
                                         where: {
                                             user: {
@@ -147,16 +146,7 @@ export const assignedTests = t.router({
             if (!assignedTest?.started) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
-            return assignedTest as unknown as AssignedTest & {
-                test: TestTemplate & {
-                    questions: {
-                        id: number;
-                        title: string;
-                        content: QuestionContent;
-                        submittedAnswers: Answer[];
-                    }[];
-                };
-            };
+            return assignedTest;
         }),
     submitAnswer: t.procedure
         .use(userAuth)
