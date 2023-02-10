@@ -37,6 +37,7 @@
     "@trpc/server": "^10.11.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
+    "@zerodevx/svelte-toast": "1.0.0-rc.1",
     "bcrypt": "^5.1.0",
     "cheerio": "1.0.0-rc.12",
     "date-fns": "^2.29.3",
