@@ -12,7 +12,7 @@
 
 <h1>{test.title}</h1>
 {#each questions as question}
-    <h2>{question.title}</h2>
+    <h2>{@html question.title}</h2>
     <div>{@html question.description}</div>
     <ul>
         {#each question.answers as answer}

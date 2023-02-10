@@ -7,8 +7,7 @@ const OL_REGEX = /<ol(\sstart="[0-9]+")?/g;
 
 const parseQuestion = (questionHTML: string): Question => {
     const document = load(questionHTML);
-    const title = document('ol > li').text();
-    console.log('title:', title);
+    const title = document('ol > li').html() ?? '';
     document('pre').last().addClass('answers');
     const answersRaw = document('pre > code').last();
     const answers = answersRaw
