@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE "AssignedTest" ADD COLUMN     "started" BOOLEAN NOT NULL DEFAULT false,
-ALTER COLUMN "startTime" DROP NOT NULL,
-ALTER COLUMN "startTime" DROP DEFAULT,
-ALTER COLUMN "endTime" DROP NOT NULL;
