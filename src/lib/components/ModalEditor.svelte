@@ -78,7 +78,7 @@
   </dialog>
 </form>
 
-<style lang="scss">
+<style lang="postcss">
   small {
     display: block;
     margin-left: 1.5em;

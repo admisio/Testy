@@ -30,7 +30,7 @@
   </nav>
 </header>
 
-<style lang="scss">
+<style lang="postcss">
   header {
     background: var(--card-background-color);
     border-bottom: 1px solid var(--muted-border-color);

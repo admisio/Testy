@@ -19,7 +19,7 @@
   <a class:active={$page.url.pathname === to} href={to || '#'} on:click={handleClick}>{title}</a>
 </li>
 
-<style lang="scss">
+<style lang="postcss">
   li:not(:first-child) {
     position: relative;
     &::before {

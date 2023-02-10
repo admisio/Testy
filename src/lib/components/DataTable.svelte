@@ -125,7 +125,7 @@
   </figure>
 </article>
 
-<style lang="scss">
+<style lang="postcss">
   figure {
     margin: 0;
   }
