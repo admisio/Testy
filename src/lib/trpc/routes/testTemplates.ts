@@ -3,7 +3,7 @@ import { z } from 'zod';
 import prisma from '$lib/prisma';
 import { adminAuth } from '../middleware/adminAuth';
 
-export const tests = t.router({
+export const testTemplates = t.router({
     create: t.procedure
         .use(adminAuth)
         .input(
