@@ -26,13 +26,12 @@ const parseQuestion = (questionHTML: string): Question => {
 
 export const parseMd = async (md: string): Promise<TestTemplateType> => {
     const html = marked.parse(md);
-    // const questions = html.split(OL_REGEX);
+    const document = load(html);
+    const title = document('h1').text();
     const lines = html.split('\n');
-    // get ol lines indexes
     const olIndexes = lines
         .map((line, i) => (line.match(OL_REGEX) ? i : null))
         .filter((i) => i !== null);
-    // slice html into questions
     const questions = olIndexes.map((index, i) => {
         const nextIndex = olIndexes[i + 1];
         if (index && nextIndex) {
@@ -43,5 +42,5 @@ export const parseMd = async (md: string): Promise<TestTemplateType> => {
         }
     }).filter((q) => q !== null) as Array<Question>;
 
-    return { title: 'test222', questions };
+    return { title, questions };
 };
