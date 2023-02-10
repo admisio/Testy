@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  adminer:
+    image: adminer:latest
+    depends_on: 
+      - db
+    ports:
+      - 9004:8080
+    networks:
+       - db
+  db:
+    image: "postgres:15"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres  
+    ports:
+      - "9003:5432"
+    networks:
+       - db
+networks:
+  db:
