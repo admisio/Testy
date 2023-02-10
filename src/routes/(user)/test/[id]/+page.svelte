@@ -46,14 +46,22 @@
             <div class="mt-12 w-full">
                 <h2 class="text-2xl font-bold">{i + 1}. {@html question.title}</h2>
                 {#if question.description}
-                    <div class="mt-8">{@html question.description}</div>
+                    <div class="mt-8">
+                        <pre>
+                            {@html question.description}
+                        </pre>
+                    </div>
                 {/if}
                 <div class="mt-6">
                     <Answers
                         on:submit={(e) => submitAnswer(e, question.id)}
                         answers={question.answers}
-                        selectedAnswerIndex={question.submittedAnswers[0] ? question.answers.indexOf(answers[i]) : -1}
-                        submittedAnswer={question.submittedAnswers[0] ? question.submittedAnswers[0].value : ''}
+                        selectedAnswerIndex={question.submittedAnswers[0]
+                            ? question.answers.indexOf(answers[i])
+                            : -1}
+                        submittedAnswer={question.submittedAnswers[0]
+                            ? question.submittedAnswers[0].value
+                            : ''}
                     />
                 </div>
                 <!-- <select on:input={(e) => submitAnswer(e, question.id)} bind:value={answers[i]}>
