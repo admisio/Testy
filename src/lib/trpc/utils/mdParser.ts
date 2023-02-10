@@ -36,8 +36,12 @@ export const parseMd = async (md: string): Promise<TestTemplateType> => {
         .map((line, i) => (line.match(OL_REGEX) ? i : null))
         .filter((i) => i !== null);
     const questions = olIndexes.map((index, i) => {
+        if (!index) return null;
         const nextIndex = olIndexes[i + 1];
-        if (index && nextIndex) {
+        if (i === olIndexes.length - 1) {
+            const question = lines.slice(index).join('\n');
+            return parseQuestion(question);
+        } else if (nextIndex) {
             const question = lines.slice(index, nextIndex).join('\n');
             return parseQuestion(question);
         } else {
