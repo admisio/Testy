@@ -22,5 +22,7 @@
 <style windi:preflights:global windi:safelist:global>
     :global(html) {
         font-family: 'Poppins', sans-serif;
+        background-color: #111;
+        color: #e3e3e3;
     }
 </style>
