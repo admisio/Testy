@@ -1,50 +1,47 @@
-import type { Question } from '../model/Question';
+import { marked } from 'marked';
+import { load } from 'cheerio';
 import type { TestTemplateType } from '../model/TestTemplate';
+import type { Question } from '../model/Question';
 
-const TEST_TITLE_REGEX = /^# .+/gm;
-const QUESTION_TITLE_REGEX = /^[0-9]+\.\s.+$/gm;
-const DESCRIPTION_REGEX = /^```\n.+\n```$/gm;
-// const ANSWER_REGEX = /^```\na\)\s.+\nb\)\s.+\nc\)\s.+\nd\)\s.+\n```$/gm;
-const ANSWER_REGEX = /^```\r?\n?a\).+\r?\n?b\).+\r?\n?c\).+\r?\n?d\).+\r?\n?```$/gm;
-// const QUESTION_BLOCK_REGEX = /([0-9]+\.\s.+)(```(.\n)+```)?\n\n(```\na\)\s.+\nb\)\s.+\nc\)\s.+\nd\)\s.+\n```)/;
+const OL_REGEX = /<ol(\sstart="[0-9]+")?/g;
 
-const parseQuestion = (question: string): Question => {
-    console.log(question.match(ANSWER_REGEX));
-    const title = question.match(QUESTION_TITLE_REGEX)?.[0].replace(/^[0-9]+\.\s/, '') || '';
-    const description = question
-        .match(DESCRIPTION_REGEX)?.[0]
-        .replace(/^```\n/, '')
-        .replace(/\n```$/, '');
-    console.log(question);
-    const answers =
-        question
-            .match(ANSWER_REGEX)?.[0]
-            .replaceAll('```', '')
-            .split('\n')
-            .map((answer) => answer.replace(/^[a-d]\)\s/, '').replaceAll('\r', ''))
-            .filter((answer) => answer.length > 0) || [];
+const parseQuestion = (questionHTML: string): Question => {
+    const document = load(questionHTML);
+    const title = document('ol > li').text();
+    console.log('title:', title);
+    document('pre').last().addClass('answers');
+    const answersRaw = document('pre > code').last();
+    const answers = answersRaw
+        .text()
+        .split(/[a-d]\)/)
+        .filter((a) => a.length > 0);
+    console.log('answers:', answers);
 
-    return { title, content: { description, answers } };
+    // get description e.g. content between title and last code block
+    const description = document('ol').nextUntil('.answers').html();
+    console.log('description:', description);
+
+    return { title, content: { description: description ?? undefined, answers } };
 };
 
 export const parseMd = async (md: string): Promise<TestTemplateType> => {
-    console.log('parsing');
-    const title = md.match(TEST_TITLE_REGEX)?.[0].replace(/^# /, '') || '';
-    const titles = md.match(QUESTION_TITLE_REGEX);
-    console.log(titles);
-    const indexes = titles?.map((title) => md.indexOf(title));
-    console.log('indexes:', indexes);
-
-    const questions =
-        indexes?.map((index, i) => {
-            const nextIndex = indexes[i + 1];
-            const question = md.slice(index, nextIndex);
+    const html = marked.parse(md);
+    // const questions = html.split(OL_REGEX);
+    const lines = html.split('\n');
+    // get ol lines indexes
+    const olIndexes = lines
+        .map((line, i) => (line.match(OL_REGEX) ? i : null))
+        .filter((i) => i !== null);
+    // slice html into questions
+    const questions = olIndexes.map((index, i) => {
+        const nextIndex = olIndexes[i + 1];
+        if (index && nextIndex) {
+            const question = lines.slice(index, nextIndex).join('\n');
             return parseQuestion(question);
-        }) || [];
+        } else {
+            return null;
+        }
+    }).filter((q) => q !== null) as Array<Question>;
 
-    // const questions: Array<Question> = md.match(QUESTION_BLOCK_REGEX)?.map(parseQuestion) || [];
-
-    // console.log(md.match(QUESTION_BLOCK_REGEX));
-
-    return { title, questions };
+    return { title: 'test', questions };
 };
