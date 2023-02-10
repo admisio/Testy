@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { pushErrorText } from "$lib/trpc/utils/toast";
-    import { createEventDispatcher } from "svelte";
+    import { pushErrorText } from '$lib/trpc/utils/toast';
+    import { createEventDispatcher } from 'svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -22,10 +22,13 @@
     };
 </script>
 
-<div class="flex w-full flex-col bg-[#1D1D1E] border-[0.1rem] border-[#3F3F46] rounded-md px-4 py-2">
+<div
+    class="flex w-full flex-col bg-[#1D1D1E] border-[0.1rem] border-[#3F3F46] rounded-md px-4 py-2"
+    class:cursor-not-allowed={readOnly}
+>
     {#each answers as answer, i}
         <div
-            class="flex mt-4 w-full hover:cursor-pointer"
+            class="flex mt-4 w-full hover:cursor-pointer" class:hover:cursor-not-allowed={readOnly}
             class:selected={selectedAnswerIndex === i}
             on:click={(_) => submit(i)}
         >
