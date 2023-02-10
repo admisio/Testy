@@ -5,6 +5,7 @@ import prisma from '$lib/prisma';
 import { userAuth } from '../middleware/userAuth';
 import { TRPCError } from '@trpc/server';
 import { findUniqueWithSubmission } from '../query/user';
+import { addMinutes } from 'date-fns';
 
 export const assignedTests = t.router({
     assignToGroup: t.procedure
@@ -52,14 +53,16 @@ export const assignedTests = t.router({
             })
         )
         .mutation(async ({ input }) => {
+            const startTime = new Date();
+            const endTime = addMinutes(startTime, 25);
             await prisma.assignedTest.update({
                 where: {
                     id: input.assignedTestId
                 },
                 data: {
                     started: true,
-                    startTime: new Date(),
-                    endTime: new Date()
+                    startTime,
+                    endTime
                 }
             });
         }),
@@ -176,7 +179,11 @@ export const assignedTests = t.router({
                     message: 'Test was not assigned to your group'
                 });
             }
-            if (!assignedTest?.started) {
+            if (
+                !assignedTest?.started ||
+                !assignedTest.endTime ||
+                new Date() > assignedTest.endTime
+            ) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
             const foundAnswer = await prisma.answer.findFirst({
@@ -237,7 +244,11 @@ export const assignedTests = t.router({
                     message: 'Test was not assigned to your group'
                 });
             }
-            if (!assignedTest.started) {
+            if (
+                !assignedTest?.started ||
+                !assignedTest.endTime ||
+                new Date() > assignedTest.endTime
+            ) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
 
