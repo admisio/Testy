@@ -52,6 +52,9 @@ dependencies:
   prisma:
     specifier: ^4.10.1
     version: 4.10.1
+  prismjs:
+    specifier: ^1.29.0
+    version: 1.29.0
   trpc-sveltekit:
     specifier: ^3.2.9
     version: 3.2.9
@@ -87,6 +90,9 @@ devDependencies:
   '@types/node':
     specifier: ^18.13.0
     version: 18.13.0
+  '@types/prismjs':
+    specifier: ^1.26.0
+    version: 1.26.0
   svelte:
     specifier: ^3.55.1
     version: 3.55.1
@@ -641,6 +647,10 @@ packages:
 
   /@types/node@18.13.0:
     resolution: {integrity: sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==}
+
+  /@types/prismjs@1.26.0:
+    resolution: {integrity: sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==}
+    dev: true
 
   /@types/pug@2.0.6:
     resolution: {integrity: sha512-SnHmG9wN1UVmagJOnyo/qkk0Z7gejYxOYYmaAwr5u2yFYfsupN3sg10kyzN8Hep/2zbHxCnsumxOoRIRMBwKCg==}
@@ -2063,6 +2073,11 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 4.10.1
+
+  /prismjs@1.29.0:
+    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
+    engines: {node: '>=6'}
+    dev: false
 
   /punycode@2.3.0:
     resolution: {integrity: sha512-rRV+zQD8tVFys26lAGR9WUuS4iUAngJScM+ZRSKtvl5tKeZ2t5bvdNFdNHBW9FWR4guGHlgmsZ1G7BSm2wTbuA==}

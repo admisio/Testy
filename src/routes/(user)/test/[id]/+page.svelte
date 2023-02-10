@@ -2,6 +2,7 @@
     import Answers from '$lib/components/testview/Answers.svelte';
     import { trpc } from '$lib/trpc/client';
     import type { PageData } from './$types';
+    import Prism from 'prismjs';
 
     export let data: PageData;
     const test = data.test!;
@@ -14,6 +15,10 @@
         if (questions[i].submittedAnswers[0]) {
             answers[i] = questions[i].submittedAnswers[0].value;
         }
+    }
+    // highlight all code blocks
+    if (typeof window !== 'undefined') {
+        Prism.highlightAll();
     }
     console.log(answers);
     /* const submitAnswer = async (e: Event, questionId: number) => {
@@ -34,6 +39,10 @@
     };
 </script>
 
+<svelte:head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" />
+</svelte:head>
+
 <h1>Test was {test.id} assigned to you</h1>
 <h2>Start time: {test.startTime}</h2>
 <h2>End time: {test.endTime}</h2>
@@ -44,11 +53,13 @@
     <div class="w-[70%]">
         {#each test.test.questions as question, i}
             <div class="mt-12 w-full">
-                <h2 class="text-2xl font-bold">{i + 1}. {@html question.title}</h2>
+                <div class="title-wrapper">
+                    <h2 class="text-2xl font-bold">{i + 1}. {@html question.title}</h2>
+                </div>
                 {#if question.description}
-                    <div class="mt-8">
+                    <div class="mt-8 description-wrapper language-javascript">
                         <pre>
-                            {@html question.description}
+                            {@html '\n' + question.description}
                         </pre>
                     </div>
                 {/if}
@@ -81,4 +92,7 @@
 >
 
 <style lang="postcss">
+    .title-wrapper :global(code) {
+        /* @apply bg-[#1D1D1E] text-[#D4D4D4] rounded-md; */
+    }
 </style>
