@@ -93,15 +93,24 @@ export const groups = t.router({
                             }
                         },
                         assignedTests: {
-                            select: {
-                                id: true,
+                            include: {
                                 test: {
                                     select: {
                                         id: true,
                                         title: true
                                     }
                                 },
-                                startTime: true,
+                                testSubmission: {
+                                    include: {
+                                        user: {
+                                            select: {
+                                                id: true,
+                                                name: true,
+                                                surname: true,
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

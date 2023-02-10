@@ -3,6 +3,7 @@
     import { trpc } from '$lib/trpc/client';
     import type { PageData } from './$types';
     import Prism from 'prismjs';
+    import { SvelteToast } from '@zerodevx/svelte-toast';
 
     export let data: PageData;
     const test = data.test!;
@@ -20,15 +21,7 @@
     if (typeof window !== 'undefined') {
         Prism.highlightAll();
     }
-    console.log(answers);
-    /* const submitAnswer = async (e: Event, questionId: number) => {
-        const value = (e.target as HTMLInputElement).value;
-        await trpc().assignedTests.submitAnswer.mutate({
-            assignedTestId: test.id,
-            answer: value,
-            questionId
-        });
-    }; */
+
     const submitAnswer = async (e: any, questionId: number) => {
         const answer = e.detail.answer;
         await trpc().assignedTests.submitAnswer.mutate({
@@ -43,6 +36,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" />
 </svelte:head>
 
+<SvelteToast />
 <h1>Test was {test.id} assigned to you</h1>
 <h2>Start time: {test.startTime}</h2>
 <h2>End time: {test.endTime}</h2>
@@ -73,6 +67,7 @@
                         submittedAnswer={question.submittedAnswers[0]
                             ? question.submittedAnswers[0].value
                             : ''}
+                        readOnly={!test.endTime || test.endTime < new Date()}
                     />
                 </div>
                 <!-- <select on:input={(e) => submitAnswer(e, question.id)} bind:value={answers[i]}>
@@ -94,5 +89,6 @@
 <style lang="postcss">
     .title-wrapper :global(code) {
         /* @apply bg-[#1D1D1E] text-[#D4D4D4] rounded-md; */
+        /* can style code parts of title */
     }
 </style>

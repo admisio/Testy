@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { pushErrorText } from "$lib/trpc/utils/toast";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
@@ -7,8 +8,13 @@
     export let submittedAnswer = '';
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
     export let selectedAnswerIndex: number | null = null;
+    export let readOnly = false;
 
     const submit = async (index: number) => {
+        if (readOnly) {
+            pushErrorText('Test již skončil');
+            return;
+        }
         selectedAnswerIndex = index;
         dispatch('submit', {
             answer: answers[index]
