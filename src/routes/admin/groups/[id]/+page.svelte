@@ -1,6 +1,7 @@
 <script lang="ts">
     import { invalidate, invalidateAll } from '$app/navigation';
     import { trpc } from '$lib/trpc/client';
+    import { formatDate } from '$lib/trpc/utils/date';
     import type { PageData } from './$types';
 
     export let data: PageData;
@@ -23,20 +24,6 @@
     const startTest = async (assignedTestId: number) => {
         await trpc().assignedTests.start.mutate({ assignedTestId });
         invalidateAll();
-    };
-
-    const formatDate = (date: Date) => {
-        return (
-            date.getDay() +
-            '. ' +
-            date.getMonth() +
-            '. ' +
-            date.getFullYear() +
-            ' ' +
-            date.getHours().toString().padStart(2, '0') +
-            ':' +
-            date.getMinutes().toString().padStart(2, '0')
-        );
     };
 </script>
 

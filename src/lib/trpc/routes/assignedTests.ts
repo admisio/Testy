@@ -149,7 +149,7 @@ export const assignedTests = t.router({
             if (!assignedTest?.started) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
-            return assignedTest;
+            return {assignedTest, user};
         }),
     submitAnswer: t.procedure
         .use(userAuth)

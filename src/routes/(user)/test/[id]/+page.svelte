@@ -2,11 +2,13 @@
     import Answers from '$lib/components/testview/Answers.svelte';
     import { trpc } from '$lib/trpc/client';
     import type { PageData } from './$types';
-    import Prism from 'prismjs';
+    // import Prism from 'prismjs'; // TODO
     import { SvelteToast } from '@zerodevx/svelte-toast';
+    import TestHeader from '$lib/components/testview/TestHeader.svelte';
 
     export let data: PageData;
     const test = data.test!;
+    const user = data.user!;
 
     console.log(test.test.questions[2].description);
 
@@ -17,10 +19,10 @@
             answers[i] = questions[i].submittedAnswers[0].value;
         }
     }
-    // highlight all code blocks
-    if (typeof window !== 'undefined') {
+    // highlight all code blocks // TODO
+    /* if (typeof window !== 'undefined') {
         Prism.highlightAll();
-    }
+    } */
 
     const submitAnswer = async (e: any, questionId: number) => {
         const answer = e.detail.answer;
@@ -32,19 +34,23 @@
     };
 </script>
 
-<svelte:head>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" rel="stylesheet" />
-</svelte:head>
-
 <SvelteToast />
-<h1>Test was {test.id} assigned to you</h1>
+<!-- <h1>Test was {test.id} assigned to you</h1>
 <h2>Start time: {test.startTime}</h2>
-<h2>End time: {test.endTime}</h2>
+<h2>End time: {test.endTime}</h2> -->
+<div class="w-full h-16 fixed top-0 left-0 right-0">
+    <TestHeader
+        name={user.name}
+        surname={user.surname}
+        testTitle={test.test.title}
+        endTime={test.endTime}
+    />
+</div>
 
-<h1>{test.test.title}</h1>
-<div class="flex-row flex">
-    <div class="w-[20%]" />
-    <div class="w-[70%]">
+
+<div class="flex justify-center mt-12 h-full w-100vw">
+    <div class="w-[1px] bg-[#3F3F46] fixed -z-50 top-0 bottom-0 left-50"></div>
+    <div class="w-[70%] px-24">
         {#each test.test.questions as question, i}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
@@ -78,6 +84,7 @@
             </div>
         {/each}
     </div>
+    <div class="w-[1px] bg-[#3F3F46] fixed -z-50 top-0 bottom-0 right-50"></div>
 </div>
 
 <button
