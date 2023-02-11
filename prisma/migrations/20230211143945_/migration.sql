@@ -10,7 +10,8 @@ CREATE TABLE "TestTemplate" (
 CREATE TABLE "Question" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "content" JSONB NOT NULL,
+    "description" TEXT,
+    "answers" TEXT[],
     "correctAnswer" TEXT NOT NULL,
     "testId" INTEGER NOT NULL,
 
@@ -45,6 +46,7 @@ CREATE TABLE "Answer" (
     "value" TEXT NOT NULL,
     "questionId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
+    "assignedTestId" INTEGER,
 
     CONSTRAINT "Answer_pkey" PRIMARY KEY ("id")
 );
@@ -125,6 +127,9 @@ ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("quest
 
 -- AddForeignKey
 ALTER TABLE "Answer" ADD CONSTRAINT "Answer_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_assignedTestId_fkey" FOREIGN KEY ("assignedTestId") REFERENCES "AssignedTest"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AdminsOnGroups" ADD CONSTRAINT "AdminsOnGroups_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "Admin"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

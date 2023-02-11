@@ -125,6 +125,9 @@ export const assignedTests = t.router({
                                     answers: true,
                                     submittedAnswers: {
                                         where: {
+                                            assignedTest: {
+                                                id: input.assignedTestId
+                                            },
                                             user: {
                                                 id: user.id
                                             }
@@ -134,7 +137,9 @@ export const assignedTests = t.router({
                             }
                         }
                     },
-                    testSubmission: {}
+                    submissions: {
+
+                    }
                 }
             });
             if (!assignedTest) {
@@ -188,6 +193,7 @@ export const assignedTests = t.router({
             }
             const foundAnswer = await prisma.answer.findFirst({
                 where: {
+                    assignedTestId: input.assignedTestId,
                     questionId: input.questionId,
                     userId: user.id
                 }
@@ -212,6 +218,11 @@ export const assignedTests = t.router({
                         question: {
                             connect: {
                                 id: input.questionId
+                            }
+                        },
+                        assignedTest: {
+                            connect: {
+                                id: input.assignedTestId
                             }
                         },
                         value: input.answer

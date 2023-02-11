@@ -26,15 +26,16 @@ model Question {
 }
 
 model AssignedTest {
-  id             Int              @id @default(autoincrement())
-  testId         Int
-  test           TestTemplate     @relation(fields: [testId], references: [id])
-  groupId        Int
-  group          Group            @relation(fields: [groupId], references: [id])
-  started        Boolean          @default(false)
-  startTime      DateTime?
-  endTime        DateTime?
-  testSubmission TestSubmission[]
+  id               Int              @id @default(autoincrement())
+  testId           Int
+  test             TestTemplate     @relation(fields: [testId], references: [id])
+  groupId          Int
+  group            Group            @relation(fields: [groupId], references: [id])
+  submittedAnswers Answer[]
+  started          Boolean          @default(false)
+  startTime        DateTime?
+  endTime          DateTime?
+  submissions      TestSubmission[]
 }
 
 model TestSubmission {
@@ -47,12 +48,14 @@ model TestSubmission {
 }
 
 model Answer {
-  id         Int      @id @default(autoincrement())
-  value      String
-  questionId Int
-  question   Question @relation(fields: [questionId], references: [id])
-  userId     Int
-  user       User     @relation(fields: [userId], references: [id])
+  id             Int           @id @default(autoincrement())
+  value          String
+  questionId     Int
+  question       Question      @relation(fields: [questionId], references: [id])
+  userId         Int
+  user           User          @relation(fields: [userId], references: [id])
+  assignedTest   AssignedTest @relation(fields: [assignedTestId], references: [id])
+  assignedTestId Int
 }
 
 model Group {

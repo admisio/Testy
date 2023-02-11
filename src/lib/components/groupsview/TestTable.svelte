@@ -9,7 +9,7 @@
         started: boolean;
         startTime: Date | null;
         endTime: Date | null;
-        testSubmission: (TestSubmission & {
+        submissions: (TestSubmission & {
             user: {
                 id: number;
                 name: string;
@@ -63,7 +63,7 @@
                 <td>{formatDate(assignedTest.startTime)}</td>
                 <td>{formatDate(assignedTest.endTime)}</td>
                 <td>{timeRemaining[i]}</td>
-                <td>{`${assignedTest.testSubmission.length}/${userCount}`}</td>
+                <td>{`${assignedTest.submissions.length}/${userCount}`}</td>
                 <td
                     >{assignedTest.started ? '✅ Ano' : '❌ Ne'}
                     {#if !assignedTest.started}

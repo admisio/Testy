@@ -100,7 +100,7 @@ export const groups = t.router({
                                         title: true
                                     }
                                 },
-                                testSubmission: {
+                                submissions: {
                                     include: {
                                         user: {
                                             select: {
