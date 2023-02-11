@@ -25,7 +25,7 @@
     const updateTimeRemaining = () => {
         timeRemaining = assignedTests.map((assignedTest) => {
             if (assignedTest.endTime && assignedTest.endTime < new Date()) {
-                return 'Test škončil';
+                return 'Test skončil';
             } else {
                 const remaining = remainingTime(assignedTest.endTime);
                 return remaining ? remaining : '-';
