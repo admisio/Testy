@@ -97,5 +97,6 @@
     .title-wrapper :global(code) {
         /* @apply bg-[#1D1D1E] text-[#D4D4D4] rounded-md; */
         /* can style code parts of title */
+        @apply bg-[#1D1D1E] text-[#D4D4D4] py-1 px-1 rounded-md;
     }
 </style>
