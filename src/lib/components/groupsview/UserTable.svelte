@@ -8,7 +8,7 @@
             assignedTest: {
                 id: number;
             };
-        })[][];
+        })[];
     }>;
     export let assignedTests: Array<{
         id: number;

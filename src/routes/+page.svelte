@@ -6,7 +6,7 @@
   export let data: PageData;
 
   const createTest = async () => {
-    await trpc().tests.create.mutate({ title: 'ahoj', content: 'ahoj' });
+    // await trpc().tests.create.mutate({ title: 'ahoj', content: 'ahoj' });
     const tests = await trpc().tests.list.query();
     console.log("done");
     console.log(tests);
