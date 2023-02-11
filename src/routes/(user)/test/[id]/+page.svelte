@@ -16,6 +16,7 @@
     const answers: Array<string> = new Array<string>(questions.length);
     for (let i = 0; i < answers.length; i++) {
         if (questions[i].submittedAnswers[0]) {
+            console.log("question id: " + questions[i].id + " answer: " + questions[i].submittedAnswers[0].value + "")
             answers[i] = questions[i].submittedAnswers[0].value;
         }
     }

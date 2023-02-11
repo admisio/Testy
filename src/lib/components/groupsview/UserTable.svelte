@@ -32,8 +32,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            {#each users as user}
+        {#each users as user}
+            <tr>
                 <td>{user.name}</td>
                 <td class="font-bold">{user.surname.toUpperCase()}</td>
                 {#each assignedTests as assignedTest}
@@ -44,14 +44,13 @@
                     >
                 {/each}
                 <td>
-                    {user.testSubmissions.length === assignedTests.length
-                        ? '✅ ANO'
-                        : '❌ NE'}
-                <!-- {#each user.testSubmissions as testSubmission}
+                    {user.testSubmissions.length === assignedTests.length ? '✅ ANO' : '❌ NE'}
+                    <!-- {#each user.testSubmissions as testSubmission}
                     <td>{testSubmission}</td>
                 {/each} -->
-            {/each}
-        </tr>
+                </td></tr
+            >
+        {/each}
     </tbody>
 </table>
 
