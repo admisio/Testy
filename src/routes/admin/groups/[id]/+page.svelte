@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { invalidate, invalidateAll } from '$app/navigation';
+    import { invalidateAll } from '$app/navigation';
+    import UserTable from '$lib/components/groupsview/UserTable.svelte';
     import { trpc } from '$lib/trpc/client';
     import { formatDate } from '$lib/trpc/utils/date';
     import type { PageData } from './$types';
@@ -27,21 +28,14 @@
     };
 </script>
 
-<h1>Skupina: {group?.name}</h1>
-<h2>Uchazeči:</h2>
-{#each users as user}
-    <div>
-        <span>{user.name}</span>
-        <span class="font-bold">{user.surname}</span>
-        <span>{user.email}</span>
-        <span
-            >{user.testSubmissions.map(
-                (s) => assignedTests.find((t) => t.id === s.testId).test.title
-            )}</span
-        >
-    </div>
-{/each}
-<h2>Testy:</h2>
+<h1 class="text-5xl font-bold">Skupina {group?.name}</h1>
+<div class="mt-8">
+
+</div>
+<UserTable {users} {assignedTests} />
+
+<!-- TODO: test table -->
+<!-- <h2>Testy:</h2>
 {#each assignedTests as assignedTest}
     <div class="flex">
         <h3 class="font-bold text-4xl mt-8">{assignedTest.test.title}</h3>
@@ -65,7 +59,7 @@
             <button on:click={(_) => startTest(assignedTest.id)}>Spustit</button>
         {/if}
     </div>
-{/each}
+{/each} -->
 
 <select bind:value={inputTemplateId}>
     {#each templates as template}
