@@ -1,5 +1,6 @@
 <script lang="ts">
     import { formatDate, formatTime, remainingTime } from '$lib/trpc/utils/date';
+    import type { TestSubmission } from '@prisma/client';
     import { createEventDispatcher } from 'svelte';
 
     export let assignedTests: Array<{
@@ -8,7 +9,16 @@
         started: boolean;
         startTime: Date | null;
         endTime: Date | null;
+        testSubmission: (TestSubmission & {
+            user: {
+                id: number;
+                name: string;
+                surname: string;
+            };
+        })[];
     }>;
+
+    export let userCount: number;
 
     let timeRemaining: string[];
 
@@ -17,7 +27,7 @@
             if (assignedTest.endTime && assignedTest.endTime < new Date()) {
                 return 'Test škončil';
             } else {
-                const remaining = remainingTime(assignedTest.endTime)
+                const remaining = remainingTime(assignedTest.endTime);
                 return remaining ? remaining : '-';
             }
         });
@@ -39,27 +49,29 @@
     <thead>
         <tr>
             <th>Název</th>
-            <th>Spuštěn</th>
             <th>Čas spuštění</th>
             <th>Čas ukončení</th>
             <th>Zbývá (min)</th>
             <th>Počet odevzdání</th>
-            <th>Spustit</th>
+            <th>Spuštěn</th>
         </tr>
     </thead>
     <tbody>
         {#each assignedTests as assignedTest, i}
             <tr>
                 <td>{assignedTest.test.title}</td>
-                <td>{assignedTest.started ? '✅ Ano' : '❌ Ne'}</td>
                 <td>{formatDate(assignedTest.startTime)}</td>
                 <td>{formatDate(assignedTest.endTime)}</td>
                 <td>{timeRemaining[i]}</td>
-                <td />
-                <td>
-                    <button on:click={(_) => startTest(assignedTest.id)} class="text-center w-full"
-                        >Spustit</button
-                    >
+                <td>{`${assignedTest.testSubmission.length}/${userCount}`}</td>
+                <td
+                    >{assignedTest.started ? '✅ Ano' : '❌ Ne'}
+                    {#if !assignedTest.started}
+                        <button
+                            on:click={(_) => startTest(assignedTest.id)}
+                            class="text-center w-full">Spustit</button
+                        >
+                    {/if}
                 </td>
             </tr>
         {/each}
