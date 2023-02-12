@@ -29,8 +29,6 @@ const parseQuestion = (questionHTML: string): Question => {
     // select code block with 'pre' and 'code' and keep <pre><code> tags in outputted string between title and last code block
     const description = document('ol').nextUntil('.answers').find('pre > code').parent().html();
 
-    console.log('description:', description);
-
     return { title, description: description ?? undefined, answers: answersSanitized, correctAnswer };
 };
 

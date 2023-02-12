@@ -280,9 +280,6 @@ export const assignedTests = t.router({
                     throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
                 }
                 const correct = question.correctAnswer === answer.value;
-                if (correct) {
-                    console.log('correct - ', answer.value);
-                }
                 const evaluatedAnswer = {
                     ...answer,
                     evaluated: true,
