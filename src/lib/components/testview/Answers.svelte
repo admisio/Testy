@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { pushErrorText } from '$lib/trpc/utils/toast';
+    import { pushErrorText } from '$lib/utils/toast';
     import { createEventDispatcher } from 'svelte';
 
     const dispatch = createEventDispatcher();

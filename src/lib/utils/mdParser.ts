@@ -1,7 +1,7 @@
 import { marked } from 'marked';
 import { load } from 'cheerio';
-import type { TestTemplateType } from '../model/TestTemplate';
-import type { Question } from '../model/Question';
+import type { TestTemplateType } from '../trpc/model/TestTemplate';
+import type { Question } from '../trpc/model/Question';
 
 const OL_REGEX = /<ol(\sstart="[0-9]+")?/g;
 

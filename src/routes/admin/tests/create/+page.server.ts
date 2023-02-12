@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { parseMd } from '$lib/trpc/utils/mdParser';
+import { parseMd } from '$lib/utils/mdParser';
 import { createTest } from '$lib/trpc/services/testService';
 
 export const actions: Actions = {

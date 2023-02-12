@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatDate, formatTime, remainingTime } from '$lib/trpc/utils/date';
+    import { formatDate, formatTime, remainingTime } from '$lib/utils/date';
     import type { TestSubmission } from '@prisma/client';
     import { createEventDispatcher } from 'svelte';
 
