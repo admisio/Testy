@@ -280,24 +280,20 @@ export const assignedTests = t.router({
                     throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
                 }
                 const correct = question.correctAnswer === answer.value;
-                const evaluatedAnswer = {
-                    ...answer,
-                    evaluated: true,
-                    evaluation: correct ? 1 : 0
-                };
+                const evaluation: number = correct ? 1 : 0;
                 await prisma.answer.update({
                     where: {
                         id: answer.id
                     },
                     data: {
                         evaluated: true,
-                        evaluation: evaluatedAnswer.evaluation
+                        evaluation: evaluation
                     }
                 });
-                return evaluatedAnswer;
+                return evaluation;
             }));
-            
-            const score = evaluatedAnswers.reduce((acc, answer) => acc + answer.evaluation, 0);
+
+            const score = evaluatedAnswers.reduce((a, b) => a + b, 0);
 
             return prisma.testSubmission.create({
                 data: {
