@@ -14,5 +14,5 @@ export interface Question {
     title: string;
     description?: string;
     answers: string[];
-    correctAnswer: number;
+    correctAnswer: string;
 }

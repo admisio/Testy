@@ -44,18 +44,21 @@ model TestSubmission {
   user         User         @relation(fields: [userId], references: [id])
   testId       Int
   assignedTest AssignedTest @relation(fields: [testId], references: [id])
+  evaluation   Int
   submittedAt  DateTime
 }
 
 model Answer {
-  id             Int           @id @default(autoincrement())
+  id             Int          @id @default(autoincrement())
   value          String
   questionId     Int
-  question       Question      @relation(fields: [questionId], references: [id])
+  question       Question     @relation(fields: [questionId], references: [id])
   userId         Int
-  user           User          @relation(fields: [userId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
   assignedTest   AssignedTest @relation(fields: [assignedTestId], references: [id])
   assignedTestId Int
+  evaluated      Boolean      @default(false)
+  evaluation     Int?
 }
 
 model Group {
