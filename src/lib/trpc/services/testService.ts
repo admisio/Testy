@@ -12,7 +12,7 @@ export const createTest = async (test: TestTemplateType): Promise<TestTemplateFu
                         title: question.title,
                         description: question.description,
                         answers: question.answers,
-                        correctAnswer: 'neznam'
+                        correctAnswer: question.correctAnswer
                     }))
                 }
             }
