@@ -4,12 +4,14 @@ import { testTemplates } from './routes/testTemplates';
 import { groups } from './routes/groups';
 import { assignedTests } from './routes/assignedTests';
 import { submissions } from './routes/submissions';
+import { auth } from './routes/auth';
 
 export const router = t.router({
-  tests: testTemplates,
-  groups,
-  assignedTests,
-  submissions,
+    tests: testTemplates,
+    groups,
+    assignedTests,
+    submissions,
+    auth
 });
 
 export type Router = typeof router;

@@ -1,9 +1,5 @@
 <script lang="ts">
-    import Header from '$lib/components/Header.svelte';
-    import type { LayoutData } from './$types';
     import 'virtual:windi.css';
-
-    export let data: LayoutData;
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />

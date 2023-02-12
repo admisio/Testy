@@ -15,6 +15,8 @@
     $: console.log(inputTemplateId);
 
     const refetch = async () => {
+        // TODO: WTF Error?
+        // @ts-ignore
         group = await trpc().groups.get.query(group.id!);
         templates = await trpc().tests.list.query();
         users = group?.users || [];

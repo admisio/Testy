@@ -1,9 +1,9 @@
 <script lang="ts">
   import trpcLogoSrc from '$lib/assets/trpc-logo.png';
-  import type { PageData } from './$types';
+  import type { LayoutData } from './$types';
   import { trpc } from '$lib/trpc/client';
 
-  export let data: PageData;
+  export let data: LayoutData;
 
   const createTest = async () => {
     // await trpc().tests.create.mutate({ title: 'ahoj', content: 'ahoj' });
@@ -36,8 +36,8 @@
     </a>
   </p>
   <p>
-    You are {data.isAuthenticated ? '' : 'not'} authenticated{data.userName
-      ? ` as ${data.userName}`
+    You are {data.isAuthenticated ? '' : 'not'} authenticated{data.userId
+      ? ` as ${data.userId}`
       : ''}.
     <br />
     {#if data.isAuthenticated}
