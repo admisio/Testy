@@ -19,9 +19,9 @@
     };
 
     import SchoolBadge from '$lib/components/icons/SchoolBadge.svelte';
-    import EmailInput from '$lib/components/inputs/EmailInput.svelte';
     import PasswordInput from '$lib/components/inputs/PasswordInput.svelte';
     import Submit from '$lib/components/buttons/Submit.svelte';
+    import UsernameInput from '$lib/components/inputs/UsernameInput.svelte';
 </script>
 
 <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -51,7 +51,7 @@
         <div>
             <label for="username" class="sr-only">Ev. číslo</label>
 
-            <EmailInput required />
+            <UsernameInput required placeholder={'Ev. číslo'} />
         </div>
 
         <div>
@@ -59,7 +59,7 @@
             <PasswordInput required />
         </div>
 
-        <div class="flex items-center justify-center w-full">
+        <div class="flex w-full items-center justify-center">
             <Submit />
         </div>
     </form>
