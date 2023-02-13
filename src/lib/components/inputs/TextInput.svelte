@@ -25,6 +25,7 @@
         @apply w-full rounded-lg;
         @apply border-2 border-gray-200 p-4 pr-12 text-sm;
         @apply shadow-lg transition-colors duration-300;
+        @apply outline-none;
     }
     input:hover {
         @apply border-2 border-[#3580b7];
