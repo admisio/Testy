@@ -84,12 +84,12 @@
     }
 
     th {
-        @apply bg-[#1D1D1E] text-white text-xl
-        @apply px-4 py-4
+        @apply bg-[#1D1D1E] text-white text-xl;
+        @apply px-4 py-4;
         @apply border-2 border-[#1D1D1E];
     }
     td {
-        @apply p-2 text-xl
+        @apply p-2 text-xl;
         @apply border-2 border-[#1D1D1E];
         @apply bg-[#111111];
     }
