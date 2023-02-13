@@ -72,6 +72,9 @@ dependencies:
     version: 3.20.6
 
 devDependencies:
+  '@iconify/svelte':
+    specifier: ^3.1.0
+    version: 3.1.0(svelte@3.55.1)
   '@prisma/client':
     specifier: ^4.10.1
     version: 4.10.1(prisma@4.10.1)
@@ -383,6 +386,19 @@ packages:
 
   /@iconify/json@1.1.432:
     resolution: {integrity: sha512-ZcQKCnJXmeKDKxSu4vOFCYkCv8sjX1OASTMQpzqVzt3ivBBDudAYyXJlO4hgk0X4B2R0IMHRNvRgCAYkKDa2eQ==}
+    dev: true
+
+  /@iconify/svelte@3.1.0(svelte@3.55.1):
+    resolution: {integrity: sha512-G1w1dcO7eiD+JmQJNwNW4qnAn86oQxKLe1P/iAPjJ0qYYuF7Pb60TPrlcj4+2gu4SXe3a0Jrv++8YmceG+gX/g==}
+    peerDependencies:
+      svelte: '>=3'
+    dependencies:
+      '@iconify/types': 2.0.0
+      svelte: 3.55.1
+    dev: true
+
+  /@iconify/types@2.0.0:
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
     dev: true
 
   /@jridgewell/resolve-uri@3.1.0:
