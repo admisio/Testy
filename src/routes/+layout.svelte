@@ -1,5 +1,7 @@
 <script lang="ts">
-    import 'virtual:windi.css';
+    import PageTransition from '$lib/components/PageTransition.svelte';
+
+    export let data: { url: string };
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -9,11 +11,13 @@
     rel="stylesheet"
 />
 
-<template>
-    <main>
-        <slot />
-    </main>
-</template>
+<PageTransition url={data.url}>
+    <template>
+        <main>
+            <slot />
+        </main>
+    </template>
+</PageTransition>
 
 <style windi:preflights:global windi:safelist:global>
     /* :global(html) {
