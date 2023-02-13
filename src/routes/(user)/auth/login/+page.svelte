@@ -24,6 +24,9 @@
     import UsernameInput from '$lib/components/inputs/UsernameInput.svelte';
 </script>
 
+<header class="w-full bg-[#3580b7] text-center text-white">
+    🚀 Vítejte na novém portálu pro digitální přijímací testy, děkujeme za vaši spolupráci!
+</header>
 <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
     <div class="mx-auto  text-center">
         <div class="mx-auto mb-6 h-32 w-32">
