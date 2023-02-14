@@ -25,6 +25,11 @@
         const users = await trpc().users.list.query();
         return users;
     };
+
+    const addUserToGroup = async (e: Event) => {
+        dispatch("add", { userId: Number((e.target as HTMLSelectElement).value), groupId: group.id });
+        userIsBeingAdded = false;
+    };
 </script>
 
 <div
@@ -55,7 +60,7 @@
         {/each}
         {#if userIsBeingAdded}
             {#await listUsers() then users}
-                <select value="">
+                <select on:change={addUserToGroup} value="">
                     <option value="" />
                     {#each users as user}
                         <option value={user.id}>{user.username}</option>

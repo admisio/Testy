@@ -37,6 +37,10 @@
 
 <div class="w-9/10 <md:flex-col mx-auto flex flex-wrap justify-between">
     {#each data.groups as group}
-        <GroupCard {group} on:delete={() => deleteGroup(group.id)} />
+        <GroupCard
+            {group}
+            on:delete={() => deleteGroup(group.id)}
+            on:add={(e) => addUserToGroup(e.detail.userId, e.detail.groupId)}
+        />
     {/each}
 </div>
