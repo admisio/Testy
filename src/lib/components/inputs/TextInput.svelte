@@ -27,7 +27,7 @@
         @apply shadow-lg transition-colors duration-300;
         @apply outline-none;
     }
-    input:hover {
+    input:hover, input:focus {
         @apply border-2 border-[#3580b7];
     }
 </style>
