@@ -62,62 +62,70 @@ export const groups = t.router({
                             adminId: Number(ctx.userId)
                         }
                     }
+                },
+                include: {
+                    users: {
+                        select: {
+                            id: true,
+                            name: true,
+                            surname: true,
+                            email: true
+                        }
+                    }
                 }
             })
         ),
     get: t.procedure
         .use(adminAuth)
         .input(z.number())
-        .query(
-            async ({ input }) => {
-                const groups = await prisma.group.findUnique({
-                    where: {
-                        id: input
-                    },
-                    include: {
-                        users: {
-                            select: {
-                                id: true,
-                                name: true,
-                                surname: true,
-                                email: true,
-                                testSubmissions: {
-                                    include: {
-                                        assignedTest: {
-                                            select: {
-                                                id: true,
-                                            }
+        .query(async ({ input }) => {
+            const groups = await prisma.group.findUnique({
+                where: {
+                    id: input
+                },
+                include: {
+                    users: {
+                        select: {
+                            id: true,
+                            name: true,
+                            surname: true,
+                            email: true,
+                            testSubmissions: {
+                                include: {
+                                    assignedTest: {
+                                        select: {
+                                            id: true
                                         }
                                     }
                                 }
                             }
-                        },
-                        assignedTests: {
-                            include: {
-                                test: {
-                                    select: {
-                                        id: true,
-                                        title: true
-                                    }
-                                },
-                                submissions: {
-                                    include: {
-                                        user: {
-                                            select: {
-                                                id: true,
-                                                name: true,
-                                                surname: true,
-                                            }
+                        }
+                    },
+                    assignedTests: {
+                        include: {
+                            test: {
+                                select: {
+                                    id: true,
+                                    title: true
+                                }
+                            },
+                            submissions: {
+                                include: {
+                                    user: {
+                                        select: {
+                                            id: true,
+                                            name: true,
+                                            surname: true
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                });
-                return {
-                    ...groups
                 }
-            }
-        )
+            });
+            return {
+                ...groups
+            };
+        })
 });
