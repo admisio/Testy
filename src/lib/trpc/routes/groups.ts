@@ -29,6 +29,25 @@ export const groups = t.router({
             });
             console.log(await prisma.adminsOnGroups.findMany());
         }),
+    delete: t.procedure
+        .use(adminAuth)
+        .input(z.number())
+        .mutation(async ({ ctx, input }) => {
+            await prisma.adminsOnGroups
+                .deleteMany({
+                    where: {
+                        groupId: input,
+                        adminId: Number(ctx.userId)
+                    }
+                })
+                .then(async () => {
+                    await prisma.group.delete({
+                        where: {
+                            id: input
+                        }
+                    });
+                });
+        }),
     update: t.procedure
         .use(adminAuth)
         .input(
