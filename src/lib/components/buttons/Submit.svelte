@@ -1,13 +1,26 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
+
+    export let onEnter = true;
+    let submitButton: HTMLButtonElement;
+
+    const handleKeydown = (event: KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            if (submitButton && onEnter) {
+                submitButton.click();
+            }
+        }
+    };
 </script>
 
-<button type="submit">
+<button on:click type="submit" bind:this={submitButton}>
     <div>
         <span class="mr-1 font-bold text-white">Přihlásit se</span>
         <Icon icon="material-symbols:arrow-forward-rounded" />
     </div>
 </button>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <style lang="postcss">
     button {
