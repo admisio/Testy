@@ -70,6 +70,28 @@ export const groups = t.router({
                 }
             });
         }),
+    addUser: t.procedure
+        .use(adminAuth)
+        .input(
+            z.object({
+                groupId: z.number(),
+                userId: z.number()
+            })
+        )
+        .mutation(async ({ input }) => {
+            await prisma.group.update({
+                where: {
+                    id: input.groupId
+                },
+                data: {
+                    users: {
+                        connect: {
+                            id: input.userId
+                        }
+                    }
+                }
+            });
+        }),
     list: t.procedure
         .use(adminAuth)
         .input(z.string().optional())
