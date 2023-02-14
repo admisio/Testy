@@ -22,6 +22,11 @@
         await trpc().groups.addUser.mutate({ userId, groupId });
         invalidateAll();
     };
+
+    const removeUserFromGroup = async (userId: number, groupId: number) => {
+        await trpc().groups.removeUser.mutate({ userId, groupId });
+        invalidateAll();
+    };
 </script>
 
 <div class="w-9/10 <md:flex-col mx-auto mb-6 flex items-center">
@@ -40,7 +45,8 @@
         <GroupCard
             {group}
             on:delete={() => deleteGroup(group.id)}
-            on:add={(e) => addUserToGroup(e.detail.userId, e.detail.groupId)}
+            on:addUser={(e) => addUserToGroup(e.detail.userId, e.detail.groupId)}
+            on:removeUser={(e) => removeUserFromGroup(e.detail.userId, e.detail.groupId)}
         />
     {/each}
 </div>

@@ -27,7 +27,10 @@
     };
 
     const addUserToGroup = async (e: Event) => {
-        dispatch("add", { userId: Number((e.target as HTMLSelectElement).value), groupId: group.id });
+        dispatch('addUser', {
+            userId: Number((e.target as HTMLSelectElement).value),
+            groupId: group.id
+        });
         userIsBeingAdded = false;
     };
 </script>
@@ -53,9 +56,15 @@
     <div class="mb-3">
         {#each group.users as user}
             <span
-                class="mr-1 mb-1 inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800"
+                class="pillow mr-1 mb-1 inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800"
             >
                 {user.username}
+                <button
+                    on:click={() => dispatch('removeUser', { userId: user.id, groupId: group.id })}
+                    class="ml-1 hidden text-lg text-red-900"
+                >
+                    <Icon icon="material-symbols:group-remove-outline" />
+                </button>
             </span>
         {/each}
         {#if userIsBeingAdded}
@@ -85,4 +94,7 @@
 </div>
 
 <style lang="postcss">
+    .pillow:hover button {
+        @apply block;
+    }
 </style>

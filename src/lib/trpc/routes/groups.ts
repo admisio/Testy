@@ -92,6 +92,28 @@ export const groups = t.router({
                 }
             });
         }),
+    removeUser: t.procedure
+        .use(adminAuth)
+        .input(
+            z.object({
+                groupId: z.number(),
+                userId: z.number()
+            })
+        )
+        .mutation(async ({ input }) => {
+            await prisma.group.update({
+                where: {
+                    id: input.groupId
+                },
+                data: {
+                    users: {
+                        disconnect: {
+                            id: input.userId
+                        }
+                    }
+                }
+            });
+        }),
     list: t.procedure
         .use(adminAuth)
         .input(z.string().optional())
@@ -112,7 +134,7 @@ export const groups = t.router({
                             surname: true,
                             email: true,
                             username: true,
-                            password: false,
+                            password: false
                         }
                     }
                 }
