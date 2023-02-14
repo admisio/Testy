@@ -89,10 +89,11 @@ model AdminsOnGroups {
 
 model User {
   id              Int              @id @default(autoincrement())
-  username        String           @unique
-  name            String
-  surname         String
-  email           String           @unique
+  // applicationId
+  username        String          @unique
+  name            String?
+  surname         String?
+  email           String?
   password        String
   groupId         Int
   group           Group            @relation(fields: [groupId], references: [id])

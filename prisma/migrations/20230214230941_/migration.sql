@@ -35,6 +35,7 @@ CREATE TABLE "TestSubmission" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "testId" INTEGER NOT NULL,
+    "evaluation" INTEGER NOT NULL,
     "submittedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "TestSubmission_pkey" PRIMARY KEY ("id")
@@ -46,7 +47,9 @@ CREATE TABLE "Answer" (
     "value" TEXT NOT NULL,
     "questionId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
-    "assignedTestId" INTEGER,
+    "assignedTestId" INTEGER NOT NULL,
+    "evaluated" BOOLEAN NOT NULL DEFAULT false,
+    "evaluation" INTEGER,
 
     CONSTRAINT "Answer_pkey" PRIMARY KEY ("id")
 );
@@ -84,9 +87,9 @@ CREATE TABLE "AdminsOnGroups" (
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "username" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "surname" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "name" TEXT,
+    "surname" TEXT,
+    "email" TEXT,
     "password" TEXT NOT NULL,
     "groupId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -103,9 +106,6 @@ CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "Question" ADD CONSTRAINT "Question_testId_fkey" FOREIGN KEY ("testId") REFERENCES "TestTemplate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -129,7 +129,7 @@ ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("quest
 ALTER TABLE "Answer" ADD CONSTRAINT "Answer_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Answer" ADD CONSTRAINT "Answer_assignedTestId_fkey" FOREIGN KEY ("assignedTestId") REFERENCES "AssignedTest"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_assignedTestId_fkey" FOREIGN KEY ("assignedTestId") REFERENCES "AssignedTest"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AdminsOnGroups" ADD CONSTRAINT "AdminsOnGroups_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "Admin"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
