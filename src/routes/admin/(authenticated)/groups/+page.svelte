@@ -17,8 +17,8 @@
     a.pop();
 </script>
 
-<div class="w-9/10 mx-auto mb-6 flex items-center">
-    <h1 class="text-6xl font-bold text-[#3580b7]">Skupiny</h1>
+<div class="w-9/10 mx-auto mb-6 flex items-center <md:flex-col">
+    <h1 class="text-6xl font-bold text-[#3580b7] <md:mb-3">Skupiny</h1>
     <div class="mt-2">
         <Button icon="material-symbols:add-circle-outline-rounded" title="Vytvořit skupinu" />
     </div>
