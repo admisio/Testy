@@ -2,6 +2,7 @@
     import TextInput from './TextInput.svelte';
 
     export let required: boolean = false;
+    export let focus: boolean = false;
 </script>
 
 <TextInput
@@ -10,4 +11,5 @@
     placeholder="Heslo"
     name="password"
     {required}
+    {focus}
 />

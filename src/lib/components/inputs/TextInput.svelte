@@ -4,15 +4,22 @@
     const typeAction = (node: HTMLInputElement) => {
         node.type = type;
     };
+
+    const focusAction = (node: HTMLInputElement) => {
+        if (!focus) return;
+        node.focus();
+    };
+
     export let icon: string;
     export let type: string = 'text';
     export let placeholder: string = '';
     export let name: string = '';
     export let required: boolean = false;
+    export let focus: boolean = false;
 </script>
 
 <div class="relative">
-    <input {name} use:typeAction {placeholder} {required} />
+    <input {name} use:typeAction use:focusAction {placeholder} {required} />
     {#if icon}
         <span class="absolute inset-y-0 right-4 inline-flex items-center">
             <Icon {icon} />

@@ -3,6 +3,7 @@
 
     export let required: boolean = false;
     export let placeholder: string = 'Uživatel';
+    export let focus: boolean = false;
 </script>
 
 <TextInput
@@ -11,4 +12,5 @@
     {placeholder}
     name="username"
     {required}
+    {focus}
 />
