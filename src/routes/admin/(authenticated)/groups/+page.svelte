@@ -10,25 +10,34 @@
         invalidateAll();
     };
 
+    const deleteGroup = async (id: number) => {
+        await trpc().groups.delete.mutate(id);
+        invalidateAll();
+    };
+
     import Icon from '@iconify/svelte';
     import Button from '$lib/components/buttons/Button.svelte';
-
-    const a = [...data.groups];
-    a.pop();
 </script>
 
-<div class="w-9/10 mx-auto mb-6 flex items-center <md:flex-col">
-    <h1 class="text-6xl font-bold text-[#3580b7] <md:mb-3">Skupiny</h1>
+<div class="w-9/10 <md:flex-col mx-auto mb-6 flex items-center">
+    <h1 class="<md:mb-3 text-6xl font-bold text-[#3580b7]">Skupiny</h1>
     <div class="mt-2">
-        <Button icon="material-symbols:add-circle-outline-rounded" title="Vytvořit skupinu" />
+        <Button
+            on:click={createGroup}
+            icon="material-symbols:add-circle-outline-rounded"
+            title="Vytvořit skupinu"
+        />
     </div>
 </div>
 
 <div class="w-9/10 <md:flex-col mx-auto flex flex-wrap justify-between">
     {#each data.groups as group}
         <div
-            class="basis-[32%] flex-grow mx-3 mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
+            class="group relative mx-3 mb-6 flex-grow basis-[32%] rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
         >
+            <button class="hidden group-hover:block text-xl absolute top-2 right-2" on:click={() => deleteGroup(group.id)}>
+                <Icon icon="material-symbols:delete-outline-sharp" />
+            </button>
             <span class="text-3xl">
                 <Icon icon="material-symbols:group" />
             </span>
@@ -46,6 +55,9 @@
                         {user.name}
                     </span>
                 {/each}
+                <button class="">
+                    <Icon icon="material-symbols:add-circle-outline-rounded" />
+                </button>
             </div>
             <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
                 Otevřit
