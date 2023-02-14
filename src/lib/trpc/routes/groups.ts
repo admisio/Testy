@@ -110,7 +110,9 @@ export const groups = t.router({
                             id: true,
                             name: true,
                             surname: true,
-                            email: true
+                            email: true,
+                            username: true,
+                            password: false,
                         }
                     }
                 }
