@@ -54,7 +54,7 @@
         <div>
             <label for="username" class="sr-only">Ev. číslo</label>
 
-            <UsernameInput required placeholder={'Ev. číslo'} />
+            <UsernameInput required placeholder={'Ev. číslo'} focus />
         </div>
 
         <div>

@@ -56,7 +56,7 @@
     <form method="POST" use:enhance class="mx-auto mt-8 mb-0 max-w-md space-y-4">
         <div>
             <label for="username" class="sr-only">Ev. číslo</label>
-            <UsernameInput required />
+            <UsernameInput required focus />
         </div>
 
         <div>
