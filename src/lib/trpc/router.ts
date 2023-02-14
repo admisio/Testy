@@ -5,9 +5,11 @@ import { groups } from './routes/groups';
 import { assignedTests } from './routes/assignedTests';
 import { submissions } from './routes/submissions';
 import { auth } from './routes/auth';
+import { users } from './routes/users';
 
 export const router = t.router({
     tests: testTemplates,
+    users,
     groups,
     assignedTests,
     submissions,
