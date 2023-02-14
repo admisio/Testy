@@ -24,10 +24,10 @@
     </div>
 </div>
 
-<div class="w-9/10 <md:flex-col mx-auto flex">
-    {#each a as group}
+<div class="w-9/10 <md:flex-col mx-auto flex flex-wrap justify-between">
+    {#each data.groups as group}
         <div
-            class="<md:mb-3 mx-3 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
+            class="basis-[32%] mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
         >
             <span class="text-3xl">
                 <Icon icon="material-symbols:group" />
