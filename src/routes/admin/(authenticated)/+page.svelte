@@ -1,69 +1,45 @@
 <script lang="ts">
-  import trpcLogoSrc from '$lib/assets/trpc-logo.png';
-  import type { LayoutData } from './$types';
-  import { trpc } from '$lib/trpc/client';
-
-  export let data: LayoutData;
-
-  const createTest = async () => {
-    // await trpc().tests.create.mutate({ title: 'ahoj', content: 'ahoj' });
-    const tests = await trpc().tests.list.query();
-    console.log("done");
-    console.log(tests);
-  };
+    import trpcLogoSrc from '$lib/assets/trpc-logo.png';
 </script>
 
 <svelte:head>
-  <title>A tRPC-SvelteKit example application • Bookstall</title>
+    <title>A tRPC-SvelteKit example application • Testy</title>
 </svelte:head>
 
 <div class="root">
-  <button on:click={createTest}>Create test</button>
-  <p class="emoji">😎</p>
-  <p>
-    Welcome to Bookstall, a sample SvelteKit application built to illustrate the usage of ✨
-    <a href="https://github.com/icflorescu/trpc-sveltekit" target="_blank" rel="noreferrer"
-      >trpc-sveltekit</a
-    >.
-    <br />
-    No REST API routes are being used white you're managing books, authors and stores — all data is transferred
-    through:
-    <br />
-    <a class="trpc-logo" href="https://trpc.io" target="_blank" rel="noreferrer">
-      <img src={trpcLogoSrc} alt="tRPC" />
-      <br />
-      tRPC
-    </a>
-  </p>
-  <p>
-    You are {data.isAuthenticated ? '' : 'not'} authenticated{data.userId
-      ? ` as ${data.userId}`
-      : ''}.
-    <br />
-    {#if data.isAuthenticated}
-      You will be able to browse and edit the books, authors and stores.
-    {:else}
-      You will be able to browse the books, authors and stores,
-      <br />
-      but you'll need to <a href="/login">authenticate</a> in order to edit them.
-    {/if}
-  </p>
+    <p class="emoji">😎</p>
+    <p>
+        <b>TRPC JE FANCY</b>
+        <br/>
+        <a href="https://github.com/icflorescu/trpc-sveltekit" target="_blank" rel="noreferrer"
+            >trpc-sveltekit</a
+        >.
+        <br />
+        No REST API routes are being used white you're managing books, authors and stores — all data
+        is transferred through:
+        <br />
+        <a class="trpc-logo" href="https://trpc.io" target="_blank" rel="noreferrer">
+            <img src={trpcLogoSrc} alt="tRPC" />
+            <br />
+            tRPC
+        </a>
+    </p>
 </div>
 
 <style>
-  .root {
-    text-align: center;
-  }
+    .root {
+        text-align: center;
+    }
 
-  .emoji {
-    font-size: 6rem;
-  }
+    .emoji {
+        font-size: 6rem;
+    }
 
-  .trpc-logo {
-    display: inline-block;
-    padding: 0.7em 1em 0.5em;
-    border-radius: var(--border-radius);
-    margin-top: 1em;
-    text-decoration: none;
-  }
+    .trpc-logo {
+        display: inline-block;
+        padding: 0.7em 1em 0.5em;
+        border-radius: var(--border-radius);
+        margin-top: 1em;
+        text-decoration: none;
+    }
 </style>
