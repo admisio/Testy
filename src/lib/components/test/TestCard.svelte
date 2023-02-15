@@ -24,7 +24,7 @@
         <Icon icon="material-symbols:delete-outline-sharp" />
     </button>
     <span class="text-3xl">
-        <Icon icon="material-symbols:group" />
+        <Icon icon="fluent:certificate-24-regular" />
     </span>
     <h5
         on:input={renameGroup}
