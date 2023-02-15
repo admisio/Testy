@@ -1,27 +1,23 @@
 <script lang="ts">
-    import { invalidateAll } from '$app/navigation';
     import type { PageData } from './$types';
     import UserTable from '$lib/components/groupsview/UserTable.svelte';
     import TestTable from '$lib/components/groupsview/TestTable.svelte';
     import { trpc } from '$lib/trpc/client';
+    import { invalidateAll } from '$app/navigation';
 
     export let data: PageData;
+
     let group = data.group;
-    let templates = data.templates || [];
-    let users = group?.users || [];
-    let assignedTests = group?.assignedTests || [];
+    let templates = data.templates ?? [];
+    let users = group?.users ?? [];
+    let assignedTests = group?.assignedTests ?? [];
     let inputTemplateId: number;
 
     $: console.log(inputTemplateId);
 
     const refetch = async () => {
-        // TODO: WTF Error?
-        // @ts-ignore
-        group = await trpc().groups.get.query(group.id!);
-        templates = await trpc().tests.list.query();
-        users = group?.users || [];
-        assignedTests = group?.assignedTests || [];
-    }
+        invalidateAll();
+    };
 
     const assignTest = async () => {
         await trpc().assignedTests.assignToGroup.mutate({
