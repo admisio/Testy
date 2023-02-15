@@ -18,10 +18,16 @@
 >
     {#each questions as question}
         <h2>{@html question.title}</h2>
-        <div class="html">{@html question.description}</div>
+        {#if question.description}
+            <div class="html">{@html question.description}</div>
+        {/if}
         <ul>
             {#each question.answers as answer}
-                <li>{answer}</li>
+                {#if question.correctAnswer === answer}
+                    <li class="font-bold text-green-700">{answer}</li>
+                {:else}
+                    <li>{answer}</li>
+                {/if}
             {/each}
         </ul>
     {/each}
@@ -31,6 +37,7 @@
     h2 {
         @apply mt-6;
         @apply text-blue-400;
+        @apply text-xl;
     }
     .html {
         @apply border;
