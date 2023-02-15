@@ -54,9 +54,7 @@
                     <tr>
                         <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                             <div class="flex items-center">
-                                <div class="ml-3">
-                                    <p class="whitespace-no-wrap text-gray-900">{user.username}</p>
-                                </div>
+                                <p class="whitespace-no-wrap text-gray-900">{user.username}</p>
                             </div>
                         </td>
                         <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
