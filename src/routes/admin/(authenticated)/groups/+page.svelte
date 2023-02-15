@@ -29,7 +29,9 @@
     };
 </script>
 
-<div class="w-9/10 <md:flex-col mx-auto mb-6 flex items-center">
+<div
+    class="<md:flex-col mx-auto mx-auto mb-6 flex max-w-screen-xl  items-center px-4 px-4 py-3 md:px-6 md:px-6"
+>
     <h1 class="<md:mb-3 text-6xl font-bold text-[#3580b7]">Skupiny</h1>
     <div class="mt-2">
         <Button
@@ -40,7 +42,9 @@
     </div>
 </div>
 
-<div class="w-9/10 <md:flex-col mx-auto flex flex-wrap justify-between">
+<div
+    class="<md:flex-col mx-auto mx-auto flex max-w-screen-xl flex-wrap justify-between px-4 py-3 md:px-6"
+>
     {#each data.groups as group}
         <GroupCard
             {group}
