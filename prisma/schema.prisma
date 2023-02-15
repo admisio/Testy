@@ -95,8 +95,8 @@ model User {
   surname         String?
   email           String?
   password        String
-  groupId         Int
-  group           Group            @relation(fields: [groupId], references: [id])
+  groupId         Int?
+  group           Group?            @relation(fields: [groupId], references: [id])
   answers         Answer[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
