@@ -27,6 +27,10 @@
         await trpc().tests.delete.mutate(id);
         invalidateAll();
     };
+
+    const renameTest = async (newName: string, id: number) => {
+        await trpc().tests.rename.mutate({ title: newName, id });
+    };
 </script>
 
 {#if isModalOpen}
@@ -65,6 +69,12 @@
     class="<md:flex-col mx-auto mx-auto flex max-w-screen-xl flex-wrap justify-between px-4 py-3 md:px-6"
 >
     {#each data.tests as test}
-        <TestCard {test} on:delete={() => deleteTest(test.id)} />
+        <TestCard
+            {test}
+            on:delete={() => deleteTest(test.id)}
+            on:rename={(event) => {
+                renameTest(event.detail.value, test.id);
+            }}
+        />
     {/each}
 </div>
