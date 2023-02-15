@@ -33,7 +33,7 @@
     {/each}
 </div>
 
-<style>
+<style lang="postcss">
     h2 {
         @apply mt-6;
         @apply text-blue-400;
