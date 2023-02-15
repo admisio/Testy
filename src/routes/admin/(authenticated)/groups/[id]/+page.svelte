@@ -7,30 +7,27 @@
 
     export let data: PageData;
 
-    let group = data.group;
-    let templates = data.templates ?? [];
-    let users = group?.users ?? [];
-    let assignedTests = group?.assignedTests ?? [];
+    $: group = data.group;
+    $: templates = data.templates ?? [];
+    $: users = group?.users ?? [];
+    $: assignedTests = group?.assignedTests ?? [];
+    
     let inputTemplateId: number;
 
     $: console.log(inputTemplateId);
-
-    const refetch = async () => {
-        invalidateAll();
-    };
 
     const assignTest = async () => {
         await trpc().assignedTests.assignToGroup.mutate({
             groupId: group?.id!,
             templateId: inputTemplateId
         });
-        refetch();
+        invalidateAll();
     };
 
     const startTest = async (e: any) => {
         const assignedTestId = e.detail.assignedTestId;
         await trpc().assignedTests.start.mutate({ assignedTestId });
-        refetch();
+        invalidateAll();
     };
 </script>
 
