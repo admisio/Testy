@@ -152,6 +152,7 @@ export const groups = t.router({
                     users: {
                         select: {
                             id: true,
+                            username: true,
                             name: true,
                             surname: true,
                             email: true,

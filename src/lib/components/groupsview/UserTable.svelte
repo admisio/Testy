@@ -1,30 +1,30 @@
 <script lang="ts">
-    import type { TestSubmission } from '@prisma/client';
+    import type { Prisma } from '@prisma/client';
 
-    export let users: Array<{
-        name: string;
-        surname: string;
-        testSubmissions: (TestSubmission & {
-            assignedTest: {
-                id: number;
+    export let users: Array<
+        Prisma.UserGetPayload<{
+            include: {
+                testSubmissions: {
+                    include: {
+                        assignedTest: true;
+                    };
+                };
             };
-        })[];
-    }>;
-    export let assignedTests: Array<{
-        id: number;
-        test: { title: string };
-        started: boolean;
-        startTime: Date | null;
-    }>;
-
-    console.log(users[0].testSubmissions);
+        }>
+    >;
+    export let assignedTests: Array<
+        Prisma.AssignedTestGetPayload<{
+            include: {
+                test: true;
+            };
+        }>
+    >;
 </script>
 
 <table>
     <thead>
         <tr>
-            <th>Jméno</th>
-            <th>Příjmení</th>
+            <th>Username</th>
             {#each assignedTests as assignedTest}
                 <th>{assignedTest.test.title}</th>
             {/each}
@@ -34,8 +34,7 @@
     <tbody>
         {#each users as user}
             <tr>
-                <td>{user.name}</td>
-                <td class="font-bold">{user.surname.toUpperCase()}</td>
+                <td class="font-bold">{user.username}</td>
                 {#each assignedTests as assignedTest}
                     <td
                         >{user.testSubmissions.find((s) => s.assignedTest.id === assignedTest.id)
@@ -56,11 +55,11 @@
 
 <style lang="postcss">
     table {
-        @apply border-2 border-[#1D1D1E] w-full;
+        @apply w-full border-2 border-[#1D1D1E];
     }
 
     th {
-        @apply bg-[#1D1D1E] text-white text-xl;
+        @apply bg-[#1D1D1E] text-xl text-white;
         @apply px-4 py-4;
         @apply border-2 border-[#1D1D1E];
     }
