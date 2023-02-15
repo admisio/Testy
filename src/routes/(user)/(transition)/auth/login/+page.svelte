@@ -9,7 +9,7 @@
     $: (async () => {
         if (form?.success) {
             await invalidateAll();
-            await goto(returnTo || '/home/test');
+            await goto(returnTo || '/home');
         } else if (form?.incorrect) {
             error = true;
         }
