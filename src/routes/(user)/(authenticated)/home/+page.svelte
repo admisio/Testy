@@ -1,9 +1,12 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
+    import AssignedTestCard from '$lib/components/test/AssignedTestCard.svelte';
+    import type { Prisma } from '@prisma/client';
     import type { PageData } from './test/$types';
 
     export let data: PageData;
-    const assignedTests = data.assignedTests!;
+    const assignedTests = data.assignedTests as Prisma.AssignedTestGetPayload<{
+        include: { test: true };
+    }>[];
 </script>
 
 <div
@@ -13,11 +16,6 @@
 </div>
 <div class="<md:flex-col mx-auto mx-auto mb-6 flex max-w-screen-xl px-4  py-3 md:px-6 md:px-6">
     {#each assignedTests as test}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <p on:click={(_) => goto('/test/' + test.id)} class="text-red-700 hover:cursor-pointer">
-            {test.test.title} (started: {test.started
-                ? `yes ${test.startTime} - ${test.endTime}`
-                : 'no'})
-        </p>
+        <AssignedTestCard assignedTest={test} />
     {/each}
 </div>
