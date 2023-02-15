@@ -137,6 +137,9 @@ export const groups = t.router({
         .input(z.string().optional())
         .query(async ({ ctx }) =>
             prisma.group.findMany({
+                orderBy: {
+                    id: 'asc'
+                },
                 where: {
                     admins: {
                         some: {
