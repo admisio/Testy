@@ -1,6 +1,7 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
 
+    export let title = "Přihlásit se"
     export let onEnter = true;
     let submitButton: HTMLButtonElement;
 
@@ -15,7 +16,7 @@
 
 <button on:click type="submit" bind:this={submitButton}>
     <div>
-        <span class="mr-1 font-bold text-white">Přihlásit se</span>
+        <span class="mr-1 font-bold text-white">{title}</span>
         <Icon icon="material-symbols:arrow-forward-rounded" />
     </div>
 </button>
