@@ -92,6 +92,24 @@ export const groups = t.router({
                 }
             });
         }),
+    rename: t.procedure
+        .use(adminAuth)
+        .input(
+            z.object({
+                groupId: z.number(),
+                name: z.string()
+            })
+        )
+        .mutation(async ({ input }) => {
+            await prisma.group.update({
+                where: {
+                    id: input.groupId
+                },
+                data: {
+                    name: input.name
+                }
+            });
+        }),
     removeUser: t.procedure
         .use(adminAuth)
         .input(

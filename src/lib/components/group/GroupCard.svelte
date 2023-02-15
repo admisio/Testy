@@ -33,6 +33,12 @@
         });
         userIsBeingAdded = false;
     };
+
+    const renameGroup = async (e: Event) => {
+        dispatch('rename', {
+            value: (e.target as HTMLHeadingElement).innerText
+        });
+    };
 </script>
 
 <div
@@ -47,7 +53,11 @@
     <span class="text-3xl">
         <Icon icon="material-symbols:group" />
     </span>
-    <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+    <h5
+        on:input={renameGroup}
+        contenteditable
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    >
         {group.name}
     </h5>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">

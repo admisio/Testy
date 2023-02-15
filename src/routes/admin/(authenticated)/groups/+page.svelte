@@ -27,6 +27,10 @@
         await trpc().groups.removeUser.mutate({ userId, groupId });
         invalidateAll();
     };
+
+    const renameGroup = async (newName: string, groupId: number) => {
+        await trpc().groups.rename.mutate({ name: newName, groupId });
+    };
 </script>
 
 <div
@@ -51,6 +55,7 @@
             on:delete={() => deleteGroup(group.id)}
             on:addUser={(e) => addUserToGroup(e.detail.userId, e.detail.groupId)}
             on:removeUser={(e) => removeUserFromGroup(e.detail.userId, e.detail.groupId)}
+            on:rename={(e) => renameGroup(e.detail.value, group.id)}
         />
     {/each}
 </div>
