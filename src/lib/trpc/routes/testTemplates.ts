@@ -29,6 +29,16 @@ export const testTemplates = t.router({
                 }
             });
         }),
+    delete: t.procedure
+        .use(adminAuth)
+        .input(z.number())
+        .mutation(async ({ input }) => {
+            await prisma.testTemplate.deleteMany({
+                where: {
+                    id: input
+                }
+            });
+        }),
     list: t.procedure
         .use(adminAuth)
         .input(z.string().optional())
@@ -47,5 +57,5 @@ export const testTemplates = t.router({
                     questions: true
                 }
             })
-        ),
+        )
 });
