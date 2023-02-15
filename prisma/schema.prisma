@@ -21,7 +21,7 @@ model Question {
   answers          String[]
   correctAnswer    String
   testId           Int
-  test             TestTemplate @relation(fields: [testId], references: [id])
+  test             TestTemplate @relation(fields: [testId], references: [id], onDelete: Cascade)
   submittedAnswers Answer[]
 }
 
@@ -90,13 +90,13 @@ model AdminsOnGroups {
 model User {
   id              Int              @id @default(autoincrement())
   // applicationId
-  username        String          @unique
+  username        String           @unique
   name            String?
   surname         String?
   email           String?
   password        String
   groupId         Int?
-  group           Group?            @relation(fields: [groupId], references: [id])
+  group           Group?           @relation(fields: [groupId], references: [id])
   answers         Answer[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
