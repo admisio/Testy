@@ -8,7 +8,7 @@
 <template>
     <AdminHeader />
     <PageTransition url={data.url}>
-        <main>
+        <main class="my-6">
             <slot />
         </main>
     </PageTransition>
