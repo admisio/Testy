@@ -85,7 +85,10 @@
             {/if}
         </button>
     </div>
-    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+    <a
+        href={`/admin/groups/${group.id}`}
+        class="inline-flex items-center text-blue-600 hover:underline"
+    >
         Otevřit
         <span class="ml-1">
             <Icon icon="material-symbols:open-in-new" />
