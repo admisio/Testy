@@ -10,7 +10,7 @@
         node.focus();
     };
 
-    export let icon: string;
+    export let icon: string = "";
     export let type: string = 'text';
     export let placeholder: string = '';
     export let name: string = '';
