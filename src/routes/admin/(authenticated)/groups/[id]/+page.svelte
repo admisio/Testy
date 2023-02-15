@@ -38,22 +38,20 @@
     };
 </script>
 
-<div class="flex w-100vw justify-center">
-    <div class="w-3/4">
-        <h1 class="text-5xl font-bold">Skupina {group?.name}</h1>
-        <div class="mt-8">
-            <UserTable {users} {assignedTests} />
-        </div>
-        <div class="mt-16">
-            <h2 class="font-bold text-4xl mb-4">Zadané testy</h2>
-            <TestTable on:startTest={startTest} userCount={users.length} {assignedTests} />
-        </div>
-        
-        <select bind:value={inputTemplateId}>
-            {#each templates as template}
-                <option value={template.id}>{template.title}</option>
-            {/each}
-        </select>
-        <button on:click={assignTest}>Assign test</button>
+<div class="mx-auto flex max-w-screen-xl flex-col px-4 py-3 md:px-6">
+    <h1 class="text-5xl font-bold">Skupina {group?.name}</h1>
+    <div class="mt-8">
+        <UserTable {users} {assignedTests} />
     </div>
+    <div class="mt-16">
+        <h2 class="mb-4 text-4xl font-bold">Zadané testy</h2>
+        <TestTable on:startTest={startTest} userCount={users.length} {assignedTests} />
+    </div>
+
+    <select bind:value={inputTemplateId}>
+        {#each templates as template}
+            <option value={template.id}>{template.title}</option>
+        {/each}
+    </select>
+    <button on:click={assignTest}>Assign test</button>
 </div>
