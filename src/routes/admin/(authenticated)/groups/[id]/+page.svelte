@@ -4,12 +4,24 @@
     import TestTable from '$lib/components/groupsview/TestTable.svelte';
     import { trpc } from '$lib/trpc/client';
     import { invalidateAll } from '$app/navigation';
+    import type { Prisma } from '@prisma/client';
 
     export let data: PageData;
 
     $: group = data.group;
     $: templates = data.templates ?? [];
-    $: users = group?.users ?? [];
+    $: users =
+        (group?.users as Array<
+            Prisma.UserGetPayload<{
+                include: {
+                    testSubmissions: {
+                        include: {
+                            assignedTest: true;
+                        };
+                    };
+                };
+            }>
+        >) ?? [];
     $: assignedTests = group?.assignedTests ?? [];
 
     let inputTemplateId: number;
