@@ -118,7 +118,7 @@
         @apply border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600;
     }
     td {
-        @apply border-b border-gray-200 bg-white px-5 py-5 text-sm;
+        @apply border-b border-gray-200 bg-white px-5 py-5 text-lg;
     }
     td p {
         @apply whitespace-nowrap text-gray-900;
