@@ -32,7 +32,7 @@ const parseQuestion = (questionHTML: string): Question => {
     return { title, description: description ?? undefined, answers: answersSanitized, correctAnswer };
 };
 
-export const parseMd = async (md: string): Promise<TestTemplateType> => {
+export const parseMd = async (md: string, timeLimit: number): Promise<TestTemplateType> => {
     const html = marked.parse(md);
     const document = load(html);
     const title = document('h1').text();
@@ -56,5 +56,5 @@ export const parseMd = async (md: string): Promise<TestTemplateType> => {
         })
         .filter((q) => q !== null) as Array<Question>;
 
-    return { title, questions };
+    return { title, questions, timeLimit };
 };

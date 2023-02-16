@@ -55,8 +55,20 @@ export const assignedTests = t.router({
             })
         )
         .mutation(async ({ input }) => {
+            const template = await prisma.assignedTest.findUniqueOrThrow({
+                where: {
+                    id: input.assignedTestId
+                },
+                select: {
+                    test: {
+                        select: {
+                            timeLimit: true
+                        }
+                    }
+                }
+            });
             const startTime = new Date();
-            const endTime = addMinutes(startTime, 1);
+            const endTime = addMinutes(startTime, template.test.timeLimit);
             await prisma.assignedTest.update({
                 where: {
                     id: input.assignedTestId

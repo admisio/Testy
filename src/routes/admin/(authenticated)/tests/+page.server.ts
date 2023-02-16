@@ -17,15 +17,14 @@ export const actions: Actions = {
     default: async ({ request }) => {
         try {
             const data = await request.formData();
-            const title = data.get('title') as string;
+            const timeLimit = data.get('timeLimit') as string;
             const files = data.getAll('file').map((file) => file as Blob);
 
-            console.log(title);
             const mdFile = files.find((file) => file.name.endsWith('.md')) as Blob;
 
             console.log(mdFile);
 
-            const test = await parseMd(await mdFile.text());
+            const test = await parseMd(await mdFile.text(), Number(timeLimit));
             const createResult = await createTest(test);
             return createResult;
         } catch {
