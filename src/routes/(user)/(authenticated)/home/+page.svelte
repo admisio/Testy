@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { invalidateAll } from '$app/navigation';
     import AssignedTestCard from '$lib/components/test/AssignedTestCard.svelte';
     import type { Prisma } from '@prisma/client';
+    import { onDestroy } from 'svelte';
     import type { PageData } from './test/$types';
 
     export let data: PageData;
@@ -14,6 +16,12 @@
             };
         };
     }>[];
+
+    const interval = setInterval(invalidateAll, 1000);
+
+    onDestroy(() => {
+        clearInterval(interval);
+    });
 </script>
 
 <div
