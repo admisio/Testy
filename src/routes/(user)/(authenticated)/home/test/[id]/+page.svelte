@@ -71,7 +71,7 @@
     class="absolute right-7 top-4 cursor-pointer rounded-md bg-gray-200 px-6 py-4 hover:bg-gray-300"
     class:endTimeFixed
 >
-    <span class="text-md font-bold">Test skončí v {formatDate(test.endTime)}</span>
+    <span class="text-md font-medium text-gray-500">Test skončí v {formatDate(test.endTime)}</span>
 </div>
 
 <div class="w-100vw mt-12 flex h-full justify-center">
