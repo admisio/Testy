@@ -256,6 +256,12 @@ export const assignedTests = t.router({
                 }
             });
 
+            if (
+                !assignedTest?.started
+            ) {
+                throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
+            }
+
             if (user.testSubmissions.length > 0) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test already submitted' });
             }
