@@ -267,13 +267,6 @@ export const assignedTests = t.router({
                     message: 'Test was not assigned to your group'
                 });
             }
-            if (
-                !assignedTest?.started ||
-                !assignedTest.endTime ||
-                new Date() > assignedTest.endTime
-            ) {
-                throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
-            }
 
             await createSubmission(user.id, assignedTest);
         })
