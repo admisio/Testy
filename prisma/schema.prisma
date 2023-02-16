@@ -12,6 +12,7 @@ model TestTemplate {
   title         String
   questions     Question[]
   assignedTests AssignedTest[]
+  timeLimit     Int
 }
 
 model Question {

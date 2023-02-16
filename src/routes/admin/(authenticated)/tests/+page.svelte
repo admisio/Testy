@@ -38,7 +38,7 @@
         <div class="min-w-screen-lg p-14">
             <form method="POST" use:enhance>
                 <h1 class="my-6 text-4xl font-bold text-[#3580b7]">Vytvořit test</h1>
-                <TextInput name="title" type="text" placeholder="Název testu" />
+                <TextInput name="timeLimit" type="number" placeholder="Časový limit (minuty)" />
                 <div
                     class="my-6 h-48 p-6"
                     style={`background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' rx='9' ry='9'  stroke-opacity='50%' stroke='%23406280' stroke-width='4' stroke-dasharray='10' stroke-dashoffset='${0}' stroke-linecap='square'/%3e%3c/svg%3e");`}
@@ -46,7 +46,7 @@
                     <span>TODO: Drag & Drop</span>
                     <input type="file" name="file" id="file" multiple />
                 </div>
-                <Submit title="Přidat otázku" />
+                <Submit title="Nahrát test" />
             </form>
         </div>
     </Modal>

@@ -11,4 +11,5 @@ export type TestTemplateFull = TestTemplate & {questions: QuestionPrisma[]};
 export interface TestTemplateType {
     title: string;
     questions: Question[];
+    timeLimit: number;
 }

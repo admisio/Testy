@@ -15,7 +15,9 @@ export const createTest = async (test: TestTemplateType): Promise<TestTemplateFu
                         correctAnswer: question.correctAnswer
                     }))
                 }
-            }
+            },
+            timeLimit: test.timeLimit
+            
         },
         include: {
             questions: true
