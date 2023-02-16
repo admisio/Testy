@@ -6,7 +6,7 @@
     import type { PageData } from './test/$types';
 
     export let data: PageData;
-    const assignedTests = data.assignedTests as Prisma.AssignedTestGetPayload<{
+    $: assignedTests = data.assignedTests as Prisma.AssignedTestGetPayload<{
         include: {
             test: true;
             submissions: {
