@@ -20,10 +20,6 @@
             answers[i] = questions[i].submittedAnswers[0].value;
         }
     }
-    // highlight all code blocks // TODO
-    /* if (typeof window !== 'undefined') {
-        Prism.highlightAll();
-    } */
 
     const submitAnswer = async (e: any, questionId: number) => {
         const answer = e.detail.answer;
@@ -36,9 +32,8 @@
 </script>
 
 <SvelteToast />
-<!-- <h1>Test was {test.id} assigned to you</h1>
-<h2>Start time: {test.startTime}</h2>
-<h2>End time: {test.endTime}</h2> -->
+
+
 <div class="w-full h-16 fixed top-0 left-0 right-0">
     <TestHeader
         name={user.name}
@@ -77,11 +72,6 @@
                         readOnly={!test.endTime || test.endTime < new Date()}
                     />
                 </div>
-                <!-- <select on:input={(e) => submitAnswer(e, question.id)} bind:value={answers[i]}>
-                    {#each question.answers as answer}
-                        <option>{answer}</option>
-                    {/each}
-                </select> -->
             </div>
         {/each}
     </div>
@@ -96,8 +86,6 @@
 
 <style lang="postcss">
     .title-wrapper :global(code) {
-        /* @apply bg-[#1D1D1E] text-[#D4D4D4] rounded-md; */
-        /* can style code parts of title */
         @apply bg-[#1D1D1E] text-[#D4D4D4] py-1 px-1 rounded-md;
     }
 </style>

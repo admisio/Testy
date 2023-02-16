@@ -39,7 +39,13 @@
                     {#each assignedTests as assignedTest}
                         <th
                             class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                            >{assignedTest.test.title}</th
+                            >Status ({assignedTest.test.title})</th
+                        >
+                    {/each}
+                    {#each assignedTests as assignedTest}
+                        <th
+                            class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                            >Body ({assignedTest.test.title})</th
                         >
                     {/each}
                     <th
@@ -64,10 +70,21 @@
                         </td>
                         {#each assignedTests as assignedTest}
                             <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                                >{user.testSubmissions.find(
+                                {user.testSubmissions.find(
                                     (s) => s.assignedTest.id === assignedTest.id
                                 )
                                     ? '✅ Odevzdáno'
+                                    : '❌ Chybí'}</td
+                            >
+                        {/each}
+                        {#each assignedTests as assignedTest}
+                            <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                                {user.testSubmissions.find(
+                                    (s) => s.assignedTest.id === assignedTest.id
+                                )
+                                    ? user.testSubmissions.find(
+                                          (s) => s.assignedTest.id === assignedTest.id
+                                      )?.evaluation
                                     : '❌ Chybí'}</td
                             >
                         {/each}

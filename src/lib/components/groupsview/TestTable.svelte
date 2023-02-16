@@ -72,7 +72,7 @@
                     <th
                         class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
                     >
-                        Spuštěn
+                        Status
                     </th>
                 </tr>
             </thead>
@@ -111,12 +111,19 @@
                             <span
                                 class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
                             >
-                                {#if assignedTest.started}
+                                {#if assignedTest.started && assignedTest.endTime && assignedTest.endTime > new Date()}
                                     <span
                                         aria-hidden
                                         class="absolute inset-0 rounded-full bg-green-200 opacity-50"
                                     />
                                     <span class="relative">Spuštěno</span>
+                                {:else if assignedTest.endTime && assignedTest.endTime < new Date()}
+                                    <span
+                                        aria-hidden
+                                        class="absolute inset-0 rounded-full bg-red-200 opacity-50"
+                                    />
+                                    <span class="relative text-red-700">Ukončeno</span>
+
                                 {:else}
                                     <button
                                         on:click={(_) => startTest(assignedTest.id)}

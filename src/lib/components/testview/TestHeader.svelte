@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { formatDate, formatTime, remainingTime } from "$lib/utils/date";
+    import { formatTime } from "$lib/utils/date";
 
     export let name: string;
     export let surname: string;
