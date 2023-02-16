@@ -84,24 +84,24 @@
     on:click={() => {
         endTimeFixed = !endTimeFixed;
     }}
-    class="absolute right-7 top-4 cursor-pointer rounded-md bg-gray-200 px-6 py-4 hover:bg-gray-300"
+    class="flex items-center absolute right-7 top-4 cursor-pointer rounded-md bg-gray-200 px-6 py-4 hover:bg-gray-300"
     class:endTimeFixed
     class:dark={isDarkMode}
 >
     <span class="text-sm font-medium text-gray-500">Test skončí v {formatDate(test.endTime)}</span>
     <div
-        class="flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 dark:bg-black dark:text-gray-200"
+        class="hover:shadow-lg ml-4 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 dark:bg-black dark:text-gray-200"
     >
         <DarkMode bind:isDarkMode />
     </div>
 </div>
 
 <div class:dark={isDarkMode} class="w-100vw mt-12 flex h-full justify-center">
-    <div class="w-[70%] px-24 py-6 shadow-2xl dark:bg-gray-700">
+    <div class="w-[95%] md:w-7/10 px-3 md:px-24 py-6 shadow-2xl dark:bg-gray-700">
         {#each test.test.questions as question, i}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
-                    <h2 class="text-2xl font-bold dark:text-gray-400">
+                    <h2 class="text-center md:text-left text-2xl font-bold dark:text-gray-400">
                         {i + 1}. {@html question.title}
                     </h2>
                 </div>

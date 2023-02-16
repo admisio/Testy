@@ -10,15 +10,13 @@
     });
 </script>
 
-<div>
-    <button on:click|stopPropagation={() => (isDarkMode = !isDarkMode)}>
-        {#if isDarkMode}
-            <Icon icon="ic:outline-dark-mode" />
-        {:else}
-            <Icon icon="ic:outline-light-mode" />
-        {/if}
-    </button>
-</div>
+<button on:click|stopPropagation={() => (isDarkMode = !isDarkMode)}>
+    {#if isDarkMode}
+        <Icon icon="ic:outline-dark-mode" />
+    {:else}
+        <Icon icon="ic:outline-light-mode" />
+    {/if}
+</button>
 
 <style>
     button {
