@@ -75,7 +75,7 @@
 </div>
 
 <div class="w-100vw mt-12 flex h-full justify-center">
-    <div class="w-[70%] px-24 shadow-2xl">
+    <div class="w-[70%] px-24 shadow-2xl py-6">
         {#each test.test.questions as question, i}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
