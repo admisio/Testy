@@ -26,16 +26,8 @@
         <table class="min-w-full leading-normal">
             <thead>
                 <tr>
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Uživatel
-                    </th>
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Jméno
-                    </th>
+                    <th>Uživatel</th>
+                    <th>Jméno</th>
                     {#each assignedTests as assignedTest}
                         <th
                             class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
@@ -48,24 +40,18 @@
                             >Body ({assignedTest.test.title})</th
                         >
                     {/each}
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Status
-                    </th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 {#each users as user}
                     <tr>
-                        <td class="">
-                            <div class="flex items-center">
-                                <p class="whitespace-no-wrap text-gray-900">{user.username}</p>
-                            </div>
+                        <td>
+                            <p>{user.username}</p>
                         </td>
                         <td>
-                            <p class="whitespace-no-wrap text-gray-900">
-                                {user.name + ' ' + user.surname ?? 'Anonymní'}
+                            <p>
+                                {user.name ?? 'Anonymní'}
                             </p>
                         </td>
                         {#each assignedTests as assignedTest}
@@ -74,17 +60,6 @@
                                     (s) => s.assignedTest.id === assignedTest.id
                                 )
                                     ? '✅ Odevzdáno'
-                                    : '❌ Chybí'}</td
-                            >
-                        {/each}
-                        {#each assignedTests as assignedTest}
-                            <td>
-                                {user.testSubmissions.find(
-                                    (s) => s.assignedTest.id === assignedTest.id
-                                )
-                                    ? user.testSubmissions.find(
-                                          (s) => s.assignedTest.id === assignedTest.id
-                                      )?.evaluation
                                     : '❌ Chybí'}</td
                             >
                         {/each}
@@ -111,7 +86,13 @@
 </div>
 
 <style lang="postcss">
+    th {
+        @apply border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600;
+    }
     td {
-        @apply border-b border-gray-200 bg-white px-5 py-5 text-lg;
+        @apply border-b border-gray-200 bg-white px-5 py-5 text-sm;
+    }
+    td p {
+        @apply whitespace-nowrap text-gray-900;
     }
 </style>

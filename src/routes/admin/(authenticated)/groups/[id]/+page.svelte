@@ -4,14 +4,26 @@
     import TestTable from '$lib/components/groupsview/TestTable.svelte';
     import { trpc } from '$lib/trpc/client';
     import { invalidateAll } from '$app/navigation';
+    import type { Prisma } from '@prisma/client';
 
     export let data: PageData;
 
     $: group = data.group;
     $: templates = data.templates ?? [];
-    $: users = group?.users ?? [];
+    $: users =
+        (group?.users as Array<
+            Prisma.UserGetPayload<{
+                include: {
+                    testSubmissions: {
+                        include: {
+                            assignedTest: true;
+                        };
+                    };
+                };
+            }>
+        >) ?? [];
     $: assignedTests = group?.assignedTests ?? [];
-    
+
     let inputTemplateId: number;
 
     $: console.log(inputTemplateId);
@@ -40,15 +52,16 @@
         <h2 class="mb-4 text-4xl font-bold">Zadané testy</h2>
         <TestTable on:startTest={startTest} userCount={users.length} {assignedTests} />
     </div>
-
-    <select bind:value={inputTemplateId}>
-        {#each templates as template}
-            <option value={template.id}>{template.title}</option>
-        {/each}
-    </select>
-    <button class="mt-2" on:click={assignTest}>
-        <span class="text-white">Přiřadit test</span>
-    </button>
+    <div>
+        <select bind:value={inputTemplateId}>
+            {#each templates as template}
+                <option value={template.id}>{template.title}</option>
+            {/each}
+        </select>
+        <button class="mt-2" on:click={assignTest}>
+            <span class="text-white">Přiřadit test</span>
+        </button>
+    </div>
 </div>
 
 <style lang="postcss">

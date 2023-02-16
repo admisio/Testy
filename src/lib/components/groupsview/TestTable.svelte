@@ -44,70 +44,44 @@
         <table class="min-w-full leading-normal">
             <thead>
                 <tr>
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Název
-                    </th>
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Čas spuštění
-                    </th>
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Čas ukončení
-                    </th>
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Zbývá (min)
-                    </th>
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Počet odevzdání
-                    </th>
-                    <th
-                        class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                    >
-                        Status
-                    </th>
+                    <th>Název</th>
+                    <th>Čas spuštění</th>
+                    <th>Čas ukončení</th>
+                    <th>Zbývá (min)</th>
+                    <th>Počet odevzdání</th>
+                    <th>Spuštěn</th>
                 </tr>
             </thead>
             <tbody>
                 {#each assignedTests as assignedTest, i}
                     <tr>
                         <td>
-                            <div class="flex items-center">
-                                <p class="whitespace-no-wrap text-gray-900">
-                                    {assignedTest.test.title}
-                                </p>
-                            </div>
+                            <p>
+                                {assignedTest.test.title}
+                            </p>
                         </td>
                         <td>
-                            <p class="whitespace-no-wrap text-gray-900">
+                            <p>
                                 {formatDate(assignedTest.startTime)}
                             </p>
                         </td>
                         <td>
-                            <p class="whitespace-no-wrap text-gray-900">
+                            <p>
                                 {formatDate(assignedTest.endTime)}
                             </p>
                         </td>
                         <td>
-                            <p class="whitespace-no-wrap text-gray-900">
+                            <p>
                                 {timeRemaining[i]}
                             </p>
                         </td>
                         <td>
-                            <p class="whitespace-no-wrap text-gray-900">
+                            <p>
                                 {`${assignedTest.submissions.length}/${userCount}`}
                             </p>
                         </td>
 
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td>
                             <span
                                 class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
                             >
@@ -140,7 +114,13 @@
 </div>
 
 <style lang="postcss">
+    th {
+        @apply border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600;
+    }
     td {
-        @apply border-b border-b-gray-200 bg-white px-5 py-5 text-lg;
+        @apply border-b border-gray-200 bg-white px-5 py-5 text-sm;
+    }
+    td p {
+        @apply whitespace-nowrap text-gray-900;
     }
 </style>
