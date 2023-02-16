@@ -49,6 +49,6 @@
 
 <style lang="postcss">
     .selected {
-        @apply rounded-lg  bg-green-600;
+        @apply rounded-lg bg-green-600 text-white;
     }
 </style>
