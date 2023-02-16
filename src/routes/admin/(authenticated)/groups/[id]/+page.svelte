@@ -11,7 +11,7 @@
     $: templates = data.templates ?? [];
     $: users = group?.users ?? [];
     $: assignedTests = group?.assignedTests ?? [];
-    
+
     let inputTemplateId: number;
 
     $: console.log(inputTemplateId);
@@ -40,11 +40,12 @@
         <h2 class="mb-4 text-4xl font-bold">Zadané testy</h2>
         <TestTable on:startTest={startTest} userCount={users.length} {assignedTests} />
     </div>
-
-    <select bind:value={inputTemplateId}>
-        {#each templates as template}
-            <option value={template.id}>{template.title}</option>
-        {/each}
-    </select>
-    <button on:click={assignTest}>Assign test</button>
+    <div>
+        <select bind:value={inputTemplateId}>
+            {#each templates as template}
+                <option value={template.id}>{template.title}</option>
+            {/each}
+        </select>
+        <button on:click={assignTest}>Assign test</button>
+    </div>
 </div>
