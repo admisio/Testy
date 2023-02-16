@@ -6,6 +6,7 @@ import { userAuth } from '../middleware/userAuth';
 import { TRPCError } from '@trpc/server';
 import { findUniqueWithSubmission } from '../query/user';
 import { addMinutes } from 'date-fns';
+import { createSubmission } from '../services/submissionService';
 
 export const assignedTests = t.router({
     assignToGroup: t.procedure
@@ -54,7 +55,7 @@ export const assignedTests = t.router({
         )
         .mutation(async ({ input }) => {
             const startTime = new Date();
-            const endTime = addMinutes(startTime, 25);
+            const endTime = addMinutes(startTime, 1);
             await prisma.assignedTest.update({
                 where: {
                     id: input.assignedTestId
@@ -266,59 +267,6 @@ export const assignedTests = t.router({
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
 
-            // evaluate each answer and calculate score
-            const answers = await prisma.answer.findMany({
-                where: {
-                    assignedTestId: input.assignedTestId,
-                    userId: user.id
-                }
-            });
-            const questions = await prisma.question.findMany({
-                where: {
-                    testId: assignedTest.testId
-                }
-            });
-            // match answers with questions
-            const evaluatedAnswers = await Promise.all(
-                answers.map(async (answer) => {
-                    const question = questions.find(
-                        (question) => question.id === answer.questionId
-                    );
-                    if (!question) {
-                        throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
-                    }
-                    const correct = question.correctAnswer === answer.value;
-                    const evaluation: number = correct ? 1 : 0;
-                    await prisma.answer.update({
-                        where: {
-                            id: answer.id
-                        },
-                        data: {
-                            evaluated: true,
-                            evaluation: evaluation
-                        }
-                    });
-                    return evaluation;
-                })
-            );
-
-            const score = evaluatedAnswers.reduce((a, b) => a + b, 0);
-
-            return prisma.testSubmission.create({
-                data: {
-                    user: {
-                        connect: {
-                            id: user.id
-                        }
-                    },
-                    assignedTest: {
-                        connect: {
-                            id: assignedTest.id
-                        }
-                    },
-                    submittedAt: new Date(),
-                    evaluation: score
-                }
-            });
+            await createSubmission(user.id, assignedTest);
         })
 });

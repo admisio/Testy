@@ -1,5 +1,6 @@
 import { createContext } from '$lib/trpc/context';
 import { router } from '$lib/trpc/router';
+import { submitExpired } from '$lib/trpc/services/assignedTestService';
 import type { Handle } from '@sveltejs/kit';
 import { createTRPCHandle } from 'trpc-sveltekit';
 
@@ -9,3 +10,5 @@ export const handle: Handle = createTRPCHandle({
   onError: ({ type, path, error }) =>
     console.error(`Encountered error while trying to process ${type} @ ${path}:`, error)
 });
+
+setInterval(() => submitExpired(), 10000);
