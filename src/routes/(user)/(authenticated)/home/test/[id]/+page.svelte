@@ -6,6 +6,8 @@
     import { SvelteToast } from '@zerodevx/svelte-toast';
     import Button from '$lib/components/buttons/Button.svelte';
     import Modal from '$lib/components/Modal.svelte';
+    import { formatDate } from '$lib/utils/date';
+    import DarkMode from '$lib/components/DarkMode.svelte';
 
     export let data: PageData;
     const test = data.test!;
@@ -38,13 +40,19 @@
     };
 
     let submitModalIsOpen = false;
+
+    let endTimeFixed = false;
+
+    let isDarkMode: boolean = false;
 </script>
 
 <SvelteToast />
 
 {#if submitModalIsOpen}
     <Modal on:close={() => (submitModalIsOpen = false)}>
-        <div class="mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col  items-center p-4 w-screen-md">
+        <div
+            class="w-screen-md mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col items-center p-4"
+        >
             <h1 class="<md:mb-3 text-6xl font-bold text-[#3580b7]">Přejete si odeslat test?</h1>
             <!-- TODO: Pěkný UI -->
             <button
@@ -56,15 +64,34 @@
     </Modal>
 {/if}
 
-<div class="w-100vw mt-12 flex h-full justify-center">
-    <div class="w-[70%] px-24 shadow-2xl">
+<div
+    on:keydown={null}
+    on:click={() => {
+        endTimeFixed = !endTimeFixed;
+    }}
+    class="absolute right-7 top-4 cursor-pointer rounded-md bg-gray-200 px-6 py-4 hover:bg-gray-300"
+    class:endTimeFixed
+    class:dark={isDarkMode}
+>
+    <span class="text-sm font-medium text-gray-500">Test skončí v {formatDate(test.endTime)}</span>
+    <div
+        class="flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 dark:bg-black dark:text-gray-200"
+    >
+        <DarkMode bind:isDarkMode />
+    </div>
+</div>
+
+<div class:dark={isDarkMode} class="w-100vw mt-12 flex h-full justify-center">
+    <div class="w-[70%] px-24 py-6 shadow-2xl dark:bg-gray-700">
         {#each test.test.questions as question, i}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
-                    <h2 class="text-2xl font-bold">{i + 1}. {@html question.title}</h2>
+                    <h2 class="text-2xl font-bold dark:text-gray-400">
+                        {i + 1}. {@html question.title}
+                    </h2>
                 </div>
                 {#if question.description}
-                    <div class="description-wrapper language-javascript mt-8">
+                    <div class="description-wrapper language-javascript mt-8 dark:text-gray-200">
                         <pre>
                             {@html '\n' + question.description}
                         </pre>
@@ -92,5 +119,8 @@
 <style lang="postcss">
     .title-wrapper :global(code) {
         @apply bg-[#1D1D1E] text-[#D4D4D4] py-1 px-1 rounded-md;
+    }
+    .endTimeFixed {
+        @apply fixed;
     }
 </style>
