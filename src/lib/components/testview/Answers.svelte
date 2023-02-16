@@ -5,7 +5,7 @@
     const dispatch = createEventDispatcher();
 
     export let answers: Array<string>;
-    export let submittedAnswer = '';
+
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
     export let selectedAnswerIndex: number | null = null;
     export let readOnly = false;
@@ -23,12 +23,13 @@
 </script>
 
 <div
-    class="flex w-full flex-col bg-[#1D1D1E] border-[0.1rem] border-[#3F3F46] rounded-md px-4 py-2"
+    class="flex w-full flex-col rounded-md border-[0.1rem] px-4 py-2 shadow-lg"
     class:cursor-not-allowed={readOnly}
 >
     {#each answers as answer, i}
-        <div
-            class="flex mt-4 w-full hover:cursor-pointer" class:hover:cursor-not-allowed={readOnly}
+        <button
+            class="mt-4 flex w-full p-2 hover:cursor-pointer"
+            class:hover:cursor-not-allowed={readOnly}
             class:selected={selectedAnswerIndex === i}
             on:click={(_) => submit(i)}
         >
@@ -40,15 +41,14 @@
                 viewBox="0 0 24 24"
                 stroke="currentColor"
             /> -->
-            <span class="font-bold self-center">{`${alphabet[i]})`}</span>
+            <span class="self-center font-bold">{`${alphabet[i]})`}</span>
             <span class="ml-4">{answer}</span>
-        </div>
+        </button>
     {/each}
 </div>
 
 <style lang="postcss">
     .selected {
-        /* @apply bg-[#009400]; */
-        @apply bg-[#003100] border-[0.1rem] border-[#009400];
+        @apply rounded-lg  bg-green-600;
     }
 </style>
