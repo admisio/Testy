@@ -22,7 +22,15 @@
                 };
             }>
         >) ?? [];
-    $: assignedTests = group?.assignedTests ?? [];
+
+    $: assignedTests = group.assignedTests as Array<
+        Prisma.AssignedTestGetPayload<{
+            include: {
+                test: true;
+                submissions: true;
+            };
+        }>
+    > | undefined ?? [];
 
     let inputTemplateId: number;
 

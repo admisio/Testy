@@ -18,7 +18,7 @@
     {/if}
 </button>
 
-<style>
+<style lang="postcss">
     button {
         @apply text-xl;
     }
