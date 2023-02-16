@@ -6,6 +6,7 @@
     import { SvelteToast } from '@zerodevx/svelte-toast';
     import Button from '$lib/components/buttons/Button.svelte';
     import Modal from '$lib/components/Modal.svelte';
+    import { formatDate } from '$lib/utils/date';
 
     export let data: PageData;
     const test = data.test!;
@@ -42,13 +43,17 @@
     };
 
     let submitModalIsOpen = false;
+
+    let endTimeFixed = true;
 </script>
 
 <SvelteToast />
 
 {#if submitModalIsOpen}
     <Modal on:close={() => (submitModalIsOpen = false)}>
-        <div class="mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col  items-center p-4 w-screen-md">
+        <div
+            class="w-screen-md mx-auto mx-auto mb-6 flex max-w-screen-xl  flex-col items-center p-4"
+        >
             <h1 class="<md:mb-3 text-6xl font-bold text-[#3580b7]">Přejete si odeslat test?</h1>
             <!-- TODO: Pěkný UI -->
             <button
@@ -59,6 +64,15 @@
         </div>
     </Modal>
 {/if}
+
+<div
+    on:keydown={null}
+    on:click={() => (endTimeFixed = !endTimeFixed)}
+    class="absolute right-7 top-4 cursor-pointer rounded-md bg-gray-200 px-6 py-4 hover:bg-gray-300"
+    class:endTimeFixed
+>
+    <span class="text-2xl font-bold">Test skončí v {formatDate(test.endTime)}</span>
+</div>
 
 <div class="w-100vw mt-12 flex h-full justify-center">
     <div class="w-[70%] px-24 shadow-2xl">
@@ -98,5 +112,8 @@
         /* @apply bg-[#1D1D1E] text-[#D4D4D4] rounded-md; */
         /* can style code parts of title */
         @apply rounded-md bg-[#1D1D1E] py-1 px-1 text-[#D4D4D4];
+    }
+    .endTimeFixed {
+        @apply fixed;
     }
 </style>
