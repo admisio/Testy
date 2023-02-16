@@ -48,6 +48,17 @@
     let endTimeFixed = false;
 
     let isDarkMode: boolean = false;
+
+    import hljs from 'highlight.js';
+    import 'highlight.js/styles/github-dark.css';
+
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        document.querySelectorAll('.description code').forEach((el) => {
+            hljs.highlightElement(el as HTMLElement);
+        });
+    });
 </script>
 
 <SvelteToast />
@@ -95,7 +106,7 @@
                     </h2>
                 </div>
                 {#if question.description}
-                    <div class="description-wrapper language-javascript mt-8 dark:text-gray-200">
+                    <div class="description mt-8 dark:text-gray-200">
                         <pre>
                             {@html '\n' + question.description}
                         </pre>
@@ -128,5 +139,8 @@
     }
     .endTimeFixed {
         @apply fixed;
+    }
+    :global(code) {
+        white-space: pre;
     }
 </style>
