@@ -79,29 +79,29 @@
             <tbody>
                 {#each assignedTests as assignedTest, i}
                     <tr>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td>
                             <div class="flex items-center">
                                 <p class="whitespace-no-wrap text-gray-900">
                                     {assignedTest.test.title}
                                 </p>
                             </div>
                         </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td>
                             <p class="whitespace-no-wrap text-gray-900">
                                 {formatDate(assignedTest.startTime)}
                             </p>
                         </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td>
                             <p class="whitespace-no-wrap text-gray-900">
                                 {formatDate(assignedTest.endTime)}
                             </p>
                         </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td>
                             <p class="whitespace-no-wrap text-gray-900">
                                 {timeRemaining[i]}
                             </p>
                         </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td>
                             <p class="whitespace-no-wrap text-gray-900">
                                 {`${assignedTest.submissions.length}/${userCount}`}
                             </p>
@@ -140,4 +140,7 @@
 </div>
 
 <style lang="postcss">
+    td {
+        @apply border-b border-b-gray-200 bg-white px-5 py-5 text-lg;
+    }
 </style>

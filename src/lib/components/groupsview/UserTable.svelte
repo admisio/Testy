@@ -58,18 +58,18 @@
             <tbody>
                 {#each users as user}
                     <tr>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td class="">
                             <div class="flex items-center">
                                 <p class="whitespace-no-wrap text-gray-900">{user.username}</p>
                             </div>
                         </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td>
                             <p class="whitespace-no-wrap text-gray-900">
                                 {user.name + ' ' + user.surname ?? 'Anonymní'}
                             </p>
                         </td>
                         {#each assignedTests as assignedTest}
-                            <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <td>
                                 {user.testSubmissions.find(
                                     (s) => s.assignedTest.id === assignedTest.id
                                 )
@@ -78,7 +78,7 @@
                             >
                         {/each}
                         {#each assignedTests as assignedTest}
-                            <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <td>
                                 {user.testSubmissions.find(
                                     (s) => s.assignedTest.id === assignedTest.id
                                 )
@@ -88,7 +88,7 @@
                                     : '❌ Chybí'}</td
                             >
                         {/each}
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td>
                             <span
                                 class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
                             >
@@ -111,4 +111,7 @@
 </div>
 
 <style lang="postcss">
+    td {
+        @apply border-b border-gray-200 bg-white px-5 py-5 text-lg;
+    }
 </style>
