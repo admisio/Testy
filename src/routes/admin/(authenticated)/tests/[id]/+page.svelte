@@ -5,6 +5,17 @@
     export let data: PageData;
     const test = data.test!;
     const questions = test.questions.map((q) => q as unknown as Question);
+
+    import hljs from 'highlight.js';
+    import 'highlight.js/styles/github.css';
+
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        document.querySelectorAll('.description code').forEach((el) => {
+            hljs.highlightElement(el as HTMLElement);
+        });
+    });
 </script>
 
 <div
@@ -12,14 +23,13 @@
 >
     <h1 class="<md:mb-3 text-6xl font-bold text-[#3580b7]">Úprava testu / {test.title}</h1>
 </div>
-
 <div
     class="mx-auto mx-auto flex max-w-screen-xl  flex-col flex-wrap justify-between px-4 py-3 md:px-6"
 >
     {#each questions as question}
         <h2>{@html question.title}</h2>
         {#if question.description}
-            <div class="html">{@html question.description}</div>
+            <div class="description">{@html question.description}</div>
         {/if}
         <ul>
             {#each question.answers as answer}
@@ -39,7 +49,7 @@
         @apply text-blue-400;
         @apply text-xl;
     }
-    .html {
+    .description {
         @apply border;
     }
 </style>
