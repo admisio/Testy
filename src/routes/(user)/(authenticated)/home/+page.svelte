@@ -5,7 +5,14 @@
 
     export let data: PageData;
     const assignedTests = data.assignedTests as Prisma.AssignedTestGetPayload<{
-        include: { test: true };
+        include: {
+            test: true;
+            submissions: {
+                select: {
+                    testId: true;
+                };
+            };
+        };
     }>[];
 </script>
 

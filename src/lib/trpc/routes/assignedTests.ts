@@ -95,6 +95,11 @@ export const assignedTests = t.router({
                         select: {
                             title: true
                         }
+                    },
+                    submissions: {
+                        select: {
+                            testId: true
+                        }
                     }
                 }
             });
@@ -274,24 +279,28 @@ export const assignedTests = t.router({
                 }
             });
             // match answers with questions
-            const evaluatedAnswers = await Promise.all(answers.map(async (answer) => {
-                const question = questions.find((question) => question.id === answer.questionId);
-                if (!question) {
-                    throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
-                }
-                const correct = question.correctAnswer === answer.value;
-                const evaluation: number = correct ? 1 : 0;
-                await prisma.answer.update({
-                    where: {
-                        id: answer.id
-                    },
-                    data: {
-                        evaluated: true,
-                        evaluation: evaluation
+            const evaluatedAnswers = await Promise.all(
+                answers.map(async (answer) => {
+                    const question = questions.find(
+                        (question) => question.id === answer.questionId
+                    );
+                    if (!question) {
+                        throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
                     }
-                });
-                return evaluation;
-            }));
+                    const correct = question.correctAnswer === answer.value;
+                    const evaluation: number = correct ? 1 : 0;
+                    await prisma.answer.update({
+                        where: {
+                            id: answer.id
+                        },
+                        data: {
+                            evaluated: true,
+                            evaluation: evaluation
+                        }
+                    });
+                    return evaluation;
+                })
+            );
 
             const score = evaluatedAnswers.reduce((a, b) => a + b, 0);
 
