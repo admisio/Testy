@@ -1,9 +1,6 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
     import Icon from '@iconify/svelte';
     import type { Prisma } from '@prisma/client';
-
-    const dispatch = createEventDispatcher();
 
     export let assignedTest: Prisma.AssignedTestGetPayload<{
         include: {
@@ -18,12 +15,15 @@
 
     $: testIsActive =
         assignedTest.started && assignedTest.endTime != null && assignedTest.endTime > new Date();
-        
+
     $: testIsFinished =
         (assignedTest.started &&
             assignedTest.endTime != null &&
             assignedTest.endTime < new Date()) ||
-        assignedTest.submissions.some((submitted) => submitted.testId === assignedTest.test.id);
+        (assignedTest.submissions.length > 0 &&
+            assignedTest.submissions.some(
+                (submission) => submission.testId === assignedTest.testId
+            ));
 </script>
 
 <div
@@ -39,7 +39,7 @@
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, expedita.
     </p>
     <div class="mb-2 flex">
-        {#if testIsActive}
+        {#if testIsActive && !testIsFinished}
             <span class="pillow mr-1 mb-1 bg-green-500  text-white">Spuštěno</span>
         {:else if testIsFinished}
             <span class="pillow mr-1 mb-1 bg-gray-500 text-white">Test byl ukončen</span>
@@ -48,7 +48,7 @@
         {/if}
     </div>
 
-    {#if testIsActive}
+    {#if testIsActive && !testIsFinished}
         <a
             href={`/home/test/${assignedTest.id}`}
             class="inline-flex items-center text-blue-600 hover:underline"
