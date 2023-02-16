@@ -2,7 +2,7 @@ import prisma from '$lib/prisma';
 import type { AssignedTest } from '@prisma/client';
 import { createSubmission } from './submissionService';
 
-export const createTestsExpirationHooks = async (): Promise<void> => {
+export const createTestsExpirationTimeouts = async (): Promise<void> => {
     const assignedTests = await prisma.assignedTest.findMany({
         where: {    
             endTime: {
@@ -11,16 +11,15 @@ export const createTestsExpirationHooks = async (): Promise<void> => {
         }
     });
     assignedTests.forEach(async (assignedTest) => {
-        await createTestExpirationHook(assignedTest);
+        await createTestExpirationTimeout(assignedTest);
     });
 };
 
-export const createTestExpirationHook = async (assignedTest: AssignedTest): Promise<void> => {
+export const createTestExpirationTimeout = async (assignedTest: AssignedTest): Promise<void> => {
     if (!assignedTest.endTime) return;
     const endTime = assignedTest.endTime;
     const now = new Date();
     const diff = endTime.getTime() - now.getTime();
-    if (diff < 0) return; // TODO: shouldn't be needed???
     setTimeout(() => {
         console.log('submitExpired ev fired');
         submitExpired();

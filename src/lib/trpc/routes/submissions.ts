@@ -12,7 +12,7 @@ export const submissions = t.router({
                 groupId: z.number().optional()
             })
         )
-        .query(async ({ ctx, input }) =>
+        .query(async ({ input }) =>
             prisma.testSubmission.findMany({
                 where: {
                     assignedTest: {

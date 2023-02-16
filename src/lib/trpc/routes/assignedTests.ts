@@ -7,7 +7,7 @@ import { TRPCError } from '@trpc/server';
 import { findUniqueWithSubmission } from '../query/user';
 import { addMinutes } from 'date-fns';
 import { createSubmission } from '../services/submissionService';
-import { createTestExpirationHook } from '../services/assignedTestService';
+import { createTestExpirationTimeout, submitExpired } from '../services/assignedTestService';
 
 export const assignedTests = t.router({
     assignToGroup: t.procedure
@@ -67,7 +67,7 @@ export const assignedTests = t.router({
                     endTime
                 }
             });
-            await createTestExpirationHook(assignedTest);
+            await createTestExpirationTimeout(assignedTest);
         }),
     list: t.procedure
         .use(adminAuth)
@@ -236,6 +236,12 @@ export const assignedTests = t.router({
                 });
             }
         }),
+    submitAllExpired: t.procedure
+        .use(adminAuth)
+        .query(async ({ ctx }) => {
+            await submitExpired();
+        }
+    ),
     submitTest: t.procedure
         .use(userAuth)
         .input(
