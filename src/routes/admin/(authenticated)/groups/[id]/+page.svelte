@@ -46,5 +46,19 @@
             <option value={template.id}>{template.title}</option>
         {/each}
     </select>
-    <button on:click={assignTest}>Assign test</button>
+    <button class="mt-2" on:click={assignTest}>
+        <span class="text-white">Přiřadit test</span>
+    </button>
 </div>
+
+<style lang="postcss">
+    button {
+        @apply rounded-md shadow-md py-2 px-3 bg-green-700 text-gray-900;
+    }
+    select {
+        @apply rounded-md shadow-md py-2 px-3 bg-gray-100 text-gray-900;
+    }
+    /* option {
+        @apply 
+    } */
+</style>
