@@ -8,7 +8,7 @@
             class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-2.5 md:px-6"
         >
             <a href="/home" class="flex items-center">
-                <img src={logo} class="mr-3 h-6 rounded-full sm:h-9" alt="Logo" />
+                <img src={logo} class="mr-3 h-6 rounded-full sm:h-9 shadow-lg" alt="Logo" />
                 <h1 class="self-center whitespace-nowrap text-xl font-semibold">Testy</h1>
             </a>
             <div class="flex items-center">
