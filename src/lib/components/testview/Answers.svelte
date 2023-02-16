@@ -23,7 +23,7 @@
 </script>
 
 <div
-    class="flex w-full flex-col rounded-md border-[0.1rem] px-4 py-2 shadow-lg"
+    class="flex w-full flex-col rounded-md border-[0.1rem] px-4 py-2 shadow-lg dark:bg-gray-800 dark:text-gray-200"
     class:cursor-not-allowed={readOnly}
 >
     {#each answers as answer, i}
