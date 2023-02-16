@@ -45,7 +45,7 @@
 
     let submitModalIsOpen = false;
 
-    let endTimeFixed = true;
+    let endTimeFixed = false;
 
     let isDarkMode: boolean = false;
 </script>
