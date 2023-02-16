@@ -7,7 +7,7 @@ import { TRPCError } from '@trpc/server';
 import { findUniqueWithSubmission } from '../query/user';
 import { addMinutes } from 'date-fns';
 import { createSubmission } from '../services/submissionService';
-import { createTestExpirationTimeout, submitExpired } from '../services/assignedTestService';
+import { submitExpired } from '../services/assignedTestService';
 
 export const assignedTests = t.router({
     assignToGroup: t.procedure
@@ -57,7 +57,7 @@ export const assignedTests = t.router({
         .mutation(async ({ input }) => {
             const startTime = new Date();
             const endTime = addMinutes(startTime, 1);
-            const assignedTest = await prisma.assignedTest.update({
+            await prisma.assignedTest.update({
                 where: {
                     id: input.assignedTestId
                 },
@@ -67,7 +67,6 @@ export const assignedTests = t.router({
                     endTime
                 }
             });
-            await createTestExpirationTimeout(assignedTest);
         }),
     list: t.procedure
         .use(adminAuth)
