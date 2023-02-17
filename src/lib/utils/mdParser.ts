@@ -26,20 +26,22 @@ const parseQuestion = (questionHTML: string): Question => {
     const correctAnswer = correctAnswerList[0].replaceAll('*', '');        
     const answersSanitized = answersRaw.map((a) => a.replaceAll('*', ''));
 
-    // select code block with 'pre' and 'code' and keep <pre><code> tags in outputted string between title and last code block
-    const description = document('ol').nextUntil('.answers').find('pre > code').parent().html();
+    // select all md text between title and last code block
+    const description = document('ol').nextUntil('.answers').html();
 
     return { title, description: description ?? undefined, answers: answersSanitized, correctAnswer };
 };
 
 export const parseMd = async (md: string, timeLimit: number): Promise<TestTemplateType> => {
     const html = marked.parse(md);
+    console.log(html);
     const document = load(html);
     const title = document('h1').text();
     const lines = html.split('\n');
     const olIndexes = lines
         .map((line, i) => (line.match(OL_REGEX) ? i : null))
         .filter((i) => i !== null);
+
     const questions = olIndexes
         .map((index, i) => {
             if (!index) return null;
