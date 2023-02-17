@@ -1,8 +1,5 @@
 <script lang="ts">
     // TODO: Jedna test komponenta pro OpenTest a TestResult
-    import { trpc } from '$lib/trpc/client';
-
-    import { SvelteToast } from '@zerodevx/svelte-toast';
     import DarkMode from '$lib/components/DarkMode.svelte';
 
     export let test: {
