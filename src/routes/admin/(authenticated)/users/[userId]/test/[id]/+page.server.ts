@@ -5,8 +5,11 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async (event) => {
     const res = await router
         .createCaller(await createContext(event))
-        .submissions.get({ assignedTestId: Number(event.params.id) });
+        .submissions.getUserSubmission({
+            userId: Number(event.params.userId),
+            assignedTestId: Number(event.params.id)
+        });
     return {
         submission: res
-    }
+    };
 };

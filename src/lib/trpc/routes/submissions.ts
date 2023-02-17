@@ -23,6 +23,48 @@ export const submissions = t.router({
                 }
             })
         ),
+    getUserSubmission:
+        t.procedure
+        .use(adminAuth)
+        .input(
+            z.object({
+                userId: z.number(),
+                assignedTestId: z.number()
+            })
+        )
+        .query(async ({ input }) => {
+            const test = await prisma.testSubmission.findFirst({
+                where: {
+                    assignedTest: {
+                        id: input.assignedTestId
+                    },
+                    user: {
+                        id: Number(input.userId)
+                    }
+                },
+                include: {
+                    user: true,
+                    assignedTest: {
+                        select: {
+                            id: true,
+                            test: {
+                                select: {
+                                    id: true,
+                                    title: true,
+                                    questions: true
+                                }
+                            },
+                            submittedAnswers: true,
+                            startTime: true,
+                            endTime: true
+                        }
+                    }
+                }
+            });
+            if (!test) throw new Error('Test not found');
+            return test;
+        }),
+            
     get: t.procedure
         .use(userAuth)
         .input(
