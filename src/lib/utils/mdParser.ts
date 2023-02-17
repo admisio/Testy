@@ -16,9 +16,10 @@ const parseQuestion = (questionHTML: string): Question => {
         .split(/[a-d]\)/)
         .filter((a) => a.length > 0)
         .map((a) => a.trim());
+    console.log('parsing question', title, answersRaw);
     // find correct answer (starts with * ends with *)
     const correctAnswerList = answersRaw
-        .map((a) => (a.match(/^\*.+\*$/) ? a : null))
+        .map((a) => (a.match(/\*(.|\n)+\*/) ? a : null))
         .filter((i) => i !== null);
     if (correctAnswerList.length > 1 || correctAnswerList.length === 0 || !correctAnswerList[0])
         throw new TRPCError({ code: 'PARSE_ERROR', message: 'Invalid correct answers count' });

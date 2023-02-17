@@ -42,7 +42,7 @@
                 stroke="currentColor"
             /> -->
             <span class="self-center font-bold">{`${alphabet[i]})`}</span>
-            <span class="ml-4">{answer}</span>
+            <span class="ml-4">{@html answer.replaceAll(/\n/g, "<br/>")}</span>
         </button>
     {/each}
 </div>

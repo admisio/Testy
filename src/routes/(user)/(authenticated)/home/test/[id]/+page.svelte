@@ -33,8 +33,15 @@
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
 
+
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
+            // create pre element and insert it before the code element and put the code element inside the pre element
+            const pre = document.createElement('pre');
+            pre.className = 'hljs';
+            el.parentNode?.insertBefore(pre, el);
+            pre.appendChild(el);
+
             hljs.highlightElement(el as HTMLElement);
         });
     });
@@ -91,9 +98,7 @@
                 </div>
                 {#if question.description}
                     <div class="description mt-8 dark:text-gray-200">
-                        <pre>
-                            {@html '\n' + question.description}
-                        </pre>
+                        {@html '\n' + question.description}
                     </div>
                 {/if}
                 <div class="mt-6">
