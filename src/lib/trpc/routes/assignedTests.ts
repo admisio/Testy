@@ -136,6 +136,7 @@ export const assignedTests = t.router({
                 include: {
                     test: {
                         include: {
+                            headings: true,
                             questions: {
                                 select: {
                                     id: true,

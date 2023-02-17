@@ -7,9 +7,15 @@ export type TestTemplateFull = TestTemplate & {questions: QuestionPrisma[]};
     title: string;
     questions: Question[];
 } */
+export interface HeadingType {
+    text: string;
+    questionRange: [number, number];
+}
 
 export interface TestTemplateType {
     title: string;
+    headings: HeadingType[];
     questions: Question[];
     timeLimit: number;
+    maxScore: number;
 }

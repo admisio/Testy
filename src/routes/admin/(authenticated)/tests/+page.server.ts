@@ -27,7 +27,8 @@ export const actions: Actions = {
             const test = await parseMd(await mdFile.text(), Number(timeLimit));
             const createResult = await createTest(test);
             return createResult;
-        } catch {
+        } catch (e) {
+            console.error(e);
             return fail(500, { message: 'Parsing failed', incorrect: true });
         }
     }

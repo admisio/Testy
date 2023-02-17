@@ -2,7 +2,8 @@ import prisma from '$lib/prisma';
 import type { TestTemplateFull, TestTemplateType } from '../model/TestTemplate';
 
 export const createTest = async (test: TestTemplateType): Promise<TestTemplateFull> => {
-    const { title, questions } = test;
+    const { title, headings, questions } = test;
+    console.log('should create');
     const testTemplate = await prisma.testTemplate.create({
         data: {
             title,
@@ -16,13 +17,24 @@ export const createTest = async (test: TestTemplateType): Promise<TestTemplateFu
                     }))
                 }
             },
-            timeLimit: test.timeLimit
+            headings: {
+                createMany: {
+                    data: headings.map((heading) => ({
+                        text: heading.text,
+                        index: 0, // TODO: remove
+                        questionRangeStart: heading.questionRange[0],
+                        questionRangeEnd: heading.questionRange[1]
+                    }))
+                }
+            },
+            timeLimit: test.timeLimit,
+            maxScore: test.maxScore
             
         },
         include: {
+            headings: true,
             questions: true
         }
     });
-
     return testTemplate;
 };

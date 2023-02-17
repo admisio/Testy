@@ -90,6 +90,13 @@
 <div class:dark={isDarkMode} class="w-100vw mt-12 flex h-full justify-center">
     <div class="w-[95%] md:w-7/10 px-3 md:px-24 py-6 shadow-2xl dark:bg-gray-700">
         {#each test.test.questions as question, i}
+            {#if test.test.headings.some((heading) => heading.questionRangeStart === i)}
+                <div class="mt-12 w-full">
+                    <h2 class="text-center md:text-left text-3xl font-bold dark:text-gray-400">
+                        {@html test.test.headings.find((heading) => heading.questionRangeStart === i)?.text}
+                    </h2>
+                </div>
+            {/if}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
                     <h2 class="text-center md:text-left text-2xl font-bold dark:text-gray-400">
