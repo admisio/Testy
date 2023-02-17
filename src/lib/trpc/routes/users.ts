@@ -2,6 +2,7 @@ import { t } from '$lib/trpc/t';
 import { z } from 'zod';
 import { adminAuth } from '../middleware/adminAuth';
 import prisma from '$lib/prisma';
+import { exportCsv } from '$lib/utils/csvExport';
 
 export const users = t.router({
     list: t.procedure
@@ -19,5 +20,8 @@ export const users = t.router({
                         username: true
                     }
                 })
-        )
+        ),
+    csv: t.procedure
+        .use(adminAuth)
+        .query(async () => exportCsv())
 });

@@ -1,11 +1,25 @@
 <script lang="ts">
     import Button from '$lib/components/buttons/Button.svelte';
+    import { trpc } from '$lib/trpc/client';
     import type { PageServerData } from './$types';
 
     export let data: PageServerData;
 
     const addUser = async () => {
         console.log('addUser');
+    };
+
+    const downloadCsv = async () => {
+        const csv = await trpc().users.csv.query();
+        const blob = new Blob([csv], { type: 'text/csv' });
+        // download the file
+        const anchor = window.document.createElement('a');
+        anchor.href = window.URL.createObjectURL(blob);
+        anchor.download = "users.csv";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        window.URL.revokeObjectURL(anchor.href);
     };
 </script>
 
@@ -18,6 +32,11 @@
             on:click={addUser}
             icon="material-symbols:add-circle-outline-rounded"
             title="Přidat uživatele"
+        />
+        <Button
+            on:click={downloadCsv}
+            icon="material-symbols:download"
+            title="Stáhnout CSV"
         />
     </div>
 </div>
