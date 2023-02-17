@@ -1,12 +1,12 @@
 <script lang="ts">
     import { invalidateAll } from '$app/navigation';
     import AssignedTestCard from '$lib/components/test/AssignedTestCard.svelte';
+    import NoTestCard from '$lib/components/test/NoTestCard.svelte';
     import type { Prisma } from '@prisma/client';
     import { onDestroy } from 'svelte';
     import type { PageData } from './test/$types';
 
-    export let data: PageData;
-    $: assignedTests = data.assignedTests as Prisma.AssignedTestGetPayload<{
+    type AssignedTest = Prisma.AssignedTestGetPayload<{
         include: {
             test: true;
             submissions: {
@@ -15,7 +15,25 @@
                 };
             };
         };
-    }>[];
+    }>;
+
+    export let data: PageData;
+    $: assignedTests = data.assignedTests as Array<AssignedTest>;
+
+    // TODO: Věc backendu??? => Přesunout na backend validaci zda je test aktivní
+    const isFinished = (assignedTest: AssignedTest) => {
+        const finished =
+            (assignedTest.started &&
+                assignedTest.endTime != null &&
+                assignedTest.endTime < new Date()) ||
+            (assignedTest.submissions.length > 0 &&
+                assignedTest.submissions.some(
+                    (submission) => submission.testId === assignedTest.testId
+                ));
+        return finished;
+    };
+
+    $: noTests = assignedTests.length === 0 || !assignedTests.some((test) => !isFinished(test));
 
     const interval = setInterval(invalidateAll, 1000);
 
@@ -32,18 +50,13 @@
 <div
     class="<md:flex-col mx-auto mx-auto flex max-w-screen-xl flex-wrap justify-between px-4 py-3 md:px-6"
 >
-    <!-- TODO: Věc backendu??? => Přesunout na backend validaci zda je test aktivní -->
-    {#each assignedTests as assignedTest}
-        {@const finished =
-            (assignedTest.started &&
-                assignedTest.endTime != null &&
-                assignedTest.endTime < new Date()) ||
-            (assignedTest.submissions.length > 0 &&
-                assignedTest.submissions.some(
-                    (submission) => submission.testId === assignedTest.testId
-                ))}
-        {#if !finished}
-            <AssignedTestCard {assignedTest} />
-        {/if}
-    {/each}
+    {#if noTests}
+        <NoTestCard />
+    {:else}
+        {#each assignedTests as assignedTest}
+            {#if !isFinished(assignedTest)}
+                <AssignedTestCard {assignedTest} />
+            {/if}
+        {/each}
+    {/if}
 </div>
