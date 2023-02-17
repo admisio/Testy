@@ -1,8 +1,8 @@
 <script lang="ts">
+    // TODO: Jedna test komponenta pro OpenTest a TestResult
     import { trpc } from '$lib/trpc/client';
 
     import { SvelteToast } from '@zerodevx/svelte-toast';
-    import { formatDate } from '$lib/utils/date';
     import DarkMode from '$lib/components/DarkMode.svelte';
 
     export let test: {
@@ -26,8 +26,6 @@
         console.log(question.id, answer);
     });
 
-    let submitModalIsOpen = false;
-
     let endTimeFixed = false;
 
     let isDarkMode: boolean = false;
@@ -38,7 +36,6 @@
     import { onMount } from 'svelte';
     import type { Answer, Question, TestSubmission } from '@prisma/client';
     import EvaluatedAnswers from '$lib/components/testview/EvaluatedAnswers.svelte';
-    import Modal from '../Modal.svelte';
 
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
@@ -46,24 +43,6 @@
         });
     });
 </script>
-
-<SvelteToast />
-
-{#if submitModalIsOpen}
-    <Modal on:close={() => (submitModalIsOpen = false)}>
-        <div
-            class="w-screen-md mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col items-center p-4"
-        >
-            <h1 class="<md:mb-3 text-6xl font-bold text-[#3580b7]">Přejete si odeslat test?</h1>
-            <!-- TODO: Pěkný UI -->
-            <button
-                class="p-3"
-                on:click={() => trpc().assignedTests.submitTest.mutate({ assignedTestId: test.id })}
-                >Odevzdat test</button
-            >
-        </div>
-    </Modal>
-{/if}
 
 <div
     on:keydown={null}
@@ -74,9 +53,8 @@
     class:endTimeFixed
     class:dark={isDarkMode}
 >
-    <span class="text-sm font-medium text-gray-500">Test skončí v {formatDate(test.endTime)}</span>
     <div
-        class="ml-4 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 hover:shadow-lg dark:bg-black dark:text-gray-200"
+        class="flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 hover:shadow-lg dark:bg-black dark:text-gray-200"
     >
         <DarkMode bind:isDarkMode />
     </div>
@@ -93,33 +71,27 @@
         </div>
         {#each test.test.questions as question, i}
             <div class="mt-12 w-full">
-                <div class="title-wrapper flex justify-between align-middle">
+                <div class="title-wrapper flex flex-col ">
                     <h2 class="text-center text-2xl font-bold dark:text-gray-400 md:text-left">
                         {i + 1}. {@html question.title}
                     </h2>
-                    <div class="min-w-48 relative">
+                    <div class="min-w-48 mt-2 ">
                         {#if answers.has(question.id)}
                             {#if answers.get(question.id)?.evaluation === 1}
-                                <span
-                                    class="absolute right-0 bottom-0 ml-2 text-xl font-bold text-green-500"
+                                <span class="text-xl font-bold text-green-500"
                                     >Správně (1/1 bodů)</span
                                 >
                             {:else}
-                                <span
-                                    class="absolute right-0 bottom-0 ml-2 text-xl font-bold text-red-500"
-                                    >Špatně (0/1 bodů)</span
+                                <span class="text-xl font-bold text-red-500">Špatně (0/1 bodů)</span
                                 >
                             {/if}
                         {:else}
-                            <span
-                                class="absolute right-0 bottom-0 ml-2 text-xl font-bold text-red-500"
-                                >Bez odpovědi (0/1)</span
-                            >
+                            <span class="text-xl font-bold text-red-500">Bez odpovědi (0/1)</span>
                         {/if}
                     </div>
                 </div>
                 {#if question.description}
-                    <div class="description mt-8 dark:text-gray-200">
+                    <div class="description dark:text-gray-200">
                         <pre>
                             {@html '\n' + question.description}
                         </pre>
@@ -132,7 +104,6 @@
                             ? question.answers.indexOf(answers.get(question.id)?.value ?? '')
                             : -1}
                         selectedAnswerEval={answers.get(question.id)?.evaluation ?? 0}
-                        readOnly={!test.endTime || test.endTime < new Date()}
                     />
                 </div>
             </div>
