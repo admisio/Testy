@@ -58,7 +58,7 @@
                 <Icon icon="material-symbols:open-in-new" />
             </span>
         </a>
-    {:else}
+    {:else if assignedTest.started}
         <a
             href={`/home/test/${assignedTest.id}/result`}
             class="inline-flex items-center text-blue-600 hover:underline"
