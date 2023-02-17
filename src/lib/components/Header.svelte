@@ -22,9 +22,9 @@
         <div class="mx-auto max-w-screen-xl px-4 py-3 md:px-6">
             <div class="flex items-center">
                 <ul class="mt-0 mr-6 flex flex-row space-x-8 text-sm font-medium">
-                    <!-- <li>
-                        <a href="/home" aria-current="page">Home</a>
-                    </li> -->
+                    <li>
+                        <a href="/home" aria-current="page">Aktivní zadání</a>
+                    </li>
                     <li>
                         <a href="/home/tests">Testy</a>
                     </li>
