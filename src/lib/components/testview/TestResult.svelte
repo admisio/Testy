@@ -32,7 +32,8 @@
 
     import { onMount } from 'svelte';
     import type { Answer, Question, TestSubmission } from '@prisma/client';
-    import EvaluatedAnswers from '$lib/components/testview/EvaluatedAnswers.svelte';
+
+    import Answers from './Answers.svelte';
 
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
@@ -95,7 +96,8 @@
                     </div>
                 {/if}
                 <div class="mt-6">
-                    <EvaluatedAnswers
+                    <Answers
+                        readOnly
                         answers={question.answers}
                         selectedAnswerIndex={answers.has(question.id)
                             ? question.answers.indexOf(answers.get(question.id)?.value ?? '')
