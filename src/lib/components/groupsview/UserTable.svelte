@@ -56,11 +56,14 @@
                         </td>
                         {#each assignedTests as assignedTest}
                             <td>
-                                {user.testSubmissions.find(
-                                    (s) => s.assignedTest.id === assignedTest.id
-                                )
-                                    ? '✅ Odevzdáno'
-                                    : '❌ Chybí'}</td
+                                <a href={`/admin/users/${user.id}/test/${assignedTest.id}`} class="hover:underline">
+                                    {user.testSubmissions.find(
+                                        (s) => s.assignedTest.id === assignedTest.id
+                                    )
+                                        ? '✅ Odevzdáno'
+                                        : '❌ Chybí'}
+                                </a>
+                                </td
                             >
                         {/each}
                         {#each assignedTests as assignedTest}
