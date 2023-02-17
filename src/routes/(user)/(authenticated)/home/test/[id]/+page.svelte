@@ -11,24 +11,6 @@
 
     export let data: PageData;
     const test = data.test!;
-    const user = data.user!;
-
-    console.log(test.test.questions[2].description);
-
-    const questions = test.test.questions;
-    const answers: Array<string> = new Array<string>(questions.length);
-    for (let i = 0; i < answers.length; i++) {
-        if (questions[i].submittedAnswers[0]) {
-            console.log(
-                'question id: ' +
-                    questions[i].id +
-                    ' answer: ' +
-                    questions[i].submittedAnswers[0].value +
-                    ''
-            );
-            answers[i] = questions[i].submittedAnswers[0].value;
-        }
-    }
 
     const submitAnswer = async (e: any, questionId: number) => {
         const answer = e.detail.answer;
@@ -113,7 +95,7 @@
                         on:submit={(e) => submitAnswer(e, question.id)}
                         answers={question.answers}
                         selectedAnswerIndex={question.submittedAnswers[0]
-                            ? question.answers.indexOf(answers[i])
+                            ? question.answers.indexOf(question.submittedAnswers[0].value)
                             : -1}
                         readOnly={!test.endTime || test.endTime < new Date()}
                     />
