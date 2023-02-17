@@ -31,12 +31,18 @@
     import 'highlight.js/styles/github-dark.css';
 
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
 
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
             hljs.highlightElement(el as HTMLElement);
         });
     });
+
+    const submitTest = async () => {
+        await trpc().assignedTests.submitTest.mutate({ assignedTestId: test.id });
+        goto('/home/test/' + test.id + '/result');
+    };
 </script>
 
 <SvelteToast />
@@ -46,11 +52,11 @@
         <div
             class="w-screen-md mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col items-center p-4"
         >
-            <h1 class="<md:mb-3 text-6xl font-bold text-[#3580b7]">Přejete si odeslat test?</h1>
+            <h1 class="<md:mb-3 text-6xl font-bold text-[#3580b7]">Přejete si odevzdat test?</h1>
             <!-- TODO: Pěkný UI -->
             <button
-                class="p-3"
-                on:click={() => trpc().assignedTests.submitTest.mutate({ assignedTestId: test.id })}
+                class="p-3 bg-green-600 rounded-md shadow-md text-white font-bold text-xl mt-6"
+                on:click={() => submitTest()}
                 >Odevzdat test</button
             >
         </div>
