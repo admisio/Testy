@@ -12,7 +12,7 @@
 
     export let selectedAnswerEval: number | null = null;
 
-    export let readOnly = selectedAnswerEval ? true : false;
+    export let readOnly = selectedAnswerEval != null ? true : false;
 
     const submit = async (index: number) => {
         if (readOnly || selectedAnswerEval) {
