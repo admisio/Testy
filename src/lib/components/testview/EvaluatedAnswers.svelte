@@ -47,7 +47,7 @@
         @apply rounded-lg text-white;
     }
     .correct {
-        @apply bg-green-600;
+        @apply bg-green-600 font-bold;
     }
     .incorrect {
         @apply bg-red-600;
