@@ -16,14 +16,15 @@
     $: testIsActive =
         assignedTest.started && assignedTest.endTime != null && assignedTest.endTime > new Date();
 
+    $: testIsSubmited =
+        assignedTest.submissions.length > 0 &&
+        assignedTest.submissions.some((submission) => submission.testId === assignedTest.id);
+
     $: testIsFinished =
         (assignedTest.started &&
             assignedTest.endTime != null &&
             assignedTest.endTime < new Date()) ||
-        (assignedTest.submissions.length > 0 &&
-            assignedTest.submissions.some(
-                (submission) => submission.testId === assignedTest.testId
-            ));
+        testIsSubmited;
 </script>
 
 <div
@@ -58,7 +59,7 @@
                 <Icon icon="material-symbols:open-in-new" />
             </span>
         </a>
-    {:else if assignedTest.started}
+    {:else if assignedTest.started && testIsSubmited}
         <a
             href={`/home/test/${assignedTest.id}/result`}
             class="inline-flex items-center text-blue-600 hover:underline"
@@ -68,6 +69,8 @@
                 <Icon icon="material-symbols:open-in-new" />
             </span>
         </a>
+    {:else}
+        <span class="inline-flex items-center text-gray-600"> Neodevzdáno </span>
     {/if}
 </div>
 
