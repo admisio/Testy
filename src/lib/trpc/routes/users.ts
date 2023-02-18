@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { adminAuth } from '../middleware/adminAuth';
 import prisma from '$lib/prisma';
 import { exportCsv } from '$lib/utils/csvExport';
+import bcrypt from 'bcrypt';
 
 export const users = t.router({
     list: t.procedure
@@ -21,7 +22,28 @@ export const users = t.router({
                     }
                 })
         ),
-    csv: t.procedure
+
+    create: t.procedure
         .use(adminAuth)
-        .query(async () => exportCsv())
+        .input(
+            z.object({
+                name: z.string().optional(),
+                surname: z.string().optional(),
+                email: z.string().optional(),
+                username: z.string(),
+                password: z.string()
+            })
+        )
+        .mutation(async ({ input }) => {
+            await prisma.user.create({
+                data: {
+                    name: input.name,
+                    surname: input.surname,
+                    email: input.email,
+                    username: input.username,
+                    password: await bcrypt.hash(input.password, 12)
+                }
+            });
+        }),
+    csv: t.procedure.use(adminAuth).query(async () => exportCsv())
 });
