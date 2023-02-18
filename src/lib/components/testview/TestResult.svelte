@@ -2,17 +2,23 @@
     // TODO: Jedna test komponenta pro OpenTest a TestResult
     import DarkMode from '$lib/components/DarkMode.svelte';
 
-    export let test: {
-        submittedAnswers: Answer[];
-        test: {
-            questions: Question[];
-            id: number;
-            title: string;
+    export let test: Prisma.AssignedTestGetPayload<{
+        select: {
+            id: true;
+            startTime: true;
+            endTime: true;
+            submittedAnswers: true;
+            test: {
+                select: {
+                    id: true;
+                    title: true;
+                    maxScore: true;
+                    questions: true;
+                };
+            };
         };
-        id: number;
-        startTime: Date | null;
-        endTime: Date | null;
-    };
+    }>;
+
     export let submission: TestSubmission;
 
     // dictioary of questionId -> answer
@@ -31,7 +37,7 @@
     import 'highlight.js/styles/github-dark.css';
 
     import { onMount } from 'svelte';
-    import type { Answer, Question, TestSubmission } from '@prisma/client';
+    import type { Answer, Prisma, Question, TestSubmission } from '@prisma/client';
 
     import Answers from './Answers.svelte';
 
@@ -63,7 +69,7 @@
         <div class="flex justify-center rounded-md bg-gray-600 px-4 py-4 shadow-md">
             <span class="flex text-center text-2xl font-bold text-white">
                 Váš výsledek: <span class="ml-2">
-                    {submission.evaluation}/10 bodů
+                    {submission.evaluation}/{test.test.maxScore} bodů
                 </span>
             </span>
         </div>
