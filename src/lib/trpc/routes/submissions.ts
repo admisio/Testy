@@ -91,7 +91,8 @@ export const submissions = t.router({
                                 select: {
                                     id: true,
                                     title: true,
-                                    questions: true
+                                    questions: true,
+                                    maxScore: true
                                 }
                             },
                             submittedAnswers: true,

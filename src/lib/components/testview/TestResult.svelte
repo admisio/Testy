@@ -8,6 +8,7 @@
             questions: Question[];
             id: number;
             title: string;
+            maxScore: number;
         };
         id: number;
         startTime: Date | null;
@@ -63,7 +64,7 @@
         <div class="flex justify-center rounded-md bg-gray-600 px-4 py-4 shadow-md">
             <span class="flex text-center text-2xl font-bold text-white">
                 Váš výsledek: <span class="ml-2">
-                    {submission.evaluation}/10 bodů
+                    {submission.evaluation}/{test.test.maxScore} bodů
                 </span>
             </span>
         </div>
