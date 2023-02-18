@@ -39,7 +39,7 @@
         "@zerodevx/svelte-toast": "1.0.0-rc.1",
         "bcrypt": "^5.1.0",
         "cheerio": "1.0.0-rc.12",
-        "csv-writer": "^1.6.0",
+        "csv-stringify": "^6.2.4",
         "date-fns": "^2.29.3",
         "dayjs": "^1.11.7",
         "debounce": "^1.2.1",
