@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { adminAuth } from '../middleware/adminAuth';
 import prisma from '$lib/prisma';
 import { exportCsv } from '$lib/utils/csvExport';
+import bcrypt from 'bcrypt';
 
 export const users = t.router({
     list: t.procedure
@@ -40,7 +41,7 @@ export const users = t.router({
                     surname: input.surname,
                     email: input.email,
                     username: input.username,
-                    password: input.password
+                    password: await bcrypt.hash(input.password, 12)
                 }
             });
         }),
