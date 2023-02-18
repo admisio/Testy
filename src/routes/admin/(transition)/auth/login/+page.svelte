@@ -20,10 +20,6 @@
             error = true;
         }
     })();
-    
-    const clearError = () => {
-        error = false;
-    };
 </script>
 
 <svelte:head>
@@ -56,12 +52,12 @@
     <form method="POST" use:enhance class="mx-auto mt-8 mb-0 max-w-md space-y-4">
         <div>
             <label for="username" class="sr-only">Ev. číslo</label>
-            <UsernameInput required focus />
+            <UsernameInput {error} required focus />
         </div>
 
         <div>
             <label for="password" class="sr-only">Heslo</label>
-            <PasswordInput required />
+            <PasswordInput {error} required />
         </div>
 
         <div class="flex w-full items-center justify-center">
