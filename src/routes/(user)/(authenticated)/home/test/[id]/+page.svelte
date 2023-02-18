@@ -91,11 +91,16 @@
     <div class="w-[95%] md:w-7/10 px-3 md:px-24 py-6 shadow-2xl dark:bg-gray-700">
         {#each test.test.questions as question, i}
             {#if test.test.headings.some((heading) => heading.questionRangeStart === i)}
-                <div class="mt-12 w-full">
-                    <h2 class="text-center md:text-left text-3xl font-bold dark:text-gray-400">
-                        {@html test.test.headings.find((heading) => heading.questionRangeStart === i)?.text}
-                    </h2>
-                </div>
+                {#each test.test.headings.filter((heading) => heading.questionRangeStart === i) as heading}
+                    <div class="mt-12 w-full">
+                        <h2 class="text-center md:text-left text-3xl font-bold dark:text-gray-400">
+                            {@html heading.title}
+                        </h2>
+                        <p>
+                            {@html heading.description}
+                        </p>
+                    </div>
+                {/each}
             {/if}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">

@@ -20,8 +20,8 @@ export const createTest = async (test: TestTemplateType): Promise<TestTemplateFu
             headings: {
                 createMany: {
                     data: headings.map((heading) => ({
-                        text: heading.text,
-                        index: 0, // TODO: remove
+                        title: heading.title,
+                        description: heading.description,
                         questionRangeStart: heading.questionRange[0],
                         questionRangeEnd: heading.questionRange[1]
                     }))

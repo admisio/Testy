@@ -65,15 +65,24 @@ export const parseMd = async (md: string, timeLimit: number): Promise<TestTempla
         })
         .filter((q) => q !== null) as Array<Question>;
 
+    const headingsDescriptions = document('h3').map((i, el) => document(el).html()).toArray();
+
     const headings = document('h2')
         .map((i, el) => ({
-            text: document(el).html()?.replace(/\[([0-9]+)-([0-9]+)\]/, ''),
+            title: document(el)
+                .html()
+                ?.replace(/\[([0-9]+)-([0-9]+)\]/, ''),
+            description: headingsDescriptions[i],
             // find question range - e.g. ## Heading 1 [1-5] for questions 1-5
-            questionRange: document(el).text().match(/\[([0-9]+)-([0-9]+)\]/)?.slice(1, 3).map(Number)
+            questionRange: document(el)
+                .text()
+                .match(/\[([0-9]+)-([0-9]+)\]/)
+                ?.slice(1, 3)
+                .map(Number)
         }))
         .filter((i) => i !== null)
         .toArray() as Array<HeadingType>;
-        
+
     console.log(headings);
     return { title, headings, questions, timeLimit, maxScore: questions.length };
 };

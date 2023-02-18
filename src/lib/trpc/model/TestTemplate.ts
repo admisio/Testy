@@ -8,7 +8,8 @@ export type TestTemplateFull = TestTemplate & {questions: QuestionPrisma[]};
     questions: Question[];
 } */
 export interface HeadingType {
-    text: string;
+    title: string;
+    description: string;
     questionRange: [number, number];
 }
 
