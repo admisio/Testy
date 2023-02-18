@@ -6,6 +6,7 @@ import { assignedTests } from './routes/assignedTests';
 import { submissions } from './routes/submissions';
 import { auth } from './routes/auth';
 import { users } from './routes/users';
+import { feedback } from './routes/feedback';
 
 export const router = t.router({
     tests: testTemplates,
@@ -13,6 +14,7 @@ export const router = t.router({
     groups,
     assignedTests,
     submissions,
+    feedback,
     auth
 });
 
