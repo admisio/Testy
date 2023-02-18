@@ -15,7 +15,7 @@
         // download the file
         const anchor = window.document.createElement('a');
         anchor.href = window.URL.createObjectURL(blob);
-        anchor.download = "users.csv";
+        anchor.download = 'users.csv';
         document.body.appendChild(anchor);
         anchor.click();
         document.body.removeChild(anchor);
@@ -33,17 +33,15 @@
             icon="material-symbols:add-circle-outline-rounded"
             title="Přidat uživatele"
         />
-        <Button
-            on:click={downloadCsv}
-            icon="material-symbols:download"
-            title="Stáhnout CSV"
-        />
+        <Button on:click={downloadCsv} icon="material-symbols:download" title="Stáhnout CSV" />
     </div>
 </div>
-<div class="<md:flex-col mx-auto mx-auto mb-6 flex max-w-screen-xl px-4  py-3 md:px-6 md:px-6">
+<div class="mx-auto mx-auto mb-6 flex max-w-screen-xl  flex-col px-4  py-3 md:px-6 md:px-6">
     {#each data.users as user}
-        <div class="flex">
+        <div class="mb-2 flex w-full rounded-md bg-gray-400 p-2">
             {user.id}
+
+            {user.username}
 
             {user.name}
 
