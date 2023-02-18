@@ -24,6 +24,10 @@
     import UsernameInput from '$lib/components/inputs/UsernameInput.svelte';
 </script>
 
+<svelte:head>
+    <title>Login • Testy</title>
+</svelte:head>
+
 <header class="w-full bg-[#3580b7] text-center text-white">
     🚀 Vítejte na novém portálu pro digitální přijímací testy, děkujeme za vaši spolupráci!
 </header>
