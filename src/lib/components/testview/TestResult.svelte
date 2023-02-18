@@ -70,7 +70,7 @@
         {#each test.test.questions as question, i}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
-                    <h2 class="text-center text-2xl font-bold dark:text-gray-400 md:text-left">
+                    <h2 class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left">
                         {i + 1}. {@html question.title}
                     </h2>
                 </div>
