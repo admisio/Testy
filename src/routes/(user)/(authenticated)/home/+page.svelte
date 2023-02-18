@@ -28,7 +28,7 @@
                 assignedTest.endTime < new Date()) ||
             (assignedTest.submissions.length > 0 &&
                 assignedTest.submissions.some(
-                    (submission) => submission.testId === assignedTest.testId
+                    (submission) => submission.testId === assignedTest.id
                 ));
         return finished;
     };
