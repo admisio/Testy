@@ -1,4 +1,4 @@
-import { JWT_SECRET } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import prisma from '$lib/prisma';
 import { fail } from '@sveltejs/kit';
 import bcrypt from 'bcrypt';
@@ -22,7 +22,7 @@ export const actions: Actions = {
                 return fail(401, { message: 'Authentication failed', incorrect: true });
             }
 
-            cookies.set('jwt', jwt.sign({ id: id, name: username, role: 'user' }, JWT_SECRET), {
+            cookies.set('jwt', jwt.sign({ id: id, name: username, role: 'user' }, env.JWT_SECRET), {
                 path: '/'
             });
 
