@@ -15,20 +15,23 @@ export const actions: Actions = {
             const name = data.get('name')?.toString();
             const surname = data.get('surname')?.toString();
             const email = data.get('email')?.toString();
-            // TODO: Fix !
-            const username = data.get('username')!.toString();
-            const password = data.get('password')!.toString();
 
-            const createResult = await router
-                .createCaller(await createContext(event))
-                .users.create({
-                    name,
-                    surname,
-                    email,
-                    username,
-                    password
-                });
-            return createResult;
+            const username = data.get('username')?.toString();
+            const password = data.get('password')?.toString();
+
+            if (!username || !password) {
+                return fail(400, { message: 'Missing username & password', incorrect: true });
+            }
+
+            await router.createCaller(await createContext(event)).users.create({
+                name,
+                surname,
+                email,
+                username,
+                password
+            });
+
+            return { success: true };
         } catch (e) {
             console.error(e);
             return fail(500, { message: 'User creation failed', incorrect: true });
