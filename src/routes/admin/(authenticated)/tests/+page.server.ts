@@ -17,7 +17,9 @@ export const actions: Actions = {
     default: async ({ request }) => {
         try {
             const data = await request.formData();
-            const timeLimit = data.get('timeLimit') as string;
+
+            const timeLimit = data.get('timeLimit')?.toString() ?? '20';
+            
             const files = data.getAll('file').map((file) => file as Blob);
 
             const mdFile = files.find((file) => file.name.endsWith('.md')) as Blob;
