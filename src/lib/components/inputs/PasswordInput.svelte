@@ -3,6 +3,7 @@
 
     export let required: boolean = false;
     export let focus: boolean = false;
+    export let error: boolean = false;
 </script>
 
 <TextInput
@@ -11,5 +12,6 @@
     placeholder="Heslo"
     name="password"
     {required}
+    {error}
     {focus}
 />

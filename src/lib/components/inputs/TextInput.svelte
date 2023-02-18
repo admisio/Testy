@@ -10,16 +10,17 @@
         node.focus();
     };
 
-    export let icon: string = "";
+    export let icon: string = '';
     export let type: string = 'text';
     export let placeholder: string = '';
     export let name: string = '';
     export let required: boolean = false;
     export let focus: boolean = false;
+    export let error: boolean = false;
 </script>
 
 <div class="relative">
-    <input {name} use:typeAction use:focusAction {placeholder} {required} />
+    <input class:error {name} use:typeAction use:focusAction {placeholder} {required} />
     {#if icon}
         <span class="absolute inset-y-0 right-4 inline-flex items-center">
             <Icon {icon} />
@@ -34,7 +35,11 @@
         @apply shadow-lg transition-colors duration-300;
         @apply outline-none;
     }
-    input:hover, input:focus {
+    input:hover,
+    input:focus {
         @apply border-2 border-[#3580b7];
+    }
+    .error {
+        @apply border-2 border-red-700;
     }
 </style>
