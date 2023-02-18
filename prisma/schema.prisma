@@ -9,36 +9,69 @@ datasource db {
 
 model TestTemplate {
   id            Int            @id @default(autoincrement())
+  title         String
   questions     Question[]
   assignedTests AssignedTest[]
+  timeLimit     Int
+  headings      Heading[]
+  maxScore      Int
+}
+
+model Heading {
+  id                 Int          @id @default(autoincrement())
+  title              String
+  description        String?
+  questionRangeStart Int
+  questionRangeEnd   Int
+  testId             Int
+  test               TestTemplate @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 model Question {
-  id            Int          @id @default(autoincrement())
-  content       Json
-  correctAnswer String
-  testId        Int
-  test          TestTemplate @relation(fields: [testId], references: [id])
-  answers       Answer[]
+  id               Int          @id @default(autoincrement())
+  title            String
+  description      String?
+  answers          String[]
+  correctAnswer    String
+  testId           Int
+  test             TestTemplate @relation(fields: [testId], references: [id], onDelete: Cascade)
+  submittedAnswers Answer[]
 }
 
 model AssignedTest {
-  id        Int          @id @default(autoincrement())
-  testId    Int
-  test      TestTemplate @relation(fields: [testId], references: [id])
-  groupId   Int
-  group     Group        @relation(fields: [groupId], references: [id])
-  startTime DateTime     @default(now())
-  endTime   DateTime
+  id               Int              @id @default(autoincrement())
+  testId           Int
+  test             TestTemplate     @relation(fields: [testId], references: [id])
+  groupId          Int
+  group            Group            @relation(fields: [groupId], references: [id])
+  submittedAnswers Answer[]
+  started          Boolean          @default(false)
+  startTime        DateTime?
+  endTime          DateTime?
+  submissions      TestSubmission[]
+}
+
+model TestSubmission {
+  id           Int          @id @default(autoincrement())
+  userId       Int
+  user         User         @relation(fields: [userId], references: [id])
+  testId       Int
+  assignedTest AssignedTest @relation(fields: [testId], references: [id])
+  evaluation   Int
+  submittedAt  DateTime
 }
 
 model Answer {
-  id         Int      @id @default(autoincrement())
-  value      String
-  questionId Int
-  question   Question @relation(fields: [questionId], references: [id])
-  userId     Int
-  user       User     @relation(fields: [userId], references: [id])
+  id             Int          @id @default(autoincrement())
+  value          String
+  questionId     Int
+  question       Question     @relation(fields: [questionId], references: [id])
+  userId         Int
+  user           User         @relation(fields: [userId], references: [id])
+  assignedTest   AssignedTest @relation(fields: [assignedTestId], references: [id])
+  assignedTestId Int
+  evaluated      Boolean      @default(false)
+  evaluation     Int?
 }
 
 model Group {
@@ -51,6 +84,7 @@ model Group {
 
 model Admin {
   id       Int              @id @default(autoincrement())
+  username String           @unique
   name     String
   surname  String
   email    String           @unique
@@ -67,14 +101,17 @@ model AdminsOnGroups {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  surname  String
-  email    String   @unique
-  password String
-  groupId  Int
-  group    Group    @relation(fields: [groupId], references: [id])
-  answers  Answer[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id              Int              @id @default(autoincrement())
+  // applicationId
+  username        String           @unique
+  name            String?
+  surname         String?
+  email           String?
+  password        String
+  groupId         Int?
+  group           Group?           @relation(fields: [groupId], references: [id])
+  answers         Answer[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  testSubmissions TestSubmission[]
 }

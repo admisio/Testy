@@ -1,39 +1,40 @@
 <script lang="ts">
-  import LabelAsterisk from './LabelAsterisk.svelte';
+    import Icon from '@iconify/svelte';
 
-  export let price = false;
-  export let name: string;
-  export let label: string;
-  export let required = false;
-  export let placeholder = '';
-  export let item: Record<string, unknown> | null;
-  export let errors: { message: string; path: string[] }[] | null = null;
+    const typeAction = (node: HTMLInputElement) => {
+        node.type = type;
+    };
 
-  $: error = errors?.find((e) => e.path.includes(name));
+    const focusAction = (node: HTMLInputElement) => {
+        if (!focus) return;
+        node.focus();
+    };
+
+    export let icon: string = "";
+    export let type: string = 'text';
+    export let placeholder: string = '';
+    export let name: string = '';
+    export let required: boolean = false;
+    export let focus: boolean = false;
 </script>
 
-<label>
-  {label}<LabelAsterisk {required} />
-  <input
-    type={price ? 'number' : 'text'}
-    step={price ? '0.01' : undefined}
-    {name}
-    {placeholder}
-    {required}
-    value={item?.[name] || ''}
-    aria-invalid={error ? 'true' : undefined}
-  />
-  {#if error}
-    <small>{error.message}</small>
-  {/if}
-</label>
+<div class="relative">
+    <input {name} use:typeAction use:focusAction {placeholder} {required} />
+    {#if icon}
+        <span class="absolute inset-y-0 right-4 inline-flex items-center">
+            <Icon {icon} />
+        </span>
+    {/if}
+</div>
 
-<style>
-  input {
-    margin-bottom: 0.5em;
-  }
-
-  small {
-    color: var(--form-element-invalid-active-border-color);
-  }
+<style lang="postcss">
+    input {
+        @apply w-full rounded-lg;
+        @apply border-2 border-gray-200 p-4 pr-12 text-sm;
+        @apply shadow-lg transition-colors duration-300;
+        @apply outline-none;
+    }
+    input:hover, input:focus {
+        @apply border-2 border-[#3580b7];
+    }
 </style>

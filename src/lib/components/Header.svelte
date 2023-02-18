@@ -1,73 +1,44 @@
 <script lang="ts">
-  import { invalidateAll } from '$app/navigation';
-  import HeaderNavLink from './HeaderNavLink.svelte';
-
-  export let isAuthenticated: boolean;
-
-  const logout = async () => {
-    await fetch('/logout', { method: 'POST' });
-    invalidateAll();
-  };
+    import logo from '$lib/assets/logo/logo.jpg';
 </script>
 
 <header>
-  <a class="title-link" href="/">
-    <h1>Bookstall</h1>
-    <p>Fantasy novels</p>
-  </a>
-  <hr />
-  <nav>
-    <ul>
-      <HeaderNavLink to="/authors" title="Authors" />
-      <HeaderNavLink to="/books" title="Books" />
-      <HeaderNavLink to="/stores" title="Stores" />
-      {#if isAuthenticated}
-        <HeaderNavLink on:click={logout} title="Logout" />
-      {:else}
-        <HeaderNavLink to="/login" title="Login" />
-      {/if}
-    </ul>
-  </nav>
+    <nav class="border-gray-200 bg-white">
+        <div
+            class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between px-4 py-2.5 md:px-6"
+        >
+            <a href="/home/tests" class="flex items-center">
+                <img src={logo} class="mr-3 h-6 rounded-full sm:h-9 shadow-lg" alt="Logo" />
+                <h1 class="self-center whitespace-nowrap text-xl font-semibold">Testy</h1>
+            </a>
+            <div class="flex items-center">
+                <a href="/auth/logout" class="text-sm font-medium text-[#3580b7] hover:underline"
+                    >Odhlásit se</a
+                >
+            </div>
+        </div>
+    </nav>
+    <nav class="bg-gray-50">
+        <div class="mx-auto max-w-screen-xl px-4 py-3 md:px-6">
+            <div class="flex items-center">
+                <ul class="mt-0 mr-6 flex flex-row space-x-8 text-sm font-medium">
+                    <li>
+                        <a href="/home" aria-current="page">Aktivní zadání</a>
+                    </li>
+                    <li>
+                        <a href="/home/tests">Testy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
 
-<style lang="scss">
-  header {
-    background: var(--card-background-color);
-    border-bottom: 1px solid var(--muted-border-color);
-    padding: 1em 1em 0;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .title-link {
-    display: inline-block;
-    text-decoration: none;
-  }
-
-  h1,
-  p {
-    color: var(--h6-color);
-    font-family: Cormorant, serif;
-    line-height: 1;
-    margin: 0;
-  }
-
-  h1 {
-    font-size: 3em;
-  }
-
-  p {
-    font-size: 0.75em;
-    letter-spacing: 1.1em;
-    text-indent: 0.9em;
-  }
-
-  hr {
-    width: 5em;
-    margin: 1em auto -0.4em;
-  }
-
-  nav {
-    justify-content: center;
-  }
+<style lang="postcss">
+    li a {
+        @apply text-gray-900;
+    }
+    li a:hover {
+        @apply underline;
+    }
 </style>
