@@ -19,7 +19,7 @@ export const actions: Actions = {
             const data = await request.formData();
 
             const timeLimit = data.get('timeLimit')?.toString() ?? '20';
-            
+
             const files = data.getAll('file').map((file) => file as Blob);
 
             const mdFile = files.find((file) => file.name.endsWith('.md')) as Blob;
@@ -27,8 +27,10 @@ export const actions: Actions = {
             console.log(mdFile);
 
             const test = await parseMd(await mdFile.text(), Number(timeLimit));
-            const createResult = await createTest(test);
-            return createResult;
+
+            await createTest(test);
+
+            return { success: true };
         } catch (e) {
             console.error(e);
             return fail(500, { message: 'Parsing failed', incorrect: true });

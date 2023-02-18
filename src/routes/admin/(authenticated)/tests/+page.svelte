@@ -6,7 +6,7 @@
 
     import { enhance } from '$app/forms';
 
-    import type { PageData } from './$types';
+    import type { ActionData, PageData } from './$types';
     import Submit from '$lib/components/buttons/Submit.svelte';
     import TestCard from '$lib/components/test/TestCard.svelte';
     import { invalidateAll } from '$app/navigation';
@@ -22,6 +22,14 @@
     };
 
     let isModalOpen = false;
+
+    export let form: ActionData;
+
+    $: (async () => {
+        if (form?.success) {
+            closeModal();
+        }
+    })();
 
     const deleteTest = async (id: number) => {
         await trpc().tests.delete.mutate(id);
