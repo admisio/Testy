@@ -6,6 +6,7 @@
     export let form: ActionData;
     let error = false;
     $: returnTo = $page.url.searchParams.get('returnTo');
+   
     $: (async () => {
         if (form?.success) {
             await invalidateAll();
@@ -14,9 +15,6 @@
             error = true;
         }
     })();
-    const clearError = () => {
-        error = false;
-    };
 
     import SchoolBadge from '$lib/components/icons/SchoolBadge.svelte';
     import PasswordInput from '$lib/components/inputs/PasswordInput.svelte';
@@ -58,12 +56,12 @@
         <div>
             <label for="username" class="sr-only">Ev. číslo</label>
 
-            <UsernameInput required placeholder={'Ev. číslo'} focus />
+            <UsernameInput {error} required placeholder={'Ev. číslo'} focus />
         </div>
 
         <div>
             <label for="password" class="sr-only">Heslo</label>
-            <PasswordInput required />
+            <PasswordInput {error} required />
         </div>
 
         <div class="flex w-full items-center justify-center">
