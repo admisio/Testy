@@ -2,21 +2,32 @@ version: '3.8'
 
 services:
   adminer:
+    container_name: testy_adminer
     image: adminer:latest
     depends_on: 
       - db
     ports:
-      - 9004:8080
+      - 8004:8080
     networks:
        - db
   db:
+    container_name: testy_db
     image: "postgres:15"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres  
     ports:
-      - "9003:5432"
+      - "8003:5432"
+    networks:
+       - db
+  app:
+    container_name: testy_app
+    build: ./
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@testy_db:5432/postgres
+    ports:
+      - "8002:3000"
     networks:
        - db
 networks:
