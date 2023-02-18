@@ -9,7 +9,6 @@
         <Icon icon="medical-icon:i-waiting-area" />
     </span>
     <h5
-        contenteditable
         class="my-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
         Zatím nemáte přidelené žádné testy
