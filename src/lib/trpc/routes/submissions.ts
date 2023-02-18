@@ -23,8 +23,7 @@ export const submissions = t.router({
                 }
             })
         ),
-    getUserSubmission:
-        t.procedure
+    getUserSubmission: t.procedure
         .use(adminAuth)
         .input(
             z.object({
@@ -51,7 +50,8 @@ export const submissions = t.router({
                                 select: {
                                     id: true,
                                     title: true,
-                                    questions: true
+                                    questions: true,
+                                    maxScore: true
                                 }
                             },
                             submittedAnswers: true,
@@ -64,7 +64,7 @@ export const submissions = t.router({
             if (!test) throw new Error('Test not found');
             return test;
         }),
-            
+
     get: t.procedure
         .use(userAuth)
         .input(
@@ -104,6 +104,5 @@ export const submissions = t.router({
             });
             if (!test) throw new Error('Test not found');
             return test;
-        }
-    ),
+        })
 });
