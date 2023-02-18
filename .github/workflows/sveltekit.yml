@@ -28,6 +28,12 @@ jobs:
       - name: Install dependencies 🚀
         run: pnpm install
 
+      - name: Generate Prisma
+        run: pnpx prisma generate 💎
+      
+      - name: Sample env file 🌱
+        run: echo "JWT_SECRET=ahooj" > .env
+
       - name: Svelte Check ✔️
         run: pnpm run check
 
