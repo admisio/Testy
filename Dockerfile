@@ -19,7 +19,5 @@ COPY --from=0 /app/build ./build
 COPY --from=0 /app/prisma ./prisma
 COPY --from=0 /app/package*.json ./
 
-COPY .env /app/.env
-
 EXPOSE 3000
 CMD [  "npm", "run", "start:migrate:prod" ]
