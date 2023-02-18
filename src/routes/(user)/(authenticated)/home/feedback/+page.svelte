@@ -2,17 +2,28 @@
     import { enhance } from '$app/forms';
 
     import Submit from '$lib/components/buttons/Submit.svelte';
+    import type { ActionData } from './$types';
+
+    export let form: ActionData;
 </script>
 
-<div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-    <form method="POST" use:enhance class="mx-auto mt-8 mb-0 max-w-md space-y-4">
+{#if form?.success}
+    <div class="my-2 w-full bg-green-600 p-4">
+        <p class="text-center font-bold text-white">Děkujeme za zpětnou vazbu!</p>
+    </div>
+{/if}
+<div class="mx-auto max-w-screen-xl">
+    <form method="POST" use:enhance class="w-full p-4">
         <div>
             <label for="feedback" class="sr-only">Zpětná vazba</label>
-            <textarea name="feedback" required />
+            <textarea
+                class="text-md min-h-sm w-full rounded-sm border border-gray-700 p-3"
+                name="feedback"
+                required
+            />
         </div>
-
-        <div class="flex w-full items-center justify-center">
-            <Submit />
+        <div class="my-4">
+            <Submit title="Odeslat zpětnou vazbu" />
         </div>
     </form>
 </div>
