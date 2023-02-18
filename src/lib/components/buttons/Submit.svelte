@@ -25,7 +25,7 @@
 
 <style lang="postcss">
     button {
-        @apply ml-3 inline-block rounded-lg bg-[#3580b7];
+        @apply inline-block rounded-lg bg-[#3580b7];
         @apply px-5 py-3;
         @apply text-sm font-bold text-white no-underline;
         @apply shadow-xl shadow-sky-500/20 transition-all duration-300;

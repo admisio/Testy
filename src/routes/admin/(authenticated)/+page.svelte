@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>A tRPC-SvelteKit example application • Testy</title>
+    <title>Testy</title>
 </svelte:head>
 
 <div class="root">

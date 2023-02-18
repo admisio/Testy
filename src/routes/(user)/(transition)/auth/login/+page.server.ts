@@ -10,8 +10,12 @@ export const actions: Actions = {
         try {
             const data = await request.formData();
 
-            const username = data.get('username') as string;
-            const password = data.get('password') as string;
+            const username = data.get('username')?.toString();
+            const password = data.get('password')?.toString();
+
+            if (!username || !password) {
+                return fail(400, { message: 'username or password missing', incorrect: true });
+            }
 
             const { id, password: passwordHash } = await prisma.user.findUniqueOrThrow({
                 where: { username },

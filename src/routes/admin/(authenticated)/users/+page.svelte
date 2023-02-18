@@ -5,7 +5,7 @@
     import TextInput from '$lib/components/inputs/TextInput.svelte';
     import Modal from '$lib/components/Modal.svelte';
     import { trpc } from '$lib/trpc/client';
-    import type { PageServerData } from './$types';
+    import type { ActionData, PageServerData } from './$types';
 
     export let data: PageServerData;
 
@@ -31,23 +31,33 @@
     };
 
     let isModalOpen = false;
+
+    export let form: ActionData;
+
+    $: (async () => {
+        if (form?.success) {
+            closeModal();
+        }
+    })();
 </script>
 
 {#if isModalOpen}
     <Modal on:close={closeModal}>
-        <div class="min-w-screen-lg p-14">
+        <div class="md:min-w-screen-lg p-3 md:p-14">
             <form method="POST" use:enhance>
-                <h1 class="my-6 text-4xl font-bold text-[#3580b7]">Vytvořit uživatele</h1>
-                <div class="my-2">
+                <h1 class="my-6 text-center text-4xl font-bold text-[#3580b7]">
+                    Vytvořit uživatele
+                </h1>
+                <div class="my-4">
                     <TextInput name="username" type="text" placeholder="Username" />
                 </div>
                 <TextInput name="password" type="text" placeholder="Heslo" />
-                <div class="my-2">
+                <div class="my-4">
                     <TextInput name="name" type="text" placeholder="Jméno" />
                 </div>
                 <TextInput name="surname" type="text" placeholder="Příjmení" />
 
-                <div class="my-2">
+                <div class="my-4">
                     <Submit title="Vytvořit uživatele" />
                 </div>
             </form>

@@ -20,14 +20,10 @@
             error = true;
         }
     })();
-    
-    const clearError = () => {
-        error = false;
-    };
 </script>
 
 <svelte:head>
-    <title>Login • Bookstall</title>
+    <title>Admin Login • Testy</title>
 </svelte:head>
 
 <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -56,12 +52,12 @@
     <form method="POST" use:enhance class="mx-auto mt-8 mb-0 max-w-md space-y-4">
         <div>
             <label for="username" class="sr-only">Ev. číslo</label>
-            <UsernameInput required focus />
+            <UsernameInput {error} required focus />
         </div>
 
         <div>
             <label for="password" class="sr-only">Heslo</label>
-            <PasswordInput required />
+            <PasswordInput {error} required />
         </div>
 
         <div class="flex w-full items-center justify-center">
