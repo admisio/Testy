@@ -28,6 +28,9 @@
                     <li>
                         <a href="/home/tests">Testy</a>
                     </li>
+                    <li>
+                        <a href="/home/feedback">Feedback</a>
+                    </li>
                 </ul>
             </div>
         </div>

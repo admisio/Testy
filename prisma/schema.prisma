@@ -114,4 +114,13 @@ model User {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   testSubmissions TestSubmission[]
+  Feedback        Feedback[]
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  content   String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
