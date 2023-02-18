@@ -22,9 +22,9 @@ dependencies:
   cheerio:
     specifier: 1.0.0-rc.12
     version: 1.0.0-rc.12
-  csv-writer:
-    specifier: ^1.6.0
-    version: 1.6.0
+  csv-stringify:
+    specifier: ^6.2.4
+    version: 6.2.4
   date-fns:
     specifier: ^2.29.3
     version: 2.29.3
@@ -1097,8 +1097,8 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /csv-writer@1.6.0:
-    resolution: {integrity: sha512-NOx7YDFWEsM/fTRAJjRpPp8t+MKRVvniAg9wQlUKx20MFrPs73WLJhFf5iteqrxNYnsy924K3Iroh3yNHeYd2g==}
+  /csv-stringify@6.2.4:
+    resolution: {integrity: sha512-RVzGaBeHl0IspzOSiNr1e7XDM7ajuESlqetQbxH2pBPplIWycx0gAVclxNEa4lc91brK6LIE0PrdEoHtZYIHIQ==}
     dev: false
 
   /date-fns@2.29.3:
