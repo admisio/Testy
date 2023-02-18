@@ -93,10 +93,10 @@
             {#if test.test.headings.some((heading) => heading.questionRangeStart === i)}
                 {#each test.test.headings.filter((heading) => heading.questionRangeStart === i) as heading}
                     <div class="mt-12 w-full">
-                        <h2 class="text-center md:text-left text-3xl font-bold dark:text-gray-400">
+                        <h2 class="text-center md:text-left text-2xl font-bold dark:text-gray-400">
                             {@html heading.title}
                         </h2>
-                        <p>
+                        <p class="mt-4 text-xl">
                             {@html heading.description}
                         </p>
                     </div>
