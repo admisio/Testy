@@ -15,7 +15,7 @@
         Zatím nemáte přidelené žádné testy
     </h5>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
-        Jakmile vytvořený test bude aktivován, zobrazí se společně s pokiny zde.
+        Jakmile vytvořený test bude aktivován, zobrazí se společně s pokyny zde.
     </p>
     <button
         disabled
