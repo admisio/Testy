@@ -4,7 +4,7 @@
     import NoTestCard from '$lib/components/test/NoTestCard.svelte';
     import type { Prisma } from '@prisma/client';
     import { onDestroy } from 'svelte';
-    import type { PageData } from './test/$types';
+    import type { PageData } from './$types';
 
     type AssignedTest = Prisma.AssignedTestGetPayload<{
         include: {
