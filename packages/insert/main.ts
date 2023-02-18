@@ -78,15 +78,18 @@ const asyncMain = async () => {
     // if group is bigger than 15, split it into multiple groups
     const subgroups: [string, Row[]][] = [];
     groups.forEach((group) => {
-        if (group.length > 15) {
+        if (group[1].length > 15) {
             const numberOfSubgroups = Math.ceil(group.length / 15);
+            console.log("should create " + numberOfSubgroups + " subgroups")
             for (let i = 0; i < numberOfSubgroups; i++) {
+                console.log("creating subgroup " + i)
                 subgroups.push([group[0], group[1].slice(i * 15, (i + 1) * 15)]);
             }
         } else {
             subgroups.push(group);
         }
     });
+    console.log("subgroups created" + subgroups.length);
 
     subgroups.forEach((group) => {
         console.log('------------------')
@@ -128,8 +131,7 @@ const asyncMain = async () => {
     for (const user of rows) {
         const [name, email, it, kb, g] = [user[0], user[1], user[2], user[3], user[4]].map((t) => t ? t.toString() : '');
         const [username, password] = [name.replace(" ", ""), crypto.randomBytes(4).toString('hex')];
-        creds.push([username, password, ` - ${it}, ${kb}, ${g}`]);
-        await prisma.user.create({
+        const dbUser = await prisma.user.create({
             data: {
                 username,
                 name,
@@ -141,8 +143,12 @@ const asyncMain = async () => {
                         id: dbGroups.find((group) => group.name.includes(`- ${it}, ${kb}, ${g}`))?.id
                     }
                 }
+            },
+            include: {
+                group: true
             }
         });
+        creds.push([username, password, `SKUPINA NANEČISTO ${dbUser.group!.name}`]);
     }
     console.log('-----USER CREDS-----')
     console.log(creds);
