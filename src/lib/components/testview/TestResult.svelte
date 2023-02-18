@@ -59,7 +59,7 @@
 </div>
 
 <div class:dark={isDarkMode} class="w-100vw mt-12 flex h-full justify-center">
-    <div class="md:w-7/10 w-[95%] px-3 py-6 shadow-2xl dark:bg-gray-700 md:px-24">
+    <div class="md:w-7/10 mb-12 w-[95%] px-3 py-6 shadow-2xl dark:bg-gray-700 md:px-24">
         <div class="flex justify-center rounded-md bg-gray-600 px-4 py-4 shadow-md">
             <span class="flex text-center text-2xl font-bold text-white">
                 Váš výsledek: <span class="ml-2">
@@ -69,30 +69,28 @@
         </div>
         {#each test.test.questions as question, i}
             <div class="mt-12 w-full">
-                <div class="title-wrapper flex flex-col ">
+                <div class="title-wrapper">
                     <h2 class="text-center text-2xl font-bold dark:text-gray-400 md:text-left">
                         {i + 1}. {@html question.title}
                     </h2>
-                    <div class="min-w-48 mt-2 ">
-                        {#if answers.has(question.id)}
-                            {#if answers.get(question.id)?.evaluation === 1}
-                                <span class="text-xl font-bold text-green-500"
-                                    >Správně (1/1 bodů)</span
-                                >
-                            {:else}
-                                <span class="text-xl font-bold text-red-500">Špatně (0/1 bodů)</span
-                                >
-                            {/if}
+                </div>
+                <div class="min-w-48 mt-2 ">
+                    {#if answers.has(question.id)}
+                        {#if answers.get(question.id)?.evaluation === 1}
+                            <span class="text-xl font-bold text-green-500"
+                                >Správně (1/1 bodů)</span
+                            >
                         {:else}
-                            <span class="text-xl font-bold text-red-500">Bez odpovědi (0/1)</span>
+                            <span class="text-xl font-bold text-red-500">Špatně (0/1 bodů)</span
+                            >
                         {/if}
-                    </div>
+                    {:else}
+                        <span class="text-xl font-bold text-red-500">Bez odpovědi (0/1)</span>
+                    {/if}
                 </div>
                 {#if question.description}
-                    <div class="description dark:text-gray-200">
-                        <pre>
-                            {@html '\n' + question.description}
-                        </pre>
+                    <div class="description mt-8 dark:text-gray-200">
+                        {@html '\n' + question.description}
                     </div>
                 {/if}
                 <div class="mt-6">
