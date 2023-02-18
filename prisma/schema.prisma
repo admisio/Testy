@@ -13,6 +13,18 @@ model TestTemplate {
   questions     Question[]
   assignedTests AssignedTest[]
   timeLimit     Int
+  headings      Heading[]
+  maxScore      Int
+}
+
+model Heading {
+  id                 Int          @id @default(autoincrement())
+  title              String
+  description        String?
+  questionRangeStart Int
+  questionRangeEnd   Int
+  testId             Int
+  test               TestTemplate @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 model Question {
