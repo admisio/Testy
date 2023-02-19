@@ -22,15 +22,13 @@
         const res = dispatch(
             'submit',
             {
-                answer: answers[index]
+                answer: answers[index],
+                runOnSuccess: () => {
+                    selectedAnswerIndex = index;
+                }
             },
             { cancelable: true }
         );
-        if (res) {
-            selectedAnswerIndex = index;
-        } else {
-            pushErrorText('Již není možné odpovědět');
-        }
     };
 </script>
 
