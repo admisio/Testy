@@ -12,15 +12,19 @@
     import clippy from '$lib/assets/clippy.png';
 
     export let data: PageData;
-    const test = data.test!;
+    $: test = data.test!;
 
     const submitAnswer = async (e: any, questionId: number) => {
         const answer = e.detail.answer;
-        await trpc().assignedTests.submitAnswer.mutate({
-            assignedTestId: test.id,
-            answer,
-            questionId
-        });
+        try {
+            await trpc().assignedTests.submitAnswer.mutate({
+                assignedTestId: test.id,
+                answer,
+                questionId
+            });
+        } catch (error) {
+            e.preventDefault();
+        }
     };
 
     let submitModalIsOpen = false;
