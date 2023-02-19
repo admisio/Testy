@@ -6,7 +6,7 @@
     import { SvelteToast } from '@zerodevx/svelte-toast';
     import Button from '$lib/components/buttons/Button.svelte';
     import Modal from '$lib/components/Modal.svelte';
-    import { formatDate } from '$lib/utils/date';
+    import { formatDate, formatTime } from '$lib/utils/date';
     import DarkMode from '$lib/components/DarkMode.svelte';
 
     import clippy from '$lib/assets/clippy.png';
@@ -86,7 +86,7 @@
     class:endTimeFixed
     class:dark={isDarkMode}
 >
-    <span class="text-sm font-medium text-gray-500">Test skončí v {formatDate(test.endTime)}</span>
+    <span class="text-sm font-medium text-gray-500">Test skončí v {formatTime(test.endTime)}</span>
     <div
         class="ml-4 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 hover:shadow-lg dark:bg-black dark:text-gray-200"
     >
