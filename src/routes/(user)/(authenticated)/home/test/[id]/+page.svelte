@@ -15,14 +15,16 @@
     $: test = data.test!;
 
     const submitAnswer = async (e: any, questionId: number) => {
-        const answer = e.detail.answer;
+        const { answer, runOnSuccess } = e.detail;
         try {
             await trpc().assignedTests.submitAnswer.mutate({
                 assignedTestId: test.id,
                 answer,
                 questionId
             });
+            runOnSuccess();
         } catch (error) {
+            pushErrorText("Test skončil");
             e.preventDefault();
         }
     };
@@ -38,6 +40,7 @@
 
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+    import { pushErrorText } from '$lib/utils/toast';
 
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
