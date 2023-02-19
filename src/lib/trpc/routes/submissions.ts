@@ -54,7 +54,16 @@ export const submissions = t.router({
                                     maxScore: true
                                 }
                             },
-                            submittedAnswers: true,
+                            submittedAnswers: {
+                                where: {
+                                    assignedTest: { // TODO: je tohle potřeba?
+                                        id: input.assignedTestId
+                                    },
+                                    user: {
+                                        id: Number(input.userId)
+                                    }
+                                }
+                            },
                             startTime: true,
                             endTime: true
                         }
@@ -95,7 +104,16 @@ export const submissions = t.router({
                                     maxScore: true
                                 }
                             },
-                            submittedAnswers: true,
+                            submittedAnswers: {
+                                where: {
+                                    assignedTest: { // TODO: je tohle potřeba?
+                                        id: input.assignedTestId
+                                    },
+                                    user: {
+                                        id: Number(ctx.userId)
+                                    }
+                                }
+                            },
                             startTime: true,
                             endTime: true
                         }
