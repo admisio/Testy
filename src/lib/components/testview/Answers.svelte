@@ -19,10 +19,16 @@
             pushErrorText('Test již skončil');
             return;
         }
-        selectedAnswerIndex = index;
-        dispatch('submit', {
-            answer: answers[index]
-        });
+        const res = dispatch(
+            'submit',
+            {
+                answer: answers[index],
+                runOnSuccess: () => {
+                    selectedAnswerIndex = index;
+                }
+            },
+            { cancelable: true }
+        );
     };
 </script>
 
