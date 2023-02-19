@@ -12,15 +12,21 @@
     import clippy from '$lib/assets/clippy.png';
 
     export let data: PageData;
-    const test = data.test!;
+    $: test = data.test!;
 
     const submitAnswer = async (e: any, questionId: number) => {
-        const answer = e.detail.answer;
-        await trpc().assignedTests.submitAnswer.mutate({
-            assignedTestId: test.id,
-            answer,
-            questionId
-        });
+        const { answer, runOnSuccess } = e.detail;
+        try {
+            await trpc().assignedTests.submitAnswer.mutate({
+                assignedTestId: test.id,
+                answer,
+                questionId
+            });
+            runOnSuccess();
+        } catch (error) {
+            pushErrorText("Test skončil");
+            e.preventDefault();
+        }
     };
 
     let submitModalIsOpen = false;
@@ -34,6 +40,7 @@
 
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+    import { pushErrorText } from '$lib/utils/toast';
 
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
