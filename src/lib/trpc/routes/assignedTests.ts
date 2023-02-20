@@ -220,7 +220,7 @@ export const assignedTests = t.router({
                 });
 
                 if (foundAnswer) {
-                    await prisma.answer.update({
+                    await tx.answer.update({
                         where: {
                             id: foundAnswer.id
                         },
@@ -229,7 +229,7 @@ export const assignedTests = t.router({
                         }
                     });
                 } else {
-                    await prisma.answer.create({
+                    await tx.answer.create({
                         data: {
                             user: {
                                 connect: {
