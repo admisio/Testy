@@ -72,6 +72,8 @@ model Answer {
   assignedTestId Int
   evaluated      Boolean      @default(false)
   evaluation     Int?
+
+  @@unique([userId, questionId, assignedTestId])
 }
 
 model Group {
