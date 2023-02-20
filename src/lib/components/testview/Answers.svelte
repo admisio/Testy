@@ -33,12 +33,6 @@
             { cancelable: true }
         );
     };
-
-    const isCorrect = (index: number) =>
-        selectedAnswerEval != null && selectedAnswerIndex === index && selectedAnswerEval >= 1;
-
-    const isIncorrect = (index: number) =>
-        selectedAnswerEval != null && selectedAnswerIndex === index && selectedAnswerEval <= 0;
 </script>
 
 <div
@@ -50,8 +44,12 @@
             class="mt-4 flex w-full p-2 hover:cursor-pointer"
             class:readOnly
             class:selected={selectedAnswerIndex === i}
-            class:correct={() => isCorrect(i)}
-            class:incorrect={() => isIncorrect(i)}
+            class:correct={selectedAnswerEval != null &&
+                selectedAnswerIndex === i &&
+                selectedAnswerEval >= 1}
+            class:incorrect={selectedAnswerEval != null &&
+                selectedAnswerIndex === i &&
+                selectedAnswerEval <= 0}
             on:click={(_) => submit(i)}
         >
             <span class="self-center font-bold">{`${alphabet[i]})`}</span>
