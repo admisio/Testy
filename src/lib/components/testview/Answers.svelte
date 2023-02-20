@@ -15,11 +15,14 @@
     export let readOnly = selectedAnswerEval != null ? true : false;
 
     const submit = async (index: number) => {
+        if (selectedAnswerIndex === index) return;
+
         if (readOnly || selectedAnswerEval) {
             pushErrorText('Test již skončil');
             return;
         }
-        const res = dispatch(
+
+        dispatch(
             'submit',
             {
                 answer: answers[index],
@@ -30,6 +33,12 @@
             { cancelable: true }
         );
     };
+
+    const isCorrect = (index: number) =>
+        selectedAnswerEval != null && selectedAnswerIndex === index && selectedAnswerEval >= 1;
+
+    const isIncorrect = (index: number) =>
+        selectedAnswerEval != null && selectedAnswerIndex === index && selectedAnswerEval <= 0;
 </script>
 
 <div
@@ -39,14 +48,10 @@
         <button
             disabled={readOnly}
             class="mt-4 flex w-full p-2 hover:cursor-pointer"
-            class:hover:cursor-not-allowed={readOnly}
+            class:readOnly
             class:selected={selectedAnswerIndex === i}
-            class:correct={selectedAnswerEval != null &&
-                selectedAnswerIndex === i &&
-                selectedAnswerEval >= 1}
-            class:incorrect={selectedAnswerEval != null &&
-                selectedAnswerIndex === i &&
-                selectedAnswerEval <= 0}
+            class:correct={() => isCorrect(i)}
+            class:incorrect={() => isIncorrect(i)}
             on:click={(_) => submit(i)}
         >
             <span class="self-center font-bold">{`${alphabet[i]})`}</span>
@@ -64,5 +69,8 @@
     }
     .incorrect {
         @apply bg-red-600;
+    }
+    .readOnly {
+        @apply cursor-not-allowed;
     }
 </style>
