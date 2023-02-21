@@ -59,6 +59,8 @@ model TestSubmission {
   assignedTest AssignedTest @relation(fields: [testId], references: [id])
   evaluation   Int
   submittedAt  DateTime
+
+  @@unique([userId, testId], name: "user_test")
 }
 
 model Answer {
