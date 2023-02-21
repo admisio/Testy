@@ -73,7 +73,7 @@ model Answer {
   evaluated      Boolean      @default(false)
   evaluation     Int?
 
-  @@unique([userId, questionId, assignedTestId])
+  @@unique([userId, questionId, assignedTestId], name: "user_question_test")
 }
 
 model Group {

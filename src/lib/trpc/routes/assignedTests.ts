@@ -209,46 +209,34 @@ export const assignedTests = t.router({
             ) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
-
-            await prisma.$transaction(async (tx) => {
-                const foundAnswer = await tx.answer.findFirst({
-                    where: {
-                        assignedTestId: input.assignedTestId,
+            await prisma.answer.upsert({
+                where: {
+                    user_question_test: {
+                        userId: user.id,
                         questionId: input.questionId,
-                        userId: user.id
+                        assignedTestId: input.assignedTestId
                     }
-                });
-
-                if (foundAnswer) {
-                    await tx.answer.update({
-                        where: {
-                            id: foundAnswer.id
-                        },
-                        data: {
-                            value: input.answer
+                },
+                update: {
+                    value: input.answer
+                },
+                create: {
+                    user: {
+                        connect: {
+                            id: user.id
                         }
-                    });
-                } else {
-                    await tx.answer.create({
-                        data: {
-                            user: {
-                                connect: {
-                                    id: user.id
-                                }
-                            },
-                            question: {
-                                connect: {
-                                    id: input.questionId
-                                }
-                            },
-                            assignedTest: {
-                                connect: {
-                                    id: input.assignedTestId
-                                }
-                            },
-                            value: input.answer
+                    },
+                    question: {
+                        connect: {
+                            id: input.questionId
                         }
-                    });
+                    },
+                    assignedTest: {
+                        connect: {
+                            id: input.assignedTestId
+                        }
+                    },
+                    value: input.answer
                 }
             });
         }),
