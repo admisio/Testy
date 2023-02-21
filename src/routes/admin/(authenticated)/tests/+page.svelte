@@ -32,12 +32,12 @@
     })();
 
     const deleteTest = async (id: number) => {
-        await trpc().tests.delete.mutate(id);
+        await trpc().templates.delete.mutate(id);
         invalidateAll();
     };
 
     const renameTest = async (newName: string, id: number) => {
-        await trpc().tests.rename.mutate({ title: newName, id });
+        await trpc().templates.rename.mutate({ title: newName, id });
     };
 </script>
 
