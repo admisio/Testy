@@ -10,7 +10,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async (event) => ({
     templates: router
         .createCaller(await createContext(event))
-        .tests.list(event.url.searchParams.get('q') || undefined)
+        .templates.list(event.url.searchParams.get('q') || undefined)
 });
 
 export const actions: Actions = {

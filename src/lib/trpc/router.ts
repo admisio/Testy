@@ -9,7 +9,7 @@ import { users } from './routes/users';
 import { feedback } from './routes/feedback';
 
 export const router = t.router({
-    tests: templates,
+    templates,
     users,
     groups,
     assignments,

@@ -5,5 +5,5 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async (event) => ({
     template: router
         .createCaller(await createContext(event))
-        .tests.get(Number(event.params.id))
+        .templates.get(Number(event.params.id))
 });
