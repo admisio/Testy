@@ -1,10 +1,10 @@
 import prisma from '$lib/prisma';
-import type { TestTemplateFull, TestTemplateType } from '../model/TestTemplate';
+import type { TemplateFull, TemplateType } from '../model/Template';
 
-export const createTest = async (test: TestTemplateType): Promise<TestTemplateFull> => {
-    const { title, headings, questions } = test;
+export const createTest = async (templateData: TemplateType): Promise<TemplateFull> => {
+    const { title, headings, questions } = templateData;
     console.log('should create');
-    const testTemplate = await prisma.testTemplate.create({
+    const template = await prisma.template.create({
         data: {
             title,
             questions: {
@@ -12,7 +12,7 @@ export const createTest = async (test: TestTemplateType): Promise<TestTemplateFu
                     data: questions.map((question) => ({
                         title: question.title,
                         description: question.description,
-                        answers: question.answers,
+                        templateAnswers: question.answers,
                         correctAnswer: question.correctAnswer
                     }))
                 }
@@ -27,8 +27,8 @@ export const createTest = async (test: TestTemplateType): Promise<TestTemplateFu
                     }))
                 }
             },
-            timeLimit: test.timeLimit,
-            maxScore: test.maxScore
+            timeLimit: templateData.timeLimit,
+            maxScore: templateData.maxScore
             
         },
         include: {
@@ -36,5 +36,5 @@ export const createTest = async (test: TestTemplateType): Promise<TestTemplateFu
             questions: true
         }
     });
-    return testTemplate;
+    return template;
 };

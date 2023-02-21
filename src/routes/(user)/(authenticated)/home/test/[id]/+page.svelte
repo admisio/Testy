@@ -12,13 +12,13 @@
     import clippy from '$lib/assets/clippy.png';
 
     export let data: PageData;
-    $: test = data.test!;
+    $: test = data.assignment!;
 
     const submitAnswer = async (e: any, questionId: number) => {
         const { answer, runOnSuccess } = e.detail;
         try {
-            await trpc().assignedTests.submitAnswer.mutate({
-                assignedTestId: test.id,
+            await trpc().assignments.submitAnswer.mutate({
+                assignmentId: test.id,
                 answer,
                 questionId
             });
@@ -55,7 +55,7 @@
     });
 
     const submitTest = async () => {
-        await trpc().assignedTests.submitTest.mutate({ assignedTestId: test.id });
+        await trpc().assignments.submittemplate.mutate({ assignmentId: test.id });
         goto('/home/test/' + test.id + '/result');
     };
 </script>
@@ -96,9 +96,9 @@
 
 <div class:dark={isDarkMode} class="w-100vw mt-12 flex h-full justify-center">
     <div class="md:w-7/10 w-[95%] px-3 py-6 shadow-2xl dark:bg-gray-700 md:px-24">
-        {#each test.test.questions as question, i}
-            {#if test.test.headings.some((heading) => heading.questionRangeStart === i + 1)}
-                {#each test.test.headings.filter((heading) => heading.questionRangeStart === i + 1) as heading}
+        {#each test.template.questions as question, i}
+            {#if test.template.headings.some((heading) => heading.questionRangeStart === i + 1)}
+                {#each test.template.headings.filter((heading) => heading.questionRangeStart === i + 1) as heading}
                     <div class="mt-12 w-full">
                         <h2
                             class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
@@ -127,9 +127,9 @@
                 <div class="mt-6">
                     <Answers
                         on:submit={(e) => submitAnswer(e, question.id)}
-                        answers={question.answers}
+                        answers={question.templateAnswers}
                         selectedAnswerIndex={question.submittedAnswers[0]
-                            ? question.answers.indexOf(question.submittedAnswers[0].value)
+                            ? question.templateAnswers.indexOf(question.submittedAnswers[0].value)
                             : -1}
                         readOnly={!test.endTime || test.endTime < new Date()}
                     />

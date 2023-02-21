@@ -1,15 +1,15 @@
 <script lang="ts">
-    import AssignedTestCard from '$lib/components/test/AssignedTestCard.svelte';
+    import AssignmentCard from '$lib/components/test/AssignmentCard.svelte';
     import type { Prisma } from '@prisma/client';
     import type { PageData } from './$types';
 
     export let data: PageData;
-    const assignedTests = data.assignedTests as Prisma.AssignedTestGetPayload<{
+    const assignments = data.assignments as Prisma.AssignmentGetPayload<{
         include: {
-            test: true;
+            template: true;
             submissions: {
                 select: {
-                    testId: true;
+                    assignmentId: true;
                 };
             };
         };
@@ -24,7 +24,7 @@
 <div     class="<md:flex-col mx-auto mx-auto flex max-w-screen-xl flex-wrap justify-between px-4 py-3 md:px-6"
 >
     
-    {#each assignedTests as assignedTest}
-        <AssignedTestCard {assignedTest} />
+    {#each assignments as assignment}
+        <AssignmentCard {assignment} />
     {/each}
 </div>

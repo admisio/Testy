@@ -9,4 +9,4 @@ CREATE TABLE "Heading" (
 );
 
 -- AddForeignKey
-ALTER TABLE "Heading" ADD CONSTRAINT "Heading_testId_fkey" FOREIGN KEY ("testId") REFERENCES "TestTemplate"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Heading" ADD CONSTRAINT "Heading_testId_fkey" FOREIGN KEY ("testId") REFERENCES "Template"("id") ON DELETE CASCADE ON UPDATE CASCADE;

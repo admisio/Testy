@@ -7,7 +7,7 @@ export const load: PageServerLoad = async (event) => {
         .createCaller(await createContext(event))
         .submissions.getUserSubmission({
             userId: Number(event.params.userId),
-            assignedTestId: Number(event.params.id)
+            assignmentId: Number(event.params.id)
         });
     return {
         submission: res

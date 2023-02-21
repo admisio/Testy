@@ -76,12 +76,12 @@
 <div
     class="<md:flex-col mx-auto mx-auto flex max-w-screen-xl flex-wrap justify-between px-4 py-3 md:px-6"
 >
-    {#each data.tests as test}
+    {#each data.templates as template}
         <TestCard
-            {test}
-            on:delete={() => deleteTest(test.id)}
+            template={template}
+            on:delete={() => deleteTest(template.id)}
             on:rename={(event) => {
-                renameTest(event.detail.value, test.id);
+                renameTest(event.detail.value, template.id);
             }}
         />
     {/each}

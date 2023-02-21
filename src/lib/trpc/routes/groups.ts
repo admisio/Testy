@@ -177,9 +177,9 @@ export const groups = t.router({
                             name: true,
                             surname: true,
                             email: true,
-                            testSubmissions: {
+                            submissions: {
                                 include: {
-                                    assignedTest: {
+                                    assignment: {
                                         select: {
                                             id: true
                                         }
@@ -188,9 +188,9 @@ export const groups = t.router({
                             }
                         }
                     },
-                    assignedTests: {
+                    assignments: {
                         include: {
-                            test: {
+                            template: {
                                 select: {
                                     id: true,
                                     title: true

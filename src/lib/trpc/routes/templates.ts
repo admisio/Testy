@@ -3,12 +3,12 @@ import { z } from 'zod';
 import prisma from '$lib/prisma';
 import { adminAuth } from '../middleware/adminAuth';
 
-export const testTemplates = t.router({
+export const templates = t.router({
     delete: t.procedure
         .use(adminAuth)
         .input(z.number())
         .mutation(async ({ input }) => {
-            await prisma.testTemplate.deleteMany({
+            await prisma.template.deleteMany({
                 where: {
                     id: input
                 }
@@ -23,7 +23,7 @@ export const testTemplates = t.router({
             })
         )
         .mutation(async ({ input }) => {
-            await prisma.testTemplate.update({
+            await prisma.template.update({
                 where: {
                     id: input.id
                 },
@@ -36,13 +36,13 @@ export const testTemplates = t.router({
         .use(adminAuth)
         .input(z.string().optional())
         .query(async () => {
-            return prisma.testTemplate.findMany({ include: { questions: true } });
+            return prisma.template.findMany({ include: { questions: true } });
         }),
     get: t.procedure
         .use(adminAuth)
         .input(z.number())
         .query(async ({ input }) =>
-            prisma.testTemplate.findUnique({
+            prisma.template.findUnique({
                 where: {
                     id: input
                 },
