@@ -94,25 +94,25 @@ model Group {
 }
 
 model Admin {
-  id       Int              @id @default(autoincrement())
-  username String           @unique
-  name     String
-  surname  String
-  email    String           @unique
-  password String
-  groups   AdminsOnGroups[]
+  id        Int              @id @default(autoincrement())
+  username  String           @unique
+  name      String
+  surname   String
+  email     String           @unique
+  password  String
+  groups    AdminsOnGroups[]
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
 }
 
 model AdminsOnGroups {
-  id      Int   @id @default(autoincrement())
-  adminId Int
-  admin   Admin @relation(fields: [adminId], references: [id])
-  groupId Int
-  group   Group @relation(fields: [groupId], references: [id])
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
+  id        Int      @id @default(autoincrement())
+  adminId   Int
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  groupId   Int
+  group     Group    @relation(fields: [groupId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model User {
