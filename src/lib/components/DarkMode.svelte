@@ -20,6 +20,6 @@
 
 <style lang="postcss">
     button {
-        @apply text-xl;
+        @apply text-xl p-4;
     }
 </style>
