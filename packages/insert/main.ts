@@ -5,36 +5,7 @@ import readXlsxFile from "read-excel-file/node";
 import bcrypt from "bcrypt";
 import * as crypto from "crypto";
 
-console.log('Hello world');
-
-const getGroupNameByIndex = (index: number): string => {
-    switch (index) {
-        case 0:
-            return 'none';
-        case 1:
-            return 'IT';
-        case 2:
-            return 'KB';
-        case 3:
-            return 'IT, KB';
-        case 4:
-            return 'G';
-        case 5:
-            return 'IT, G';
-        case 6:
-            return 'KB, G';
-        case 7:
-            return 'IT, KB, G';
-        default:
-            return 'none';
-    }
-}
-const asyncMain = async () => {
-    // const users = await prisma.user.findMany();
-    // console.log(users);
-    const readXlsxFile = require('read-excel-file/node');
-    const rows = await readXlsxFile('users.xlsx');
-
+const getGroups = (rows: Row[]): [string, Row[]][] => {
     // each row has name, email and tests to write (IT, KB, G)
     // we need to split them based on the test combination and write them to the database
     // there will be 8 groups e.g.
@@ -66,46 +37,67 @@ const asyncMain = async () => {
         if (tests[2] === 'G') {
             groupIndex += 4;
         }
-        groups[groupIndex][0] = tests.join(', ');
+        groups[groupIndex][0] = tests.filter((s) => s !== '').join(', ');
         groups[groupIndex][1].push(row);
     });
 
     groups.forEach((group) => {
-        console.log('------------------')
+        console.log('------------------ ' + group[1].length)
         console.log(group);
     });
+    return groups;
+}
 
-    // if group is bigger than 15, split it into multiple groups
+const splitGroups = (groups: [string, Row[]][]): [string, Row[]][] => {
     const subgroups: [string, Row[]][] = [];
+
     groups.forEach((group) => {
-        if (group[1].length > 15) {
-            const numberOfSubgroups = Math.ceil(group.length / 15);
-            console.log("should create " + numberOfSubgroups + " subgroups")
+        const groupSize = group[1].length;
+        if (groupSize > 15) {
+            const numberOfSubgroups = Math.ceil(groupSize / 15);
             for (let i = 0; i < numberOfSubgroups; i++) {
-                console.log("creating subgroup " + i)
                 subgroups.push([group[0], group[1].slice(i * 15, (i + 1) * 15)]);
             }
         } else {
             subgroups.push(group);
         }
     });
-    console.log("subgroups created" + subgroups.length);
 
     subgroups.forEach((group) => {
         console.log('------------------')
         console.log(group);
     });
     console.log(subgroups.length);
+    return subgroups;
+}
+const asyncMain = async () => {
+    const readXlsxFile = require('read-excel-file/node');
+    const rows = await readXlsxFile('users-nedele.xlsx');
 
+    const groups: [string, Row[]][] = getGroups(rows);
+    const subgroups: [string, Row[]][] = splitGroups(groups);
 
     const adminCreds: [string, string, string][] = [];
+    const creds: [string, string, string][] = [];
+    const dbGroups = [];
+    const superadmin = await prisma.admin.create({
+        data: {
+            username: 'adminnedele',
+            name: 'superadmin',
+            surname: 'superadmin',
+            email: 'superadmin',
+            password: await bcrypt.hash('CSSDSobotka', 12)
+        }
+    });
+    adminCreds.push(['adminnedele', 'CSSDSobotka', 'CELA NEDELE']);
     for (let i = 0; i < subgroups.length; i++) {
         const subgroup = subgroups[i];
-        const [username, password] = [`admin${i + 1}`, 'NPMJeMrdka123'];
-        adminCreds.push([username, password, `SKUPINA NANEČISTO ${i + 1} - ${subgroup[0] ?? ''}`]);
+        const [username, password] = [`admin${i + 1}`, 'sveltekitlove'];
+        const groupName = `SKUPINA NANEČISTO! neděle ${i + 1} - ${subgroup[0] ?? ''}`;
+        adminCreds.push([username, password, groupName]);
         const dbAdmin = await prisma.admin.create({
             data: {
-                username,
+                username: username,
                 name: 'admin',
                 surname: 'admin',
                 email: `admin${i + 1}`,
@@ -114,49 +106,46 @@ const asyncMain = async () => {
         });
         const dbGroup = await prisma.group.create({
             data: {
-                name: `SKUPINA NANEČISTO ${i + 1} - ${subgroup[0] ?? ''}`
+                name: groupName,
             }
         });
-        await prisma.adminsOnGroups.create({
-            data: {
+        dbGroups.push(dbGroup);
+        await prisma.adminsOnGroups.createMany({
+            data: [{
                 adminId: dbAdmin.id,
                 groupId: dbGroup.id
-            }
+            },
+                {
+                    adminId: superadmin.id,
+                    groupId: dbGroup.id
+                }]
         });
+
+        const groupRows = subgroup[1];
+        for (const user of groupRows) {
+            const [name, email, it, kb, g] = [user[0], user[1], user[2], user[3], user[4]].map((t) => t ? t.toString() : '');
+            const [username, password] = [name.replace(/\s/g, ''), crypto.randomBytes(4).toString('hex')];
+            console.log(username, password)
+            const dbUser = await prisma.user.create({
+                data: {
+                    username: username,
+                    name,
+                    email,
+                    password: await bcrypt.hash(password, 10),
+                    group: {
+                        connect: {
+                            id: dbGroup.id
+                        }
+                    }
+                }
+            });
+            creds.push([username, password, `SKUPINA NANEČISTO ${dbGroup.name}`]);
+        }
     }
     console.log('-----ADMIN CREDS-----')
     console.log(adminCreds);
-    const creds: [string, string, string][] = [];
-    const dbGroups = await prisma.group.findMany();
-    for (const user of rows) {
-        const [name, email, it, kb, g] = [user[0], user[1], user[2], user[3], user[4]].map((t) => t ? t.toString() : '');
-        const [username, password] = [name.replace(" ", ""), crypto.randomBytes(4).toString('hex')];
-        const dbUser = await prisma.user.create({
-            data: {
-                username,
-                name,
-                email,
-                password: await bcrypt.hash(password, 10),
-                group: {
-                    connect: {
-                        // id: dbGroups.find((group) => group.name === `SKUPINA NANEČISTO ${i + 1} - ${it ?? ''}, ${kb ?? ''}, ${g ?? ''}`).id
-                        id: dbGroups.find((group) => group.name.includes(`- ${it}, ${kb}, ${g}`))?.id
-                    }
-                }
-            },
-            include: {
-                group: true
-            }
-        });
-        creds.push([username, password, `SKUPINA NANEČISTO ${dbUser.group!.name}`]);
-    }
     console.log('-----USER CREDS-----')
     console.log(creds);
-
 }
 
 asyncMain().then(r => console.log("finished"));
-// prisma.user.findMany().then((users) => {
-//     console.log(users);
-// });
-
