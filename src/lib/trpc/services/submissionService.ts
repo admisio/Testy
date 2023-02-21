@@ -53,7 +53,6 @@ export const createSubmission = async (userId: number, assignedTest: AssignedTes
                     id: assignedTest.id
                 }
             },
-            submittedAt: new Date(),
             evaluation: score
         }
     });

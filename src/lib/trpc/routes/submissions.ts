@@ -32,13 +32,11 @@ export const submissions = t.router({
             })
         )
         .query(async ({ input }) => {
-            const test = await prisma.testSubmission.findFirst({
+            const test = await prisma.testSubmission.findUnique({
                 where: {
-                    assignedTest: {
-                        id: input.assignedTestId
-                    },
-                    user: {
-                        id: Number(input.userId)
+                    user_test: {
+                        testId: input.assignedTestId,
+                        userId: input.userId
                     }
                 },
                 include: {
@@ -82,13 +80,11 @@ export const submissions = t.router({
             })
         )
         .query(async ({ ctx, input }) => {
-            const test = await prisma.testSubmission.findFirst({
+            const test = await prisma.testSubmission.findUnique({
                 where: {
-                    assignedTest: {
-                        id: input.assignedTestId
-                    },
-                    user: {
-                        id: Number(ctx.userId)
+                    user_test: {
+                        testId: input.assignedTestId,
+                        userId: Number(ctx.userId)
                     }
                 },
                 include: {

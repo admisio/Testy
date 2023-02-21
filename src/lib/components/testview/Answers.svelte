@@ -15,11 +15,14 @@
     export let readOnly = selectedAnswerEval != null ? true : false;
 
     const submit = async (index: number) => {
+        if (selectedAnswerIndex === index) return;
+
         if (readOnly || selectedAnswerEval) {
             pushErrorText('Test již skončil');
             return;
         }
-        const res = dispatch(
+
+        dispatch(
             'submit',
             {
                 answer: answers[index],
@@ -39,7 +42,7 @@
         <button
             disabled={readOnly}
             class="mt-4 flex w-full p-2 hover:cursor-pointer"
-            class:hover:cursor-not-allowed={readOnly}
+            class:readOnly
             class:selected={selectedAnswerIndex === i}
             class:correct={selectedAnswerEval != null &&
                 selectedAnswerIndex === i &&
@@ -64,5 +67,8 @@
     }
     .incorrect {
         @apply bg-red-600;
+    }
+    .readOnly {
+        @apply cursor-not-allowed;
     }
 </style>

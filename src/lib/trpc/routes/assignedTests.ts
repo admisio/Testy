@@ -209,51 +209,40 @@ export const assignedTests = t.router({
             ) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
-            const foundAnswer = await prisma.answer.findFirst({
+            await prisma.answer.upsert({
                 where: {
-                    assignedTestId: input.assignedTestId,
-                    questionId: input.questionId,
-                    userId: user.id
+                    user_question_test: {
+                        userId: user.id,
+                        questionId: input.questionId,
+                        assignedTestId: input.assignedTestId
+                    }
+                },
+                update: {
+                    value: input.answer
+                },
+                create: {
+                    user: {
+                        connect: {
+                            id: user.id
+                        }
+                    },
+                    question: {
+                        connect: {
+                            id: input.questionId
+                        }
+                    },
+                    assignedTest: {
+                        connect: {
+                            id: input.assignedTestId
+                        }
+                    },
+                    value: input.answer
                 }
             });
-            if (foundAnswer) {
-                return prisma.answer.update({
-                    where: {
-                        id: foundAnswer.id
-                    },
-                    data: {
-                        value: input.answer
-                    }
-                });
-            } else {
-                return await prisma.answer.create({
-                    data: {
-                        user: {
-                            connect: {
-                                id: user.id
-                            }
-                        },
-                        question: {
-                            connect: {
-                                id: input.questionId
-                            }
-                        },
-                        assignedTest: {
-                            connect: {
-                                id: input.assignedTestId
-                            }
-                        },
-                        value: input.answer
-                    }
-                });
-            }
         }),
-    submitAllExpired: t.procedure
-        .use(adminAuth)
-        .query(async ({ ctx }) => {
-            await submitExpired();
-        }
-    ),
+    submitAllExpired: t.procedure.use(adminAuth).query(async ({ ctx }) => {
+        await submitExpired();
+    }),
     submitTest: t.procedure
         .use(userAuth)
         .input(
@@ -269,9 +258,7 @@ export const assignedTests = t.router({
                 }
             });
 
-            if (
-                !assignedTest?.started
-            ) {
+            if (!assignedTest?.started) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
 
