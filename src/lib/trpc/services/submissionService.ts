@@ -44,7 +44,7 @@ export const createSubmission = async (
 
         const score = evaluatedAnswers.reduce((a, b) => a + b, 0);
 
-        await prisma.testSubmission.create({
+        await tx.testSubmission.create({
             data: {
                 user: {
                     connect: {
