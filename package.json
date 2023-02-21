@@ -11,7 +11,8 @@
         "lint": "prettier --plugin-search-dir . --check . && eslint .",
         "format": "prettier --plugin-search-dir . --write .",
         "start:prod": "node build",
-        "start:migrate:prod": "prisma migrate deploy && npm run start:prod"
+        "start:migrate:prod": "prisma migrate deploy && npm run start:prod",
+        "insert" : "node --loader ts-node/esm tools/insertUsers.ts"
     },
     "devDependencies": {
         "@iconify/svelte": "^3.1.0",
