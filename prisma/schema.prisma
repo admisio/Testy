@@ -49,6 +49,8 @@ model AssignedTest {
   startTime        DateTime?
   endTime          DateTime?
   submissions      TestSubmission[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 }
 
 model TestSubmission {
@@ -58,7 +60,10 @@ model TestSubmission {
   testId       Int
   assignedTest AssignedTest @relation(fields: [testId], references: [id])
   evaluation   Int
-  submittedAt  DateTime
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@unique([userId, testId], name: "user_test")
 }
 
 model Answer {
@@ -72,6 +77,10 @@ model Answer {
   assignedTestId Int
   evaluated      Boolean      @default(false)
   evaluation     Int?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([userId, questionId, assignedTestId], name: "user_question_test")
 }
 
 model Group {
@@ -80,24 +89,30 @@ model Group {
   admins        AdminsOnGroups[]
   users         User[]
   assignedTests AssignedTest[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 }
 
 model Admin {
-  id       Int              @id @default(autoincrement())
-  username String           @unique
-  name     String
-  surname  String
-  email    String           @unique
-  password String
-  groups   AdminsOnGroups[]
+  id        Int              @id @default(autoincrement())
+  username  String           @unique
+  name      String
+  surname   String
+  email     String           @unique
+  password  String
+  groups    AdminsOnGroups[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 }
 
 model AdminsOnGroups {
-  id      Int   @id @default(autoincrement())
-  adminId Int
-  admin   Admin @relation(fields: [adminId], references: [id])
-  groupId Int
-  group   Group @relation(fields: [groupId], references: [id])
+  id        Int      @id @default(autoincrement())
+  adminId   Int
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  groupId   Int
+  group     Group    @relation(fields: [groupId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model User {
@@ -111,10 +126,10 @@ model User {
   groupId         Int?
   group           Group?           @relation(fields: [groupId], references: [id])
   answers         Answer[]
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
   testSubmissions TestSubmission[]
   Feedback        Feedback[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 }
 
 model Feedback {
@@ -123,4 +138,5 @@ model Feedback {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
