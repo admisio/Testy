@@ -7,90 +7,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model TestTemplate {
-  id            Int            @id @default(autoincrement())
-  title         String
-  questions     Question[]
-  assignedTests AssignedTest[]
-  timeLimit     Int
-  headings      Heading[]
-  maxScore      Int
+model Template {
+  id          Int          @id @default(autoincrement())
+  title       String
+  questions   Question[]
+  assignments Assignment[]
+  timeLimit   Int
+  headings    Heading[]
+  maxScore    Int
 }
 
 model Heading {
-  id                 Int          @id @default(autoincrement())
+  id                 Int      @id @default(autoincrement())
   title              String
   description        String?
   questionRangeStart Int
   questionRangeEnd   Int
   testId             Int
-  test               TestTemplate @relation(fields: [testId], references: [id], onDelete: Cascade)
+  test               Template @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 model Question {
-  id               Int          @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   title            String
   description      String?
-  answers          String[]
+  templateAnswers  String[]
   correctAnswer    String
   testId           Int
-  test             TestTemplate @relation(fields: [testId], references: [id], onDelete: Cascade)
+  template         Template @relation(fields: [testId], references: [id], onDelete: Cascade)
   submittedAnswers Answer[]
 }
 
-model AssignedTest {
-  id               Int              @id @default(autoincrement())
+model Assignment {
+  id               Int          @id @default(autoincrement())
   testId           Int
-  test             TestTemplate     @relation(fields: [testId], references: [id])
+  template         Template     @relation(fields: [testId], references: [id])
   groupId          Int
-  group            Group            @relation(fields: [groupId], references: [id])
+  group            Group        @relation(fields: [groupId], references: [id])
   submittedAnswers Answer[]
-  started          Boolean          @default(false)
+  started          Boolean      @default(false)
   startTime        DateTime?
   endTime          DateTime?
-  submissions      TestSubmission[]
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  submissions      Submission[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 }
 
-model TestSubmission {
-  id           Int          @id @default(autoincrement())
+model Submission {
+  id           Int        @id @default(autoincrement())
   userId       Int
-  user         User         @relation(fields: [userId], references: [id])
-  testId       Int
-  assignedTest AssignedTest @relation(fields: [testId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+  assignmentId Int
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
   evaluation   Int
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
-  @@unique([userId, testId], name: "user_test")
+  @@unique([userId, assignmentId], name: "user_test")
 }
 
 model Answer {
-  id             Int          @id @default(autoincrement())
-  value          String
-  questionId     Int
-  question       Question     @relation(fields: [questionId], references: [id])
-  userId         Int
-  user           User         @relation(fields: [userId], references: [id])
-  assignedTest   AssignedTest @relation(fields: [assignedTestId], references: [id])
-  assignedTestId Int
-  evaluated      Boolean      @default(false)
-  evaluation     Int?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  id           Int        @id @default(autoincrement())
+  value        String
+  questionId   Int
+  question     Question   @relation(fields: [questionId], references: [id])
+  userId       Int
+  user         User       @relation(fields: [userId], references: [id])
+  assignmentId Int
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  evaluated    Boolean    @default(false)
+  evaluation   Int?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
-  @@unique([userId, questionId, assignedTestId], name: "user_question_test")
+  @@unique([userId, questionId, assignmentId], name: "user_question_test")
 }
 
 model Group {
-  id            Int              @id @default(autoincrement())
-  name          String
-  admins        AdminsOnGroups[]
-  users         User[]
-  assignedTests AssignedTest[]
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  id          Int              @id @default(autoincrement())
+  name        String
+  admins      AdminsOnGroups[]
+  users       User[]
+  assignments Assignment[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 }
 
 model Admin {
@@ -116,20 +116,20 @@ model AdminsOnGroups {
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   // applicationId
-  username        String           @unique
-  name            String?
-  surname         String?
-  email           String?
-  password        String
-  groupId         Int?
-  group           Group?           @relation(fields: [groupId], references: [id])
-  answers         Answer[]
-  testSubmissions TestSubmission[]
-  Feedback        Feedback[]
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  username    String       @unique
+  name        String?
+  surname     String?
+  email       String?
+  password    String
+  groupId     Int?
+  group       Group?       @relation(fields: [groupId], references: [id])
+  answers     Answer[]
+  submissions Submission[]
+  Feedback    Feedback[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Feedback {

@@ -5,9 +5,9 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async (event) => {
     const res = await router
         .createCaller(await createContext(event))
-        .assignedTests.get({ assignedTestId: Number(event.params.id) })
+        .assignments.get({ assignmentId: Number(event.params.id) })
     return {
-        test: res.assignedTest,
+        assignment: res.assignment,
         user: res.user,
     }
 };

@@ -5,7 +5,7 @@
 
     const dispatch = createEventDispatcher();
 
-    export let test: Prisma.TestTemplateGetPayload<{}>;
+    export let template: Prisma.TemplateGetPayload<{}>;
 
     const renameGroup = async (e: Event) => {
         dispatch('rename', {
@@ -31,13 +31,13 @@
         contenteditable
         class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-        {test.title}
+        {template.title}
     </h5>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, expedita.
     </p>
     <a
-        href={`/admin/tests/${test.id}`}
+        href={`/admin/tests/${template.id}`}
         class="inline-flex items-center text-blue-600 hover:underline"
     >
         Otevřit

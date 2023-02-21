@@ -1,8 +1,8 @@
-import type { TestTemplate, Question as QuestionPrisma } from "@prisma/client";
+import type { Template, Question as QuestionPrisma } from "@prisma/client";
 import type { Question } from "./Question";
 
-export type TestTemplateFull = TestTemplate & {questions: QuestionPrisma[]};
-/* export interface TestTemplate {
+export type TemplateFull = Template & {questions: QuestionPrisma[]};
+/* export interface Template {
     id: number;
     title: string;
     questions: Question[];
@@ -13,7 +13,7 @@ export interface HeadingType {
     questionRange: [number, number];
 }
 
-export interface TestTemplateType {
+export interface TemplateType {
     title: string;
     headings: HeadingType[];
     questions: Question[];

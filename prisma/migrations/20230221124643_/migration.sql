@@ -5,7 +5,7 @@
   - Added the required column `updatedAt` to the `Admin` table without a default value. This is not possible if the table is not empty.
   - Added the required column `updatedAt` to the `AdminsOnGroups` table without a default value. This is not possible if the table is not empty.
   - Added the required column `updatedAt` to the `Answer` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updatedAt` to the `AssignedTest` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `updatedAt` to the `Assignment` table without a default value. This is not possible if the table is not empty.
   - Added the required column `updatedAt` to the `Feedback` table without a default value. This is not possible if the table is not empty.
   - Added the required column `updatedAt` to the `Group` table without a default value. This is not possible if the table is not empty.
   - Added the required column `updatedAt` to the `TestSubmission` table without a default value. This is not possible if the table is not empty.
@@ -24,7 +24,7 @@ ALTER TABLE "Answer" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CU
 ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL;
 
 -- AlterTable
-ALTER TABLE "AssignedTest" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ALTER TABLE "Assignment" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL;
 
 -- AlterTable

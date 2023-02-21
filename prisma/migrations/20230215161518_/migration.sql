@@ -1,9 +1,9 @@
 -- CreateTable
-CREATE TABLE "TestTemplate" (
+CREATE TABLE "Template" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
 
-    CONSTRAINT "TestTemplate_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Template_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -19,7 +19,7 @@ CREATE TABLE "Question" (
 );
 
 -- CreateTable
-CREATE TABLE "AssignedTest" (
+CREATE TABLE "Assignment" (
     "id" SERIAL NOT NULL,
     "testId" INTEGER NOT NULL,
     "groupId" INTEGER NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE "AssignedTest" (
     "startTime" TIMESTAMP(3),
     "endTime" TIMESTAMP(3),
 
-    CONSTRAINT "AssignedTest_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Assignment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -47,7 +47,7 @@ CREATE TABLE "Answer" (
     "value" TEXT NOT NULL,
     "questionId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
-    "assignedTestId" INTEGER NOT NULL,
+    "assignmentId" INTEGER NOT NULL,
     "evaluated" BOOLEAN NOT NULL DEFAULT false,
     "evaluation" INTEGER,
 
@@ -108,19 +108,19 @@ CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- AddForeignKey
-ALTER TABLE "Question" ADD CONSTRAINT "Question_testId_fkey" FOREIGN KEY ("testId") REFERENCES "TestTemplate"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Question" ADD CONSTRAINT "Question_testId_fkey" FOREIGN KEY ("testId") REFERENCES "Template"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AssignedTest" ADD CONSTRAINT "AssignedTest_testId_fkey" FOREIGN KEY ("testId") REFERENCES "TestTemplate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_testId_fkey" FOREIGN KEY ("testId") REFERENCES "Template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AssignedTest" ADD CONSTRAINT "AssignedTest_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Assignment" ADD CONSTRAINT "Assignment_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "TestSubmission" ADD CONSTRAINT "TestSubmission_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "TestSubmission" ADD CONSTRAINT "TestSubmission_testId_fkey" FOREIGN KEY ("testId") REFERENCES "AssignedTest"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TestSubmission" ADD CONSTRAINT "TestSubmission_testId_fkey" FOREIGN KEY ("testId") REFERENCES "Assignment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -129,7 +129,7 @@ ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("quest
 ALTER TABLE "Answer" ADD CONSTRAINT "Answer_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Answer" ADD CONSTRAINT "Answer_assignedTestId_fkey" FOREIGN KEY ("assignedTestId") REFERENCES "AssignedTest"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AdminsOnGroups" ADD CONSTRAINT "AdminsOnGroups_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "Admin"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,23 +1,23 @@
 import prisma from '$lib/prisma';
-import type { AssignedTest } from '@prisma/client';
+import type { Assignment } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 
 export const createSubmission = async (
     userId: number,
-    assignedTest: AssignedTest
+    assignment: Assignment
 ): Promise<void> => {
     // evaluate each answer and calculate score
     await prisma.$transaction(async (tx) => {
         const answers = await tx.answer.findMany({
             where: {
-                assignedTestId: assignedTest.id,
+                assignmentId: assignment.id,
                 userId: userId
             }
         });
 
         const questions = await tx.question.findMany({
             where: {
-                testId: assignedTest.testId
+                testId: assignment.testId
             }
         });
 
@@ -44,16 +44,16 @@ export const createSubmission = async (
 
         const score = evaluatedAnswers.reduce((a, b) => a + b, 0);
 
-        await tx.testSubmission.create({
+        await tx.submission.create({
             data: {
                 user: {
                     connect: {
                         id: userId
                     }
                 },
-                assignedTest: {
+                assignment: {
                     connect: {
-                        id: assignedTest.id
+                        id: assignment.id
                     }
                 },
                 evaluation: score

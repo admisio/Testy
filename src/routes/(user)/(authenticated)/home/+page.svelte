@@ -1,39 +1,39 @@
 <script lang="ts">
     import { invalidateAll } from '$app/navigation';
-    import AssignedTestCard from '$lib/components/test/AssignedTestCard.svelte';
+    import AssignmentCard from '$lib/components/test/AssignmentCard.svelte';
     import NoTestCard from '$lib/components/test/NoTestCard.svelte';
     import type { Prisma } from '@prisma/client';
     import { onDestroy } from 'svelte';
     import type { PageData } from './$types';
 
-    type AssignedTest = Prisma.AssignedTestGetPayload<{
+    type Assignment = Prisma.AssignmentGetPayload<{
         include: {
-            test: true;
+            template: true;
             submissions: {
                 select: {
-                    testId: true;
+                    assignmentId: true;
                 };
             };
         };
     }>;
 
     export let data: PageData;
-    $: assignedTests = data.assignedTests as Array<AssignedTest>;
+    $: assignments = data.assignments as Array<Assignment>;
 
     // TODO: Věc backendu??? => Přesunout na backend validaci zda je test aktivní
-    const isFinished = (assignedTest: AssignedTest) => {
+    const isFinished = (assignment: Assignment) => {
         const finished =
-            (assignedTest.started &&
-                assignedTest.endTime != null &&
-                assignedTest.endTime < new Date()) ||
-            (assignedTest.submissions.length > 0 &&
-                assignedTest.submissions.some(
-                    (submission) => submission.testId === assignedTest.id
+            (assignment.started &&
+                assignment.endTime != null &&
+                assignment.endTime < new Date()) ||
+            (assignment.submissions.length > 0 &&
+                assignment.submissions.some(
+                    (submission) => submission.assignmentId === assignment.id
                 ));
         return finished;
     };
 
-    $: noTests = assignedTests.length === 0 || !assignedTests.some((test) => !isFinished(test));
+    $: noTests = assignments.length === 0 || !assignments.some((test) => !isFinished(test));
 
     // TODO: Websocket
     const interval = setInterval(invalidateAll, 1000);
@@ -54,9 +54,9 @@
     {#if noTests}
         <NoTestCard />
     {:else}
-        {#each assignedTests as assignedTest}
-            {#if !isFinished(assignedTest)}
-                <AssignedTestCard {assignedTest} />
+        {#each assignments as assignment}
+            {#if !isFinished(assignment)}
+                <AssignmentCard {assignment} />
             {/if}
         {/each}
     {/if}

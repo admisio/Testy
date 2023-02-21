@@ -2,28 +2,28 @@
     import Icon from '@iconify/svelte';
     import type { Prisma } from '@prisma/client';
 
-    export let assignedTest: Prisma.AssignedTestGetPayload<{
+    export let assignment: Prisma.AssignmentGetPayload<{
         include: {
-            test: true;
+            template: true;
             submissions: {
                 select: {
-                    testId: true;
+                    assignmentId: true;
                 };
             };
         };
     }>;
 
     $: testIsActive =
-        assignedTest.started && assignedTest.endTime != null && assignedTest.endTime > new Date();
+        assignment.started && assignment.endTime != null && assignment.endTime > new Date();
 
     $: testIsSubmited =
-        assignedTest.submissions.length > 0 &&
-        assignedTest.submissions.some((submission) => submission.testId === assignedTest.id);
+        assignment.submissions.length > 0 &&
+        assignment.submissions.some((submission) => submission.assignmentId === assignment.id);
 
     $: testIsFinished =
-        (assignedTest.started &&
-            assignedTest.endTime != null &&
-            assignedTest.endTime < new Date()) ||
+        (assignment.started &&
+            assignment.endTime != null &&
+            assignment.endTime < new Date()) ||
         testIsSubmited;
 </script>
 
@@ -34,7 +34,7 @@
         <Icon icon="fluent:certificate-24-regular" />
     </span>
     <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-        {assignedTest.test.title}
+        {assignment.template.title}
     </h5>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, expedita.
@@ -51,7 +51,7 @@
 
     {#if testIsActive && !testIsFinished}
         <a
-            href={`/home/test/${assignedTest.id}`}
+            href={`/home/test/${assignment.id}`}
             class="inline-flex items-center text-blue-600 hover:underline"
         >
             Otevřit
@@ -59,9 +59,9 @@
                 <Icon icon="material-symbols:open-in-new" />
             </span>
         </a>
-    {:else if assignedTest.started && testIsSubmited}
+    {:else if assignment.started && testIsSubmited}
         <a
-            href={`/home/test/${assignedTest.id}/result`}
+            href={`/home/test/${assignment.id}/result`}
             class="inline-flex items-center text-blue-600 hover:underline"
         >
             Zobrazit výsledky

@@ -13,9 +13,9 @@ export const submissions = t.router({
             })
         )
         .query(async ({ input }) =>
-            prisma.testSubmission.findMany({
+            prisma.submission.findMany({
                 where: {
-                    assignedTest: {
+                    assignment: {
                         group: {
                             id: input.groupId
                         }
@@ -28,23 +28,23 @@ export const submissions = t.router({
         .input(
             z.object({
                 userId: z.number(),
-                assignedTestId: z.number()
+                assignmentId: z.number()
             })
         )
         .query(async ({ input }) => {
-            const test = await prisma.testSubmission.findUnique({
+            const test = await prisma.submission.findUnique({
                 where: {
                     user_test: {
-                        testId: input.assignedTestId,
+                        assignmentId: input.assignmentId,
                         userId: input.userId
                     }
                 },
                 include: {
                     user: true,
-                    assignedTest: {
+                    assignment: {
                         select: {
                             id: true,
-                            test: {
+                            template: {
                                 select: {
                                     id: true,
                                     title: true,
@@ -54,8 +54,8 @@ export const submissions = t.router({
                             },
                             submittedAnswers: {
                                 where: {
-                                    assignedTest: { // TODO: je tohle potřeba?
-                                        id: input.assignedTestId
+                                    assignment: { // TODO: je tohle potřeba?
+                                        id: input.assignmentId
                                     },
                                     user: {
                                         id: Number(input.userId)
@@ -76,23 +76,23 @@ export const submissions = t.router({
         .use(userAuth)
         .input(
             z.object({
-                assignedTestId: z.number()
+                assignmentId: z.number()
             })
         )
         .query(async ({ ctx, input }) => {
-            const test = await prisma.testSubmission.findUnique({
+            const test = await prisma.submission.findUnique({
                 where: {
                     user_test: {
-                        testId: input.assignedTestId,
+                        assignmentId: input.assignmentId,
                         userId: Number(ctx.userId)
                     }
                 },
                 include: {
                     user: true,
-                    assignedTest: {
+                    assignment: {
                         select: {
                             id: true,
-                            test: {
+                            template: {
                                 select: {
                                     id: true,
                                     title: true,
@@ -102,8 +102,8 @@ export const submissions = t.router({
                             },
                             submittedAnswers: {
                                 where: {
-                                    assignedTest: { // TODO: je tohle potřeba?
-                                        id: input.assignedTestId
+                                    assignment: { // TODO: je tohle potřeba?
+                                        id: input.assignmentId
                                     },
                                     user: {
                                         id: Number(ctx.userId)
