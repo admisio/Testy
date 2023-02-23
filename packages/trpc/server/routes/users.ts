@@ -2,7 +2,7 @@ import { t, adminAuth } from '../trpc';
 import { z } from 'zod';
 import prisma from '../../prisma';
 import { exportCsv } from '../../utils/csvExport';
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 export const users = t.router({
     list: t.procedure
@@ -40,7 +40,7 @@ export const users = t.router({
                     surname: input.surname,
                     email: input.email,
                     username: input.username,
-                    password: "await bcrypt.hash(input.password, 12)"
+                    password: await bcrypt.hash(input.password, 12)
                 }
             });
         }),
