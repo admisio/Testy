@@ -1,66 +1,19 @@
 {
-    "name": "testy",
-    "version": "0.0.1",
-    "private": true,
-    "scripts": {
-        "dev": "vite --clearScreen false",
-        "build": "vite build",
-        "preview": "vite preview",
-        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-        "lint": "prettier --plugin-search-dir . --check . && eslint .",
-        "format": "prettier --plugin-search-dir . --write .",
-        "start:prod": "node build",
-        "start:migrate:prod": "prisma migrate deploy && npm run start:prod",
-        "insert" : "node --loader ts-node/esm tools/insertUsers.ts"
-    },
-    "devDependencies": {
-        "@iconify/svelte": "^3.1.0",
-        "@prisma/client": "^4.10.1",
-        "@sveltejs/adapter-node": "^1.2.0",
-        "@sveltejs/kit": "^1.7.2",
-        "@types/bcrypt": "^5.0.0",
-        "@types/debounce": "^1.2.1",
-        "@types/jsonwebtoken": "^9.0.1",
-        "@types/marked": "^4.0.8",
-        "@types/node": "^18.14.0",
-        "svelte": "^3.55.1",
-        "svelte-check": "^3.0.3",
-        "svelte-preprocess": "^5.0.1",
-        "tslib": "^2.5.0",
-        "typescript": "^4.9.5",
-        "vite": "^4.1.2",
-        "vite-plugin-windicss": "^1.8.10",
-        "windicss": "^3.5.6"
-    },
-    "type": "module",
-    "dependencies": {
-        "@trpc/client": "^10.11.1",
-        "@trpc/server": "^10.11.1",
-        "@typescript-eslint/eslint-plugin": "^5.52.0",
-        "@typescript-eslint/parser": "^5.52.0",
-        "@zerodevx/svelte-toast": "1.0.0-rc.1",
-        "bcrypt": "^5.1.0",
-        "cheerio": "1.0.0-rc.12",
-        "csv-stringify": "^6.2.4",
-        "date-fns": "^2.29.3",
-        "dayjs": "^1.11.7",
-        "debounce": "^1.2.1",
-        "eslint": "^8.34.0",
-        "eslint-config-prettier": "^8.6.0",
-        "eslint-plugin-svelte3": "^4.0.0",
-        "highlight.js": "^11.7.0",
-        "jsonwebtoken": "^9.0.0",
-        "marked": "^4.2.12",
-        "prettier": "^2.8.4",
-        "prettier-plugin-svelte": "^2.9.0",
-        "prettier-plugin-tailwindcss": "^0.2.3",
-        "prisma": "^4.10.1",
-        "trpc-sveltekit": "^3.3.1",
-        "ts-node": "^10.9.1",
-        "zod": "^3.20.6"
-    },
-    "prisma": {
-        "seed": "node --loader ts-node/esm prisma/seed.ts"
-    }
+  "name": "testy",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-config-custom": "workspace:*",
+    "prettier": "^2.8.4",
+    "prettier-plugin-svelte": "^2.9.0",
+    "prettier-plugin-tailwindcss": "^0.2.3",
+    "turbo": "latest"
+  },
+  "packageManager": "pnpm@7.15.0"
 }
