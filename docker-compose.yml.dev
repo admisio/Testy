@@ -22,14 +22,6 @@ services:
       - "8003:5432"
     networks:
        - db
-  app:
-    container_name: testy_app
-    build: ./
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@testy_db:5432/postgres
-    ports:
-      - "8002:3000"
-    networks:
-       - db
+
 networks:
   db:
