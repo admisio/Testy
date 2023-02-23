@@ -5,4 +5,4 @@
     export let data: PageData;
 </script>
 
-<TestResult test={data.submission.assignedTest} submission={data.submission} />
+<TestResult assignment={data.submission.assignment} submission={data.submission} />

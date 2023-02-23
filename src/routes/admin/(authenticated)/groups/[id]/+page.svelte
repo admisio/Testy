@@ -14,19 +14,19 @@
         (group?.users as Array<
             Prisma.UserGetPayload<{
                 include: {
-                    testSubmissions: {
+                    submissions: {
                         include: {
-                            assignedTest: true;
+                            assignment: true;
                         };
                     };
                 };
             }>
         >) ?? [];
 
-    $: assignedTests = group.assignedTests as Array<
-        Prisma.AssignedTestGetPayload<{
+    $: assignments = group.assignments as Array<
+        Prisma.AssignmentGetPayload<{
             include: {
-                test: true;
+                template: true;
                 submissions: true;
             };
         }>
@@ -37,7 +37,7 @@
     $: console.log(inputTemplateId);
 
     const assignTest = async () => {
-        await trpc().assignedTests.assignToGroup.mutate({
+        await trpc().assignments.assignToGroup.mutate({
             groupId: group?.id!,
             templateId: inputTemplateId
         });
@@ -45,8 +45,8 @@
     };
 
     const startTest = async (e: any) => {
-        const assignedTestId = e.detail.assignedTestId;
-        await trpc().assignedTests.start.mutate({ assignedTestId });
+        const assignmentId = e.detail.assignmentId;
+        await trpc().assignments.start.mutate({ assignmentId });
         invalidateAll();
     };
 </script>
@@ -54,11 +54,11 @@
 <div class="mx-auto flex max-w-screen-xl flex-col px-4 py-3 md:px-6">
     <h1 class="text-5xl font-bold">Skupina {group?.name}</h1>
     <div class="mt-8">
-        <UserTable {users} {assignedTests} />
+        <UserTable {users} {assignments} />
     </div>
     <div class="mt-16">
         <h2 class="mb-4 text-4xl font-bold">Zadané testy</h2>
-        <TestTable on:startTest={startTest} userCount={users.length} {assignedTests} />
+        <TestTable on:startTest={startTest} userCount={users.length} {assignments} />
     </div>
     <div>
         <select bind:value={inputTemplateId}>

@@ -1,14 +1,14 @@
 import prisma from '$lib/prisma';
 
-export const findUniqueWithSubmission = async (id: number, assignedTestId: number) => prisma.user.findUniqueOrThrow({
+export const findUniqueWithSubmission = async (id: number, assignmentId: number) => prisma.user.findUniqueOrThrow({
     where: {
         id
     },
     include: {
-        testSubmissions: {
+        submissions: {
             where: {
-                assignedTest: {
-                    id: assignedTestId
+                assignment: {
+                    id: assignmentId
                 }
             }
         }

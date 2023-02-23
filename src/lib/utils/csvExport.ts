@@ -25,13 +25,13 @@ export const exportCsv = async (): Promise<string> => {
                     }
                 }
             },
-            testSubmissions: {
+            submissions: {
                 select: {
-                    assignedTest: {
+                    assignment: {
                         select: {
                             startTime: true,
                             endTime: true,
-                            test: {
+                            template: {
                                 select: {
                                     title: true,
                                     timeLimit: true
@@ -46,12 +46,12 @@ export const exportCsv = async (): Promise<string> => {
     });
     const csv = csvStringify(
         users.map((user) => {
-            const testsJson = user.testSubmissions.map((test) => {
+            const testsJson = user.submissions.map((submission) => {
                 return {
-                    testTitle: test.assignedTest.test.title,
-                    startTime: test.assignedTest.startTime,
-                    endTime: test.assignedTest.endTime,
-                    evaluation: test.evaluation
+                    templateTitle: submission.assignment.template.title,
+                    startTime: submission.assignment.startTime,
+                    endTime: submission.assignment.endTime,
+                    evaluation: submission.evaluation
                 };
             });
             return [
@@ -63,9 +63,9 @@ export const exportCsv = async (): Promise<string> => {
                 user.group?.name,
                 JSON.stringify(user.group?.admins.map((admin) => admin.admin)),
                 JSON.stringify(testsJson),
-                testsJson[0]?.testTitle,
+                testsJson[0]?.templateTitle,
                 testsJson[0]?.evaluation,
-                testsJson[1]?.testTitle,
+                testsJson[1]?.templateTitle,
                 testsJson[1]?.evaluation
             ];
         }),

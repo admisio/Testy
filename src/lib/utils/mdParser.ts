@@ -1,6 +1,6 @@
 import { marked } from 'marked';
 import { load } from 'cheerio';
-import type { HeadingType, TestTemplateType } from '../trpc/model/TestTemplate';
+import type { HeadingType, TemplateType } from '../trpc/model/Template';
 import type { Question } from '../trpc/model/Question';
 import { TRPCError } from '@trpc/server';
 import type { Heading } from '@prisma/client';
@@ -39,7 +39,7 @@ const parseQuestion = (questionHTML: string): Question => {
     };
 };
 
-export const parseMd = async (md: string, timeLimit: number): Promise<TestTemplateType> => {
+export const parseMd = async (md: string, timeLimit: number): Promise<TemplateType> => {
     const html = marked.parse(md);
     console.log(html);
     const document = load(html);

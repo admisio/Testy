@@ -4,22 +4,22 @@ import { createSubmission } from './submissionService';
 export const submitExpired = async (): Promise<void> => {
     const users = await prisma.user.findMany({
         include: {
-            testSubmissions: true,
+            submissions: true,
             group: {
                 include: {
-                    assignedTests: true
+                    assignments: true
                 }
             }
         }
     });
     users.forEach((user) => {
-        const expAssignedTests = user.group?.assignedTests.filter(
-            (assignedTest) => assignedTest.endTime && assignedTest.endTime <= new Date()
+        const expAssignments = user.group?.assignments.filter(
+            (assignment) => assignment.endTime && assignment.endTime <= new Date()
         );
-        const submittedTests = user.testSubmissions;
-        const missingExpTests = expAssignedTests?.filter(
-            (assignedTest) =>
-                !submittedTests.map((submission) => submission.id).includes(assignedTest.id)
+        const submissions = user.submissions;
+        const missingExpTests = expAssignments?.filter(
+            (assignment) =>
+                !submissions.map((submission) => submission.id).includes(assignment.id)
         );
 
         missingExpTests?.forEach(async (missingTest) => {
