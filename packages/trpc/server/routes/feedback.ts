@@ -1,9 +1,7 @@
-import { t } from '../t';
+import { t, adminAuth, userAuth } from '../trpc';
 import { z } from 'zod';
-import { adminAuth } from '../middleware/adminAuth';
-import prisma from '../prisma';
-import { exportCsv } from '../utils/csvExport';
-import { userAuth } from '../middleware/userAuth';
+import prisma from '../../prisma';
+import { exportCsv } from '../../utils/csvExport';
 
 export const feedback = t.router({
     list: t.procedure.use(adminAuth).query(async () => await prisma.feedback.findMany()),

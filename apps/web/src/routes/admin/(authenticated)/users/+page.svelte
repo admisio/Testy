@@ -4,7 +4,7 @@
     import Submit from '$lib/components/buttons/Submit.svelte';
     import TextInput from '$lib/components/inputs/TextInput.svelte';
     import Modal from '$lib/components/Modal.svelte';
-    import { trpc } from 'trpc/client';
+    import { trpc } from '$lib/trpc/client';
     import type { ActionData, PageServerData } from './$types';
 
     export let data: PageServerData;

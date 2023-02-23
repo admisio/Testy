@@ -1,4 +1,4 @@
-import prisma from '../prisma';
+import prisma from '../../prisma';
 import type { Assignment } from 'database';
 import { TRPCError } from '@trpc/server';
 
