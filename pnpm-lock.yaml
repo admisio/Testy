@@ -113,24 +113,24 @@ importers:
       '@types/bcrypt': ^5.0.0
       '@types/cookie': ^0.5.0
       '@types/jsonwebtoken': ^9.0.0
+      bcrypt: ^5.1.0
       cookie: 0.5.0
       csv-stringify: ^6.2.4
       database: workspace:*
       date-fns: ^2.29.3
       jsonwebtoken: ^9.0.0
       prisma: ^4.10.1
-      trpc-sveltekit: ^3.4.2
       ts-node: ^10.9.1
       zod: ^3.20.6
     dependencies:
       '@trpc/client': 10.12.0_@trpc+server@10.12.0
       '@trpc/server': 10.12.0
+      bcrypt: 5.1.0
       cookie: 0.5.0
       csv-stringify: 6.2.4
       database: link:../database
       date-fns: 2.29.3
       jsonwebtoken: 9.0.0
-      trpc-sveltekit: 3.4.2_wazxat3ehptqnii6bifqrsnjom
       zod: 3.20.6
     devDependencies:
       '@types/bcrypt': 5.0.0
