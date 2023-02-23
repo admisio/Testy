@@ -1,4 +1,4 @@
-import prisma from '$lib/prisma';
+import prisma from '../prisma';
 import { createSubmission } from './submissionService';
 
 export const submitExpired = async (): Promise<void> => {
@@ -18,8 +18,7 @@ export const submitExpired = async (): Promise<void> => {
         );
         const submissions = user.submissions;
         const missingExpTests = expAssignments?.filter(
-            (assignment) =>
-                !submissions.map((submission) => submission.id).includes(assignment.id)
+            (assignment) => !submissions.map((submission) => submission.id).includes(assignment.id)
         );
 
         missingExpTests?.forEach(async (missingTest) => {

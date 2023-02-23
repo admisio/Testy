@@ -1,6 +1,6 @@
 import type { PrismaClient } from 'database';
 
 declare namespace App {
-  var prisma: PrismaClient;
+    //var prisma: PrismaClient;
 }
 export {};

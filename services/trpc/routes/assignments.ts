@@ -1,13 +1,13 @@
-import {t} from '$lib/trpc/t';
-import {z} from 'zod';
-import {adminAuth} from '../middleware/adminAuth';
-import prisma from '$lib/prisma';
-import {userAuth} from '../middleware/userAuth';
-import {TRPCError} from '@trpc/server';
-import {findUniqueWithSubmission} from '../query/user';
-import {addMinutes} from 'date-fns';
-import {createSubmission} from '../services/submissionService';
-import {submitExpired} from '../services/assignmentService';
+import { t } from '../t';
+import { z } from 'zod';
+import { adminAuth } from '../middleware/adminAuth';
+import prisma from '../prisma';
+import { userAuth } from '../middleware/userAuth';
+import { TRPCError } from '@trpc/server';
+import { findUniqueWithSubmission } from '../query/user';
+import { addMinutes } from 'date-fns';
+import { createSubmission } from '../services/submissionService';
+import { submitExpired } from '../services/assignmentService';
 
 export const assignments = t.router({
     assignToGroup: t.procedure
@@ -201,11 +201,7 @@ export const assignments = t.router({
                     message: 'Test was not assigned to your group'
                 });
             }
-            if (
-                !assignment?.started ||
-                !assignment.endTime ||
-                new Date() > assignment.endTime
-            ) {
+            if (!assignment?.started || !assignment.endTime || new Date() > assignment.endTime) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
             await prisma.answer.upsert({

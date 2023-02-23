@@ -1,7 +1,7 @@
-import type { Template, Question as QuestionPrisma } from "database";
-import type { Question } from "./Question";
+import type { Template, Question as QuestionPrisma } from 'database';
+import type { Question } from './Question';
 
-export type TemplateFull = Template & {questions: QuestionPrisma[]};
+export type TemplateFull = Template & { questions: QuestionPrisma[] };
 /* export interface Template {
     id: number;
     title: string;

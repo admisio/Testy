@@ -23,8 +23,8 @@ async function main() {
     });
     await prisma.adminsOnGroups.create({
         data: {
-          adminId: admin.id,
-          groupId: group.id
+            adminId: admin.id,
+            groupId: group.id
         }
     });
     await prisma.user.create({
@@ -35,9 +35,9 @@ async function main() {
             email: 'testuser@test.test',
             password: await bcrypt.hash('testuser', 12),
             group: {
-              connect: {
-                id: group.id
-              }
+                connect: {
+                    id: group.id
+                }
             }
         }
     });

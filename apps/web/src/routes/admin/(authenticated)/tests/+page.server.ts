@@ -1,10 +1,10 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { parseMd } from '$lib/utils/mdParser';
-import { createTest } from '$lib/trpc/services/testService';
+import { createTest } from 'trpc/services/testService';
 
-import { createContext } from '$lib/trpc/context';
-import { router } from '$lib/trpc/router';
+import { createContext } from 'trpc/context';
+import { router } from 'trpc/router';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => ({

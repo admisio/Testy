@@ -1,4 +1,4 @@
-import prisma from '$lib/prisma';
+import prisma from '../prisma';
 import type { TemplateFull, TemplateType } from '../model/Template';
 
 export const createTest = async (templateData: TemplateType): Promise<TemplateFull> => {
@@ -29,7 +29,6 @@ export const createTest = async (templateData: TemplateType): Promise<TemplateFu
             },
             timeLimit: templateData.timeLimit,
             maxScore: templateData.maxScore
-            
         },
         include: {
             headings: true,

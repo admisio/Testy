@@ -1,7 +1,7 @@
-import { t } from '$lib/trpc/t';
+import { t } from '../t';
 import { z } from 'zod';
 import { adminAuth } from '../middleware/adminAuth';
-import prisma from '$lib/prisma';
+import prisma from '../prisma';
 import { userAuth } from '../middleware/userAuth';
 
 export const submissions = t.router({
@@ -54,7 +54,8 @@ export const submissions = t.router({
                             },
                             submittedAnswers: {
                                 where: {
-                                    assignment: { // TODO: je tohle potřeba?
+                                    assignment: {
+                                        // TODO: je tohle potřeba?
                                         id: input.assignmentId
                                     },
                                     user: {
@@ -102,7 +103,8 @@ export const submissions = t.router({
                             },
                             submittedAnswers: {
                                 where: {
-                                    assignment: { // TODO: je tohle potřeba?
+                                    assignment: {
+                                        // TODO: je tohle potřeba?
                                         id: input.assignmentId
                                     },
                                     user: {

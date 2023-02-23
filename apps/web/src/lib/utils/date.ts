@@ -20,7 +20,7 @@ export const formatTime = (date: Date | null): string | null => {
         ':' +
         date.getMinutes().toString().padStart(2, '0')
     );
-}
+};
 
 export const remainingTime = (date: Date | null): string | null => {
     if (!date) return null;
@@ -29,4 +29,4 @@ export const remainingTime = (date: Date | null): string | null => {
     const minutes = Math.floor(diff / 1000 / 60);
     const seconds = Math.floor((diff / 1000) % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-}
+};
