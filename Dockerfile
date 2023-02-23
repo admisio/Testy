@@ -14,4 +14,4 @@ RUN pnpm build
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "pnpx turbo db:deploy; node apps/web/build"]
+CMD ["sh", "-c", "pnpm db:deploy; pnpm prod:start"]
