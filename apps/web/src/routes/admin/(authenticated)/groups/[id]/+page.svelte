@@ -37,8 +37,9 @@
     $: console.log(inputTemplateId);
 
     const assignTest = async () => {
+        if (!group?.id) return;
         await trpc().assignments.assignToGroup.mutate({
-            groupId: group?.id!,
+            groupId: group?.id,
             templateId: inputTemplateId
         });
         invalidateAll();
