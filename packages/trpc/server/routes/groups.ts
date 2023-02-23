@@ -1,7 +1,6 @@
-import { t } from '../t';
+import { t, adminAuth } from '../trpc';
 import { z } from 'zod';
-import { adminAuth } from '../middleware/adminAuth';
-import prisma from '../prisma';
+import prisma from '../../prisma';
 
 export const groups = t.router({
     create: t.procedure

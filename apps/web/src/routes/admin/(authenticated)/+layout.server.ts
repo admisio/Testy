@@ -1,8 +1,8 @@
 import type { LayoutServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
-import { router } from 'trpc/router';
-import { createContext } from 'trpc/context';
+import { router } from '@testy/trpc/server/router';
+import { createContext } from '@testy/trpc/server/createContext';
 
 export const load: LayoutServerLoad = async (event) => {
     try {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { trpc } from 'trpc/client';
+    import { trpc } from '$lib/trpc/client';
     import Button from '$lib/components/buttons/Button.svelte';
     import TextInput from '$lib/components/inputs/TextInput.svelte';
     import Modal from '$lib/components/Modal.svelte';

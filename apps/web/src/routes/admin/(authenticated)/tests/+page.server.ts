@@ -1,10 +1,10 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { parseMd } from '$lib/utils/mdParser';
-import { createTest } from 'trpc/services/testService';
+import { createTest } from '@testy/trpc/server/services/testService';
 
-import { createContext } from 'trpc/context';
-import { router } from 'trpc/router';
+import { createContext } from '@testy/trpc/server/createContext';
+import { router } from '@testy/trpc/server/router';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => ({
@@ -20,11 +20,8 @@ export const actions: Actions = {
 
             const timeLimit = data.get('timeLimit')?.toString() ?? '20';
 
-            const files = data.getAll('file').map((file) => file as Blob);
-
-            const mdFile = files.find((file) => file.name.endsWith('.md')) as Blob;
-
-            console.log(mdFile);
+            // const files = data.getAll('file').map((file) => file as Blob);
+            const mdFile = data.get('file') as Blob;
 
             const test = await parseMd(await mdFile.text(), Number(timeLimit));
 

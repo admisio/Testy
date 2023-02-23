@@ -1,8 +1,6 @@
-import { t } from '../t';
+import { t, adminAuth, userAuth } from '../trpc';
 import { z } from 'zod';
-import { adminAuth } from '../middleware/adminAuth';
-import prisma from '../prisma';
-import { userAuth } from '../middleware/userAuth';
+import prisma from '../../prisma';
 
 export const submissions = t.router({
     list: t.procedure
@@ -54,8 +52,7 @@ export const submissions = t.router({
                             },
                             submittedAnswers: {
                                 where: {
-                                    assignment: {
-                                        // TODO: je tohle potřeba?
+                                    assignment: { // TODO: je tohle potřeba?
                                         id: input.assignmentId
                                     },
                                     user: {
@@ -103,8 +100,7 @@ export const submissions = t.router({
                             },
                             submittedAnswers: {
                                 where: {
-                                    assignment: {
-                                        // TODO: je tohle potřeba?
+                                    assignment: { // TODO: je tohle potřeba?
                                         id: input.assignmentId
                                     },
                                     user: {

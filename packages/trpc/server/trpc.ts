@@ -1,9 +1,18 @@
-import { t } from '../t';
 import { TRPCError } from '@trpc/server';
-import type { Context } from '../context';
+import type { Context } from './createContext';
+import { initTRPC } from '@trpc/server';
+
+
+export const t = initTRPC.context<Context>().create();
+
+
+export const userAuth = t.middleware(async ({ next, ctx }) => {
+  if (!ctx.userId) throw new TRPCError({ code: 'UNAUTHORIZED' });
+  return next();
+});
+
 
 export type AdminAuthResult<T, E = Error> = { ok: true; value: T } | { ok: false; error: E };
-
 const ok = <T>(value: T): AdminAuthResult<T, never> => ({ ok: true, value });
 const err = <E>(error: E): AdminAuthResult<never, E> => ({ ok: false, error });
 

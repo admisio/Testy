@@ -23,6 +23,7 @@ importers:
       '@iconify/svelte': ^3.1.0
       '@sveltejs/adapter-node': ^1.2.0
       '@sveltejs/kit': ^1.8.3
+      '@testy/trpc': workspace:*
       '@types/bcrypt': ^5.0.0
       '@types/debounce': ^1.2.1
       '@types/jsonwebtoken': ^9.0.1
@@ -40,7 +41,6 @@ importers:
       svelte: ^3.55.1
       svelte-check: ^3.0.4
       svelte-preprocess: ^5.0.1
-      trpc: workspace:*
       trpc-sveltekit: ^3.4.2
       tslib: ^2.5.0
       typescript: ^4.9.5
@@ -48,6 +48,7 @@ importers:
       vite-plugin-windicss: ^1.8.10
       windicss: ^3.5.6
     dependencies:
+      '@testy/trpc': link:../../packages/trpc
       '@zerodevx/svelte-toast': 1.0.0-rc.1
       bcrypt: 5.1.0
       cheerio: 1.0.0-rc.12
@@ -57,7 +58,6 @@ importers:
       highlight.js: 11.7.0
       jsonwebtoken: 9.0.0
       marked: 4.2.12
-      trpc: link:../../services/trpc
       trpc-sveltekit: 3.4.2_wazxat3ehptqnii6bifqrsnjom
     devDependencies:
       '@iconify/svelte': 3.1.0_svelte@3.55.1
@@ -105,6 +105,39 @@ importers:
       eslint-config-prettier: 8.6.0_eslint@8.34.0
       eslint-config-turbo: 0.0.8_eslint@8.34.0
       eslint-plugin-svelte3: 4.0.0_dbthnr4b2bdkhyiebwn7su3hnq
+
+  packages/trpc:
+    specifiers:
+      '@trpc/client': ^10.12.0
+      '@trpc/server': ^10.12.0
+      '@types/bcrypt': ^5.0.0
+      '@types/cookie': ^0.5.0
+      '@types/jsonwebtoken': ^9.0.0
+      cookie: 0.5.0
+      csv-stringify: ^6.2.4
+      database: workspace:*
+      date-fns: ^2.29.3
+      jsonwebtoken: ^9.0.0
+      prisma: ^4.10.1
+      trpc-sveltekit: ^3.4.2
+      ts-node: ^10.9.1
+      zod: ^3.20.6
+    dependencies:
+      '@trpc/client': 10.12.0_@trpc+server@10.12.0
+      '@trpc/server': 10.12.0
+      cookie: 0.5.0
+      csv-stringify: 6.2.4
+      database: link:../database
+      date-fns: 2.29.3
+      jsonwebtoken: 9.0.0
+      trpc-sveltekit: 3.4.2_wazxat3ehptqnii6bifqrsnjom
+      zod: 3.20.6
+    devDependencies:
+      '@types/bcrypt': 5.0.0
+      '@types/cookie': 0.5.1
+      '@types/jsonwebtoken': 9.0.1
+      prisma: 4.10.1
+      ts-node: 10.9.1_uayvamxqnl5yeiojjysxwopmsy
 
   services/trpc:
     specifiers:

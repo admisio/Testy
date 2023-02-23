@@ -1,5 +1,5 @@
-import prisma from '../prisma';
-import type { TemplateFull, TemplateType } from '../model/Template';
+import prisma from '../../prisma';
+import type { TemplateFull, TemplateType } from '../../model/Template';
 
 export const createTest = async (templateData: TemplateType): Promise<TemplateFull> => {
     const { title, headings, questions } = templateData;

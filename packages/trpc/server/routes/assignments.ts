@@ -1,13 +1,11 @@
-import { t } from '../t';
+import { t, adminAuth, userAuth } from '../trpc';
 import { z } from 'zod';
-import { adminAuth } from '../middleware/adminAuth';
-import prisma from '../prisma';
-import { userAuth } from '../middleware/userAuth';
 import { TRPCError } from '@trpc/server';
 import { findUniqueWithSubmission } from '../query/user';
 import { addMinutes } from 'date-fns';
 import { createSubmission } from '../services/submissionService';
 import { submitExpired } from '../services/assignmentService';
+import prisma from '../../prisma';
 
 export const assignments = t.router({
     assignToGroup: t.procedure

@@ -2,7 +2,7 @@
     import type { PageData } from './$types';
     import UserTable from '$lib/components/groupsview/UserTable.svelte';
     import TestTable from '$lib/components/groupsview/TestTable.svelte';
-    import { trpc } from 'trpc/client';
+    import { trpc } from '$lib/trpc/client';
     import { invalidateAll } from '$app/navigation';
     import type { Prisma } from 'database';
 
