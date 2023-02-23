@@ -1,8 +1,8 @@
-import { t } from '$lib/trpc/t';
+import { t } from '../t';
 import { z } from 'zod';
 import { adminAuth } from '../middleware/adminAuth';
-import prisma from '$lib/prisma';
-import { exportCsv } from '$lib/utils/csvExport';
+import prisma from '../prisma';
+import { exportCsv } from '../utils/csvExport';
 import bcrypt from 'bcrypt';
 
 export const users = t.router({

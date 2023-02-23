@@ -1,6 +1,6 @@
-import { t } from '$lib/trpc/t';
+import { t } from '../t';
 import { z } from 'zod';
-import prisma from '$lib/prisma';
+import prisma from '../prisma';
 import { adminAuth } from '../middleware/adminAuth';
 
 export const templates = t.router({

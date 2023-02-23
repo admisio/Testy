@@ -1,61 +1,61 @@
 version: '3.8'
 
 services:
-  postgres:
-    container_name: postgres
-    image: "postgres:15"
-    restart: unless-stopped
-    command: postgres -c 'max_connections=1250'
-    environment:
-      POSTGRES_USER: REDACTED
-      POSTGRES_PASSWORD: REDACTED
-      POSTGRES_DB: postgres
-    volumes:
-        - ./data-postgres:/var/lib/postgresql/data
-    networks:
-       - db
-    ports:
-      - "5432:5432"
-  adminer:
-    image: adminer:latest
-    container_name: adminer
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik_proxy"
-      - "traefik.http.routers.adminer.entrypoints=web"
-      - "traefik.http.routers.adminer.rule=Host(`testovani.ssps.cz`) && PathPrefix(`/adminer/`)"
-      - "traefik.http.routers.adminer.middlewares=adminer-stripprefix,adminer-auth"
-      - "traefik.http.middlewares.adminer-stripprefix.stripprefix.prefixes=/adminer"
-      # REDACTED
-      - "traefik.http.middlewares.adminer-auth.basicauth.users=REDACTED:REDACTED"
-    environment:
-      ADMINER_DEFAULT_SERVER: postgres
-    depends_on:
-      - postgres
-    networks:
-      - traefik_proxy
-      - db
-  app:
-    image: "ghcr.io/starvy/testy_frontend_backend:latest"
-    container_name: app
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik_proxy"
-      - "traefik.http.routers.app.entrypoints=web"
-      - "traefik.http.routers.app.rule=Host(`testovani.ssps.cz`)"
-      - "traefik.http.services.app.loadbalancer.server.port=3000"
-    environment:
-      DATABASE_URL: "postgres://REDACTED:REDACTED@postgres:5432/postgres"
-      JWT_SECRET: "REDACTED"
-    networks:
-       - traefik_proxy
-       - db
-       - app
+    postgres:
+        container_name: postgres
+        image: 'postgres:15'
+        restart: unless-stopped
+        command: postgres -c 'max_connections=1250'
+        environment:
+            POSTGRES_USER: REDACTED
+            POSTGRES_PASSWORD: REDACTED
+            POSTGRES_DB: postgres
+        volumes:
+            - ./data-postgres:/var/lib/postgresql/data
+        networks:
+            - db
+        ports:
+            - '5432:5432'
+    adminer:
+        image: adminer:latest
+        container_name: adminer
+        restart: unless-stopped
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.docker.network=traefik_proxy'
+            - 'traefik.http.routers.adminer.entrypoints=web'
+            - 'traefik.http.routers.adminer.rule=Host(`testovani.ssps.cz`) && PathPrefix(`/adminer/`)'
+            - 'traefik.http.routers.adminer.middlewares=adminer-stripprefix,adminer-auth'
+            - 'traefik.http.middlewares.adminer-stripprefix.stripprefix.prefixes=/adminer'
+            # REDACTED
+            - 'traefik.http.middlewares.adminer-auth.basicauth.users=REDACTED:REDACTED'
+        environment:
+            ADMINER_DEFAULT_SERVER: postgres
+        depends_on:
+            - postgres
+        networks:
+            - traefik_proxy
+            - db
+    app:
+        image: 'ghcr.io/starvy/testy_frontend_backend:latest'
+        container_name: app
+        restart: unless-stopped
+        labels:
+            - 'traefik.enable=true'
+            - 'traefik.docker.network=traefik_proxy'
+            - 'traefik.http.routers.app.entrypoints=web'
+            - 'traefik.http.routers.app.rule=Host(`testovani.ssps.cz`)'
+            - 'traefik.http.services.app.loadbalancer.server.port=3000'
+        environment:
+            DATABASE_URL: 'postgres://REDACTED:REDACTED@postgres:5432/postgres'
+            JWT_SECRET: 'REDACTED'
+        networks:
+            - traefik_proxy
+            - db
+            - app
 networks:
-  traefik_proxy:
-    name: traefik_proxy
-    external: true
-  db:
-  app:
+    traefik_proxy:
+        name: traefik_proxy
+        external: true
+    db:
+    app:

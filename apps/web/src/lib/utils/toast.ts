@@ -1,4 +1,4 @@
-import { toast } from "@zerodevx/svelte-toast";
+import { toast } from '@zerodevx/svelte-toast';
 
 export const pushErrorText = (text: string) => {
     toast.push(text, {
@@ -18,4 +18,4 @@ export const pushInfoText = (text: string) => {
             '--toastBarBackground': '#064e3b'
         }
     });
-}
+};

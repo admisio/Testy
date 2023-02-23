@@ -1,4 +1,4 @@
-import { t } from '$lib/trpc/t';
+import { t } from '../t';
 
 import { userAuth } from '../middleware/userAuth';
 import { adminAuth } from '../middleware/adminAuth';

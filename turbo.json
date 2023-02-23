@@ -1,24 +1,24 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
-    "build": {
-      "dependsOn": ["^db:generate", "^build"],
-      "outputs": [".svelte-kit/**", ".vercel/**"]
-    },
-    "lint": {},
-    "dev": {
-      "dependsOn": ["^db:generate"],
-      "cache": false,
-      "persistent": true
-    },
-    "db:generate": {
-      "cache": false
-    },
-    "db:push": {
-      "cache": false
-    },
-    "db:seed": {
-      "cache": false
+    "$schema": "https://turbo.build/schema.json",
+    "pipeline": {
+        "build": {
+            "dependsOn": ["^db:generate", "^build"],
+            "outputs": [".svelte-kit/**", ".vercel/**"]
+        },
+        "lint": {},
+        "dev": {
+            "dependsOn": ["^db:generate"],
+            "cache": false,
+            "persistent": true
+        },
+        "db:generate": {
+            "cache": false
+        },
+        "db:push": {
+            "cache": false
+        },
+        "db:seed": {
+            "cache": false
+        }
     }
-  }
 }

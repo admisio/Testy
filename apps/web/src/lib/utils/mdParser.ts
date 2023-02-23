@@ -1,8 +1,6 @@
 import { marked } from 'marked';
 import { load } from 'cheerio';
-import type { HeadingType, TemplateType } from '../trpc/model/Template';
-import type { Question } from '../trpc/model/Question';
-import { TRPCError } from '@trpc/server';
+import type { HeadingType, TemplateType, Question } from 'trpc';
 
 const OL_REGEX = /<ol(\sstart="[0-9]+")?/g;
 
@@ -22,7 +20,9 @@ const parseQuestion = (questionHTML: string): Question => {
         .map((a) => (a.match(/\*(.|\n)+\*/) ? a : null))
         .filter((i) => i !== null);
     if (correctAnswerList.length > 1 || correctAnswerList.length === 0 || !correctAnswerList[0])
-        throw new TRPCError({ code: 'PARSE_ERROR', message: 'Invalid correct answers count' });
+        throw new Error(
+            JSON.stringify({ code: 'PARSE_ERROR', message: 'Invalid correct answers count' })
+        );
 
     const correctAnswer = correctAnswerList[0].replaceAll('*', '');
     const answersSanitized = answersRaw.map((a) => a.replaceAll('*', ''));
@@ -64,7 +64,9 @@ export const parseMd = async (md: string, timeLimit: number): Promise<TemplateTy
         })
         .filter((q) => q !== null) as Array<Question>;
 
-    const headingsDescriptions = document('h3').map((i, el) => document(el).html()).toArray();
+    const headingsDescriptions = document('h3')
+        .map((i, el) => document(el).html())
+        .toArray();
 
     const headings = document('h2')
         .map((i, el) => ({

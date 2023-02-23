@@ -1,11 +1,8 @@
-import prisma from '$lib/prisma';
+import prisma from '../prisma';
 import type { Assignment } from 'database';
 import { TRPCError } from '@trpc/server';
 
-export const createSubmission = async (
-    userId: number,
-    assignment: Assignment
-): Promise<void> => {
+export const createSubmission = async (userId: number, assignment: Assignment): Promise<void> => {
     // evaluate each answer and calculate score
     await prisma.$transaction(async (tx) => {
         const answers = await tx.answer.findMany({
@@ -25,7 +22,7 @@ export const createSubmission = async (
             answers.map(async (answer) => {
                 const question = questions.find((question) => question.id === answer.questionId);
                 if (!question) {
-                    throw new TRPCError({code: 'NOT_FOUND', message: 'Question not found'});
+                    throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
                 }
                 const correct = question.correctAnswer === answer.value;
                 const evaluation: number = correct ? 1 : 0;
@@ -59,5 +56,5 @@ export const createSubmission = async (
                 evaluation: score
             }
         });
-    })
+    });
 };

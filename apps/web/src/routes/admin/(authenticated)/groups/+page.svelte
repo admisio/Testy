@@ -1,6 +1,6 @@
 <script async script lang="ts">
     import { invalidateAll } from '$app/navigation';
-    import { trpc } from '$lib/trpc/client';
+    import { trpc } from 'trpc/client';
     import type { PageData } from './$types';
 
     import Button from '$lib/components/buttons/Button.svelte';

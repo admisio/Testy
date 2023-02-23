@@ -1,6 +1,6 @@
 import type { Actions } from './$types';
-import { router } from '$lib/trpc/router';
-import { createContext } from '$lib/trpc/context';
+import { router } from 'trpc/router';
+import { createContext } from 'trpc/context';
 import { fail } from '@sveltejs/kit';
 
 export const actions: Actions = {
