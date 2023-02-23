@@ -1,11 +1,11 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import Icon from '@iconify/svelte';
-    import type { Prisma } from 'database';
+    import type { Template } from 'database';
 
     const dispatch = createEventDispatcher();
 
-    export let template: Prisma.TemplateGetPayload<{}>;
+    export let template: Template;
 
     const renameGroup = async (e: Event) => {
         dispatch('rename', {
