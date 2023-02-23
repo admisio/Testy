@@ -2,13 +2,13 @@
     // TODO: Jedna test komponenta pro OpenTest a TestResult
     import DarkMode from '$lib/components/DarkMode.svelte';
 
-    export let test: Prisma.AssignedTestGetPayload<{
+    export let assignment: Prisma.AssignmentGetPayload<{
         select: {
             id: true;
             startTime: true;
             endTime: true;
             submittedAnswers: true;
-            test: {
+            template: {
                 select: {
                     id: true;
                     title: true;
@@ -19,12 +19,12 @@
         };
     }>;
 
-    export let submission: TestSubmission;
+    export let submission: Submission;
 
     // dictioary of questionId -> answer
     const answers = new Map<number, Answer>();
-    test.submittedAnswers.forEach((answer) => {
-        const question = test.test.questions.find((q) => q.id === answer.questionId)!;
+    assignment.submittedAnswers.forEach((answer) => {
+        const question = assignment.template.questions.find((q) => q.id === answer.questionId)!;
         answers.set(question.id, answer);
         console.log(question.id, answer);
     });
@@ -37,7 +37,7 @@
     import 'highlight.js/styles/github-dark.css';
 
     import { onMount } from 'svelte';
-    import type { Answer, Prisma, Question, TestSubmission } from '@prisma/client';
+    import type { Answer, Prisma, Question, Submission } from '@prisma/client';
 
     import Answers from './Answers.svelte';
 
@@ -69,11 +69,11 @@
         <div class="flex justify-center rounded-md bg-gray-600 px-4 py-4 shadow-md">
             <span class="flex text-center text-2xl font-bold text-white">
                 Váš výsledek: <span class="ml-2">
-                    {submission.evaluation}/{test.test.maxScore} bodů
+                    {submission.evaluation}/{assignment.template.maxScore} bodů
                 </span>
             </span>
         </div>
-        {#each test.test.questions as question, i}
+        {#each assignment.template.questions as question, i}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
                     <h2 class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left">
@@ -102,9 +102,9 @@
                 <div class="mt-6">
                     <Answers
                         readOnly
-                        answers={question.answers}
+                        answers={question.templateAnswers}
                         selectedAnswerIndex={answers.has(question.id)
-                            ? question.answers.indexOf(answers.get(question.id)?.value ?? '')
+                            ? question.templateAnswers.indexOf(answers.get(question.id)?.value ?? '')
                             : -1}
                         selectedAnswerEval={answers.get(question.id)?.evaluation ?? 0}
                     />

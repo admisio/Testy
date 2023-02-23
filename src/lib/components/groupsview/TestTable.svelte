@@ -3,10 +3,10 @@
     import type { Prisma } from '@prisma/client';
     import { createEventDispatcher } from 'svelte';
 
-    export let assignedTests: Array<
-        Prisma.AssignedTestGetPayload<{
+    export let assignments: Array<
+        Prisma.AssignmentGetPayload<{
             include: {
-                test: true;
+                template: true;
                 submissions: true;
             };
         }>
@@ -17,11 +17,11 @@
     let timeRemaining: string[];
 
     const updateTimeRemaining = () => {
-        timeRemaining = assignedTests.map((assignedTest) => {
-            if (assignedTest.endTime && assignedTest.endTime < new Date()) {
+        timeRemaining = assignments.map((assignment) => {
+            if (assignment.endTime && assignment.endTime < new Date()) {
                 return 'Test skončil';
             } else {
-                const remaining = remainingTime(assignedTest.endTime);
+                const remaining = remainingTime(assignment.endTime);
                 return remaining ? remaining : '-';
             }
         });
@@ -32,9 +32,9 @@
 
     const dispatch = createEventDispatcher();
 
-    const startTest = (assignedTestId: number) => {
+    const startTest = (assignmentId: number) => {
         dispatch('startTest', {
-            assignedTestId
+            assignmentId
         });
     };
 </script>
@@ -53,21 +53,21 @@
                 </tr>
             </thead>
             <tbody>
-                {#each assignedTests as assignedTest, i}
+                {#each assignments as assignment, i}
                     <tr>
                         <td>
                             <p>
-                                {assignedTest.test.title}
+                                {assignment.template.title}
                             </p>
                         </td>
                         <td>
                             <p>
-                                {formatDate(assignedTest.startTime)}
+                                {formatDate(assignment.startTime)}
                             </p>
                         </td>
                         <td>
                             <p>
-                                {formatDate(assignedTest.endTime)}
+                                {formatDate(assignment.endTime)}
                             </p>
                         </td>
                         <td>
@@ -77,7 +77,7 @@
                         </td>
                         <td>
                             <p>
-                                {`${assignedTest.submissions.length}/${userCount}`}
+                                {`${assignment.submissions.length}/${userCount}`}
                             </p>
                         </td>
 
@@ -85,13 +85,13 @@
                             <span
                                 class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
                             >
-                                {#if assignedTest.started && assignedTest.endTime && assignedTest.endTime > new Date()}
+                                {#if assignment.started && assignment.endTime && assignment.endTime > new Date()}
                                     <span
                                         aria-hidden
                                         class="absolute inset-0 rounded-full bg-green-200 opacity-50"
                                     />
                                     <span class="relative">Spuštěno</span>
-                                {:else if assignedTest.endTime && assignedTest.endTime < new Date()}
+                                {:else if assignment.endTime && assignment.endTime < new Date()}
                                     <span
                                         aria-hidden
                                         class="absolute inset-0 rounded-full bg-red-200 opacity-50"
@@ -100,7 +100,7 @@
 
                                 {:else}
                                     <button
-                                        on:click={(_) => startTest(assignedTest.id)}
+                                        on:click={(_) => startTest(assignment.id)}
                                         class="w-full text-center">Spustit</button
                                     >
                                 {/if}

@@ -1,18 +1,18 @@
 import { t } from '$lib/trpc/t';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
-import { testTemplates } from './routes/testTemplates';
+import { templates } from './routes/templates';
 import { groups } from './routes/groups';
-import { assignedTests } from './routes/assignedTests';
+import { assignments } from './routes/assignments';
 import { submissions } from './routes/submissions';
 import { auth } from './routes/auth';
 import { users } from './routes/users';
 import { feedback } from './routes/feedback';
 
 export const router = t.router({
-    tests: testTemplates,
+    templates,
     users,
     groups,
-    assignedTests,
+    assignments,
     submissions,
     feedback,
     auth

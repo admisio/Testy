@@ -1,15 +1,15 @@
-import { t } from '$lib/trpc/t';
-import { z } from 'zod';
-import { adminAuth } from '../middleware/adminAuth';
+import {t} from '$lib/trpc/t';
+import {z} from 'zod';
+import {adminAuth} from '../middleware/adminAuth';
 import prisma from '$lib/prisma';
-import { userAuth } from '../middleware/userAuth';
-import { TRPCError } from '@trpc/server';
-import { findUniqueWithSubmission } from '../query/user';
-import { addMinutes } from 'date-fns';
-import { createSubmission } from '../services/submissionService';
-import { submitExpired } from '../services/assignedTestService';
+import {userAuth} from '../middleware/userAuth';
+import {TRPCError} from '@trpc/server';
+import {findUniqueWithSubmission} from '../query/user';
+import {addMinutes} from 'date-fns';
+import {createSubmission} from '../services/submissionService';
+import {submitExpired} from '../services/assignmentService';
 
-export const assignedTests = t.router({
+export const assignments = t.router({
     assignToGroup: t.procedure
         .use(adminAuth)
         .input(
@@ -19,9 +19,9 @@ export const assignedTests = t.router({
             })
         )
         .mutation(async ({ input }) => {
-            const assignedTest = await prisma.assignedTest.create({
+            const assignment = await prisma.assignment.create({
                 data: {
-                    test: {
+                    template: {
                         connect: {
                             id: input.templateId
                         }
@@ -39,9 +39,9 @@ export const assignedTests = t.router({
                     id: input.groupId
                 },
                 data: {
-                    assignedTests: {
+                    assignments: {
                         connect: {
-                            id: assignedTest.id
+                            id: assignment.id
                         }
                     }
                 }
@@ -51,16 +51,16 @@ export const assignedTests = t.router({
         .use(adminAuth)
         .input(
             z.object({
-                assignedTestId: z.number()
+                assignmentId: z.number()
             })
         )
         .mutation(async ({ input }) => {
-            const template = await prisma.assignedTest.findUniqueOrThrow({
+            const assignment = await prisma.assignment.findUniqueOrThrow({
                 where: {
-                    id: input.assignedTestId
+                    id: input.assignmentId
                 },
                 select: {
-                    test: {
+                    template: {
                         select: {
                             timeLimit: true
                         }
@@ -68,10 +68,10 @@ export const assignedTests = t.router({
                 }
             });
             const startTime = new Date();
-            const endTime = addMinutes(startTime, template.test.timeLimit);
-            await prisma.assignedTest.update({
+            const endTime = addMinutes(startTime, assignment.template.timeLimit);
+            await prisma.assignment.update({
                 where: {
-                    id: input.assignedTestId
+                    id: input.assignmentId
                 },
                 data: {
                     started: true,
@@ -83,7 +83,7 @@ export const assignedTests = t.router({
     list: t.procedure
         .use(adminAuth)
         .input(z.string().optional())
-        .query(async () => prisma.assignedTest.findMany()),
+        .query(async () => prisma.assignment.findMany()),
 
     userList: t.procedure
         .use(userAuth)
@@ -94,7 +94,7 @@ export const assignedTests = t.router({
                     id: Number(ctx.userId)
                 }
             });
-            const assignedTests = await prisma.assignedTest.findMany({
+            return await prisma.assignment.findMany({
                 where: {
                     group: {
                         users: {
@@ -105,36 +105,35 @@ export const assignedTests = t.router({
                     }
                 },
                 include: {
-                    test: {
+                    template: {
                         select: {
                             title: true
                         }
                     },
                     submissions: {
                         select: {
-                            testId: true
+                            assignmentId: true
                         }
                     }
                 }
             });
-            return assignedTests;
         }),
     // user routes
     get: t.procedure
         .use(userAuth)
         .input(
             z.object({
-                assignedTestId: z.number()
+                assignmentId: z.number()
             })
         )
         .query(async ({ ctx, input }) => {
-            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignedTestId);
-            const assignedTest = await prisma.assignedTest.findUnique({
+            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignmentId);
+            const assignment = await prisma.assignment.findUnique({
                 where: {
-                    id: input.assignedTestId
+                    id: input.assignmentId
                 },
                 include: {
-                    test: {
+                    template: {
                         include: {
                             headings: true,
                             questions: {
@@ -142,11 +141,11 @@ export const assignedTests = t.router({
                                     id: true,
                                     title: true,
                                     description: true,
-                                    answers: true,
+                                    templateAnswers: true,
                                     submittedAnswers: {
                                         where: {
-                                            assignedTest: {
-                                                id: input.assignedTestId
+                                            assignment: {
+                                                id: input.assignmentId
                                             },
                                             user: {
                                                 id: user.id
@@ -160,52 +159,52 @@ export const assignedTests = t.router({
                     submissions: {}
                 }
             });
-            if (!assignedTest) {
+            if (!assignment) {
                 throw new TRPCError({ code: 'NOT_FOUND', message: 'Test not found' });
             }
-            if (assignedTest?.groupId !== user?.groupId) {
+            if (assignment?.groupId !== user?.groupId) {
                 throw new TRPCError({
                     code: 'FORBIDDEN',
                     message: 'Test was not assigned to your group'
                 });
             }
-            if (!assignedTest?.started) {
+            if (!assignment?.started) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
-            return { assignedTest, user };
+            return { assignment, user };
         }),
     submitAnswer: t.procedure
         .use(userAuth)
         .input(
             z.object({
-                assignedTestId: z.number(),
+                assignmentId: z.number(),
                 questionId: z.number(),
                 answer: z.string()
             })
         )
         .mutation(async ({ ctx, input }) => {
-            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignedTestId);
-            const assignedTest = await prisma.assignedTest.findUnique({
+            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignmentId);
+            const assignment = await prisma.assignment.findUnique({
                 where: {
-                    id: input.assignedTestId
+                    id: input.assignmentId
                 }
             });
-            if (user.testSubmissions.length > 0) {
+            if (user.submissions.length > 0) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test already submitted' });
             }
-            if (!assignedTest) {
+            if (!assignment) {
                 throw new TRPCError({ code: 'NOT_FOUND', message: 'Test not found' });
             }
-            if (assignedTest?.groupId !== user?.groupId) {
+            if (assignment?.groupId !== user?.groupId) {
                 throw new TRPCError({
                     code: 'FORBIDDEN',
                     message: 'Test was not assigned to your group'
                 });
             }
             if (
-                !assignedTest?.started ||
-                !assignedTest.endTime ||
-                new Date() > assignedTest.endTime
+                !assignment?.started ||
+                !assignment.endTime ||
+                new Date() > assignment.endTime
             ) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
@@ -214,7 +213,7 @@ export const assignedTests = t.router({
                     user_question_test: {
                         userId: user.id,
                         questionId: input.questionId,
-                        assignedTestId: input.assignedTestId
+                        assignmentId: input.assignmentId
                     }
                 },
                 update: {
@@ -231,9 +230,9 @@ export const assignedTests = t.router({
                             id: input.questionId
                         }
                     },
-                    assignedTest: {
+                    assignment: {
                         connect: {
-                            id: input.assignedTestId
+                            id: input.assignmentId
                         }
                     },
                     value: input.answer
@@ -243,36 +242,36 @@ export const assignedTests = t.router({
     submitAllExpired: t.procedure.use(adminAuth).query(async ({ ctx }) => {
         await submitExpired();
     }),
-    submitTest: t.procedure
+    submittemplate: t.procedure
         .use(userAuth)
         .input(
             z.object({
-                assignedTestId: z.number()
+                assignmentId: z.number()
             })
         )
         .mutation(async ({ ctx, input }) => {
-            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignedTestId);
-            const assignedTest = await prisma.assignedTest.findUniqueOrThrow({
+            const user = await findUniqueWithSubmission(Number(ctx.userId), input.assignmentId);
+            const assignment = await prisma.assignment.findUniqueOrThrow({
                 where: {
-                    id: input.assignedTestId
+                    id: input.assignmentId
                 }
             });
 
-            if (!assignedTest?.started) {
+            if (!assignment?.started) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
 
-            if (user.testSubmissions.length > 0) {
+            if (user.submissions.length > 0) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test already submitted' });
             }
 
-            if (assignedTest.groupId !== user.groupId) {
+            if (assignment.groupId !== user.groupId) {
                 throw new TRPCError({
                     code: 'FORBIDDEN',
                     message: 'Test was not assigned to your group'
                 });
             }
 
-            await createSubmission(user.id, assignedTest);
+            await createSubmission(user.id, assignment);
         })
 });

@@ -1,21 +1,21 @@
 <script lang="ts">
     import type { Prisma } from '@prisma/client';
-
+    
     export let users: Array<
         Prisma.UserGetPayload<{
             include: {
-                testSubmissions: {
+                submissions: {
                     include: {
-                        assignedTest: true;
+                        assignment: true;
                     };
                 };
             };
         }>
     >;
-    export let assignedTests: Array<
-        Prisma.AssignedTestGetPayload<{
+    export let assignments: Array<
+        Prisma.AssignmentGetPayload<{
             include: {
-                test: true;
+                template: true;
             };
         }>
     >;
@@ -28,16 +28,16 @@
                 <tr>
                     <th>Uživatel</th>
                     <th>Jméno</th>
-                    {#each assignedTests as assignedTest}
+                    {#each assignments as assignment}
                         <th
                             class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                            >Status ({assignedTest.test.title})</th
+                            >Status ({assignment.template.title})</th
                         >
                     {/each}
-                    {#each assignedTests as assignedTest}
+                    {#each assignments as assignment}
                         <th
                             class="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-                            >Body ({assignedTest.test.title})</th
+                            >Body ({assignment.template.title})</th
                         >
                     {/each}
                     <th>Status</th>
@@ -54,11 +54,11 @@
                                 {user.name ?? 'Anonymní'}
                             </p>
                         </td>
-                        {#each assignedTests as assignedTest}
+                        {#each assignments as assignment}
                             <td>
-                                <a href={`/admin/users/${user.id}/test/${assignedTest.id}`} class="hover:underline">
-                                    {user.testSubmissions.find(
-                                        (s) => s.assignedTest.id === assignedTest.id
+                                <a href={`/admin/users/${user.id}/test/${assignment.id}`} class="hover:underline">
+                                    {user.submissions.find(
+                                        (s) => s.assignment.id === assignment.id
                                     )
                                         ? '✅ Odevzdáno'
                                         : '❌ Chybí'}
@@ -66,13 +66,13 @@
                                 </td
                             >
                         {/each}
-                        {#each assignedTests as assignedTest}
+                        {#each assignments as assignment}
                             <td>
-                                {user.testSubmissions.find(
-                                    (s) => s.assignedTest.id === assignedTest.id
+                                {user.submissions.find(
+                                    (submission) => submission.assignment.id === assignment.id
                                 )
-                                    ? user.testSubmissions.find(
-                                          (s) => s.assignedTest.id === assignedTest.id
+                                    ? user.submissions.find(
+                                          (s) => s.assignment.id === assignment.id
                                       )?.evaluation
                                     : '❌ Chybí'}</td
                             >
@@ -81,7 +81,7 @@
                             <span
                                 class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
                             >
-                                {#if user.testSubmissions.length === assignedTests.length}
+                                {#if user.submissions.length === assignments.length}
                                     <span
                                         aria-hidden
                                         class="absolute inset-0 rounded-full bg-green-200 opacity-50"

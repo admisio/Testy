@@ -1,10 +1,9 @@
 <script lang="ts">
-    import type { Question } from '$lib/trpc/model/Question';
     import type { PageData } from './$types';
 
     export let data: PageData;
-    const test = data.test!;
-    const questions = test.questions.map((q) => q as unknown as Question);
+    const test = data.template!;
+    const questions = test.questions;
 
     import hljs from 'highlight.js';
     import 'highlight.js/styles/github.css';
@@ -32,7 +31,7 @@
             <div class="description">{@html question.description}</div>
         {/if}
         <ul>
-            {#each question.answers as answer}
+            {#each question.templateAnswers as answer}
                 {#if question.correctAnswer === answer}
                     <li class="font-bold text-green-700">{answer}</li>
                 {:else}
