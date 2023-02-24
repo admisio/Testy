@@ -3,16 +3,22 @@
     "main": "./index.ts",
     "types": "./index.ts",
     "scripts": {
-        "test": "vitest"
+        "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate deploy --schema ../database/prisma/schema.prisma",
+        "test": "dotenv -e .env.test vitest"
     },
     "dependencies": {
-        "@prisma/client": "^4.10.1",
         "@testy/database": "workspace:*",
-        "jest-mock-extended": "^3.0.2",
+        "@testy/trpc": "workspace:*",
+        "@trpc/client": "^10.12.0",
+        "bcrypt": "^5.1.0",
+        "dotenv": "^16.0.3",
+        "dotenv-cli": "^7.0.0",
         "vitest": "^0.28.5"
     },
     "devDependencies": {
-        "ts-node": "^10.9.1"
+        "@types/bcrypt": "^5.0.0",
+        "ts-node": "^10.9.1",
+        "vitest-mock-extended": "^1.0.9"
     },
     "prisma": {
         "seed": "node --loader ts-node/esm prisma/seed.ts"
