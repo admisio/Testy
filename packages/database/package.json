@@ -1,5 +1,5 @@
 {
-    "name": "database",
+    "name": "@testy/database",
     "main": "./index.ts",
     "types": "./index.ts",
     "scripts": {

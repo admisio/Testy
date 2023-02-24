@@ -1,5 +1,5 @@
-import prisma from '../prisma';
-import type { Assignment } from 'database';
+import prisma from '../../prisma';
+import type { Assignment } from '@testy/database';
 import { TRPCError } from '@trpc/server';
 
 export const createSubmission = async (userId: number, assignment: Assignment): Promise<void> => {

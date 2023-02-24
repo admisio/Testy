@@ -1,5 +1,5 @@
-import { createContext } from 'trpc/context';
-import { router } from 'trpc/router';
+import { createContext } from '@testy/trpc/server/createContext';
+import { router } from '@testy/trpc/server/router';
 import type { Handle } from '@sveltejs/kit';
 import { createTRPCHandle } from 'trpc-sveltekit';
 

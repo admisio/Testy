@@ -1,6 +1,6 @@
 <script lang="ts">
     import AssignmentCard from '$lib/components/test/AssignmentCard.svelte';
-    import type { Prisma } from 'database';
+    import type { Prisma } from '@testy/database';
     import type { PageData } from './$types';
 
     export let data: PageData;

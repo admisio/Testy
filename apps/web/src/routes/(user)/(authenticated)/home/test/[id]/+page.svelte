@@ -1,6 +1,6 @@
 <script lang="ts">
     import Answers from '$lib/components/testview/Answers.svelte';
-    import { trpc } from 'trpc/client';
+    import { trpc } from '$lib/trpc/client';
     import type { PageData } from './$types';
 
     import { SvelteToast } from '@zerodevx/svelte-toast';

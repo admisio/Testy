@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatDate, remainingTime } from '$lib/utils/date';
-    import type { Prisma } from 'database';
+    import type { Prisma } from '@testy/database';
     import { createEventDispatcher } from 'svelte';
 
     export let assignments: Array<

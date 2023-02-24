@@ -1,9 +1,9 @@
-import { t } from '../t';
 import { TRPCError } from '@trpc/server';
-import type { Context } from '../context';
+import type { Context } from '../createContext';
+import { t } from '../trpc';
+
 
 export type AdminAuthResult<T, E = Error> = { ok: true; value: T } | { ok: false; error: E };
-
 const ok = <T>(value: T): AdminAuthResult<T, never> => ({ ok: true, value });
 const err = <E>(error: E): AdminAuthResult<never, E> => ({ ok: false, error });
 
