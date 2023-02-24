@@ -15,7 +15,6 @@ test('should create group', async () => {
             username: 'username2323'
         }
     });
-    console.log(user);
     await trpc.groups.create({
         name: 'test',
         users: [user.id]
@@ -23,6 +22,4 @@ test('should create group', async () => {
 
     const groups = await prisma.group.findMany({});
     expect(groups).toHaveLength(3);
-
 });
-
