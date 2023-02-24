@@ -1,0 +1,16 @@
+{
+    "eslint.workingDirectories": [
+        "./apps/web",
+        "./packages/*",
+        {
+            "mode": "auto"
+        }
+    ],
+    "eslint.enable": true,
+    "eslint.lintTask.enable": true,
+    "eslint.format.enable": true,
+    "eslint.packageManager": "pnpm",
+    "eslint.validate": [
+        "svelte"
+    ]
+}
