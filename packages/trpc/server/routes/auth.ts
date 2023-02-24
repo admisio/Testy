@@ -1,7 +1,4 @@
-import { t } from '../t';
-
-import { userAuth } from '../middleware/userAuth';
-import { adminAuth } from '../middleware/adminAuth';
+import { t, adminAuth, userAuth } from '../trpc';
 
 export const auth = t.router({
     user: t.procedure.use(userAuth).query(async ({ ctx }) => {

@@ -1,6 +1,6 @@
 import { marked } from 'marked';
 import { load } from 'cheerio';
-import type { HeadingType, TemplateType, Question } from 'trpc';
+import type { HeadingType, TemplateType, Question } from '@testy/trpc';
 
 const OL_REGEX = /<ol(\sstart="[0-9]+")?/g;
 

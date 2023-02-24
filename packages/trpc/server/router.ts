@@ -1,4 +1,4 @@
-import { t } from './t';
+import { t } from './trpc';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import { templates } from './routes/templates';
 import { groups } from './routes/groups';

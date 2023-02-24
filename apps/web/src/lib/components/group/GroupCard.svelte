@@ -1,8 +1,8 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import Icon from '@iconify/svelte';
-    import type { Prisma } from 'database';
-    import { trpc } from 'trpc/client';
+    import type { Prisma } from '@testy/database';
+    import { trpc } from '$lib/trpc/client';
 
     const dispatch = createEventDispatcher();
 
