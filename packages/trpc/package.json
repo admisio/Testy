@@ -3,7 +3,7 @@
     "main": "./index.ts",
     "types": "./index.ts",
     "dependencies": {
-        "database": "workspace:*",
+        "@testy/database": "workspace:*",
         "@trpc/client": "^10.12.0",
         "@trpc/server": "^10.12.0",
         "bcrypt": "^5.1.0",

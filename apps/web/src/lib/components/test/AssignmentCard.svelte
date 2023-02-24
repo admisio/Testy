@@ -1,6 +1,6 @@
 <script lang="ts">
     import Icon from '@iconify/svelte';
-    import type { Prisma } from 'database';
+    import type { Prisma } from '@testy/database';
 
     export let assignment: Prisma.AssignmentGetPayload<{
         include: {

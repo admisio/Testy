@@ -37,7 +37,7 @@
     import 'highlight.js/styles/github-dark.css';
 
     import { onMount } from 'svelte';
-    import type { Answer, Prisma, Question, Submission } from 'database';
+    import type { Answer, Prisma, Question, Submission } from '@testy/database';
 
     import Answers from './Answers.svelte';
 

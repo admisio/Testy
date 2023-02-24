@@ -12,7 +12,7 @@
         "format": "prettier --write --ignore-path=../../.prettierignore ."
     },
     "dependencies": {
-        "database": "workspace:*",
+        "@testy/database": "workspace:*",
         "@testy/trpc": "workspace:*",
         "@zerodevx/svelte-toast": "1.0.0-rc.1",
         "bcrypt": "^5.1.0",

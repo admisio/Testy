@@ -2,7 +2,7 @@
     import { invalidateAll } from '$app/navigation';
     import AssignmentCard from '$lib/components/test/AssignmentCard.svelte';
     import NoTestCard from '$lib/components/test/NoTestCard.svelte';
-    import type { Prisma } from 'database';
+    import type { Prisma } from '@testy/database';
     import { onDestroy } from 'svelte';
     import type { PageData } from './$types';
 

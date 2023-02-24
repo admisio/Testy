@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import Icon from '@iconify/svelte';
-    import type { Template } from 'database';
+    import type { Template } from '@testy/database';
 
     const dispatch = createEventDispatcher();
 
