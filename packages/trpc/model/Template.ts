@@ -1,4 +1,4 @@
-import type { Template, Question as QuestionPrisma } from 'database';
+import type { Template, Question as QuestionPrisma } from '@testy/database';
 import type { Question } from './Question';
 
 export type TemplateFull = Template & { questions: QuestionPrisma[] };

@@ -1,0 +1,20 @@
+{
+    "name": "@testy/tests",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "scripts": {
+        "test": "vitest"
+    },
+    "dependencies": {
+        "@prisma/client": "^4.10.1",
+        "@testy/database": "workspace:*",
+        "jest-mock-extended": "^3.0.2",
+        "vitest": "^0.28.5"
+    },
+    "devDependencies": {
+        "ts-node": "^10.9.1"
+    },
+    "prisma": {
+        "seed": "node --loader ts-node/esm prisma/seed.ts"
+    }
+}

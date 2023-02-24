@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Prisma } from 'database';
+    import type { Prisma } from '@testy/database';
     
     export let users: Array<
         Prisma.UserGetPayload<{

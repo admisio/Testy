@@ -4,7 +4,7 @@
     import TestTable from '$lib/components/groupsview/TestTable.svelte';
     import { trpc } from '$lib/trpc/client';
     import { invalidateAll } from '$app/navigation';
-    import type { Prisma } from 'database';
+    import type { Prisma } from '@testy/database';
 
     export let data: PageData;
 
