@@ -1,7 +1,7 @@
-import prisma from '../client';
+import prisma from '@testy/database/client';
 import { expect, test, beforeEach } from 'vitest';
 import { resetDb } from '../reset';
-import trpc from '../trpc';
+import adminTrpc from '../trpc';
 
 beforeEach(async () => {
     await resetDb();
@@ -15,7 +15,7 @@ test('should create group', async () => {
             username: 'username2323'
         }
     });
-    await trpc.groups.create({
+    await adminTrpc.groups.create({
         name: 'test',
         users: [user.id]
     });

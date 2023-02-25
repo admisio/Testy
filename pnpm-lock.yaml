@@ -117,6 +117,7 @@ importers:
       '@trpc/client': ^10.12.0
       '@types/bcrypt': ^5.0.0
       bcrypt: ^5.1.0
+      date-fns: ^2.29.3
       dotenv: ^16.0.3
       dotenv-cli: ^7.0.0
       ts-node: ^10.9.1
@@ -127,6 +128,7 @@ importers:
       '@testy/trpc': link:../trpc
       '@trpc/client': 10.12.0_@trpc+server@10.12.0
       bcrypt: 5.1.0
+      date-fns: 2.29.3
       dotenv: 16.0.3
       dotenv-cli: 7.0.0
       vitest: 0.28.5

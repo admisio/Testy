@@ -1,6 +1,6 @@
 import { expect, test, beforeEach } from 'vitest';
 import { resetDb } from '../reset';
-import trpc from '../trpc';
+import adminTrpc from '../trpc';
 import { USERS } from '../lib/data';
 
 beforeEach(async () => {
@@ -8,7 +8,7 @@ beforeEach(async () => {
 });
 
 test('should list users', async () => {
-    const users = await trpc.users.list();
+    const users = await adminTrpc.users.list();
     const dbUsers: typeof users = USERS.map((user) => {
         return {
             id: user.id,

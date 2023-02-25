@@ -1,4 +1,4 @@
-import prisma from './client';
+import prisma from '@testy/database/client';
 import { expect, it, beforeEach } from 'vitest';
 import { resetDb } from './reset';
 

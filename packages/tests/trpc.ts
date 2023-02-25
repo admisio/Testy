@@ -12,6 +12,5 @@ export default trpc; */
 
 import {router} from '@testy/trpc/server/router';
 
-const trpc = router.createCaller({userId: '1', role: 'admin'});
-
-export default trpc;
+const adminTrpc = router.createCaller({userId: '1', role: 'admin'});
+export default adminTrpc;

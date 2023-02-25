@@ -1,3 +1,4 @@
+import { Question, Template } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 type UserType = {
@@ -22,7 +23,20 @@ type AdminType = {
     surname: string;
     email: string;
     password: string;
-}
+};
+
+/* type QuestionType = {
+    id: number;
+    text: string;
+    templateId: number;
+    correctAnswer: string;
+}; */
+
+type TemplateType = {
+    id: number;
+    name: string;
+    timeLimit: number;
+};
 
 const generateUsers = (data: {
     idStart: number;
@@ -42,6 +56,25 @@ const generateUsers = (data: {
         });
     }
     return users;
+};
+
+const generateQuestions = (data: {
+    idStart: number;
+    count: number;
+    templateId: number;
+}): Array<Question> => {
+    const questions: Array<Question> = [];
+    for (let i = data.idStart; i < data.count; i++) {
+        questions.push({
+            id: i,
+            title: `question${i}`,
+            templateAnswers: ["answer1", "answer2", "answer3", "answer4"],
+            correctAnswer: "answer1",
+            description: "description",
+            testId: data.templateId
+        });
+    }
+    return questions;
 };
 
 export const GROUPS: Array<GroupType> = [
@@ -67,6 +100,11 @@ export const USERS: Array<UserType> = [
         };
     });
 
+export const QUESTIONS: Array<Question> = [
+    generateQuestions({ idStart: 1, count: 10, templateId: 1 }),
+    // generateQuestions({ idStart: 11, count: 15, templateId: 2 })
+].flat();
+
 export const ADMIN: AdminType = {
     id: 1,
     name: 'admin',
@@ -74,4 +112,11 @@ export const ADMIN: AdminType = {
     username: 'admin',
     email: 'admin',
     password: bcrypt.hashSync('admin', 10)
+};
+
+export const TEMPLATE: Template = {
+    id: 1,
+    title: 'template',
+    timeLimit: 25,
+    maxScore: 15
 };
