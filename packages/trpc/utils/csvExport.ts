@@ -1,4 +1,4 @@
-import prisma from '../prisma';
+import prisma from '@testy/database/client';
 import { stringify as csvStringify } from 'csv-stringify/sync';
 
 export const exportCsv = async (): Promise<string> => {

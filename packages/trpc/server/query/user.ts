@@ -1,4 +1,4 @@
-import prisma from '../../prisma';
+import prisma from '@testy/database/client';
 
 export const findUniqueWithSubmission = async (id: number, assignmentId: number) =>
     prisma.user.findUniqueOrThrow({

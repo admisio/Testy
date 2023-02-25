@@ -1,6 +1,6 @@
 import { t, adminAuth, userAuth } from '../trpc';
 import { z } from 'zod';
-import prisma from '../../prisma';
+import prisma from '@testy/database/client';
 
 export const submissions = t.router({
     list: t.procedure

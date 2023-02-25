@@ -1,4 +1,4 @@
-import prisma from '../../prisma';
+import prisma from '@testy/database/client';
 import type { TemplateFull, TemplateType } from '../../model/Template';
 
 export const createTest = async (templateData: TemplateType): Promise<TemplateFull> => {

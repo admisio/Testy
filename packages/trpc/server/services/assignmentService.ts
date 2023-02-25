@@ -1,4 +1,4 @@
-import prisma from '../../prisma';
+import prisma from '@testy/database/client';
 import { createSubmission } from './submissionService';
 
 export const submitExpired = async (): Promise<void> => {

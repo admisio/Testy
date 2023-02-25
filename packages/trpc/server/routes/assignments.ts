@@ -5,7 +5,7 @@ import { findUniqueWithSubmission } from '../query/user';
 import { addMinutes } from 'date-fns';
 import { createSubmission } from '../services/submissionService';
 import { submitExpired } from '../services/assignmentService';
-import prisma from '../../prisma';
+import prisma from '@testy/database/client';
 
 export const assignments = t.router({
     assignToGroup: t.procedure
@@ -202,6 +202,7 @@ export const assignments = t.router({
             if (!assignment?.started || !assignment.endTime || new Date() > assignment.endTime) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
+            console.log('submitting answer');
             await prisma.answer.upsert({
                 where: {
                     user_question_test: {

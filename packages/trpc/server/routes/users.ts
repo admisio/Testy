@@ -1,6 +1,6 @@
 import { t, adminAuth } from '../trpc';
 import { z } from 'zod';
-import prisma from '../../prisma';
+import prisma from '@testy/database/client';
 import { exportCsv } from '../../utils/csvExport';
 import bcrypt from 'bcrypt';
 
