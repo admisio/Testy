@@ -1,4 +1,5 @@
 name: PostgreSQL service example
+
 on: push
 
 jobs:
