@@ -11,7 +11,7 @@ jobs:
         run: sudo apt update && sudo apt install -y postgresql
 
       - name: Start PostgreSQL on Ubuntu
-        run: 
+        run: |
           sudo systemctl start postgresql.service
           pg_isready
       # Downloads a copy of the code in your repository before running CI tests
