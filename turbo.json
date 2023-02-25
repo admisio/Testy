@@ -14,6 +14,12 @@
         "test": {
             "cache": false
         },
+        "test:currentenv": {
+            "cache": false
+        },
+        "migrate:postgres:currentenv": {
+            "cache": false
+        },
         "db:generate": {
             "cache": false
         },

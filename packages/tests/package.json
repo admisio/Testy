@@ -4,7 +4,9 @@
     "types": "./index.ts",
     "scripts": {
         "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate deploy --schema ../database/prisma/schema.prisma",
-        "test": "dotenv -e .env.test vitest"
+        "test": "dotenv -e .env.test vitest",
+        "migrate:postgres:currentenv": "npx prisma migrate deploy --schema ../database/prisma/schema.prisma",
+        "test:currentenv": "vitest"
     },
     "dependencies": {
         "@testy/database": "workspace:*",
