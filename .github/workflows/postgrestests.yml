@@ -33,6 +33,12 @@ jobs:
         run: pnpm migrate-test
         env: 
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+
+      - name: Generate prisma types
+        run: pnpm db-generate
+        env: 
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+        
       - name: Connect to PostgreSQL
         # Runs a script that creates a PostgreSQL table, populates
         # the table with data, and then retrieves the data.
