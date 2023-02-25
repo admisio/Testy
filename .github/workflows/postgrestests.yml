@@ -5,6 +5,7 @@ on: push
 jobs:
   # Label of the container job
   postgres-tests:
+    runs-on: ubuntu-latest
     steps:
       - name: Install PostgreSQL on Ubuntu
         run: sudo apt update && sudo apt install -y postgresql
