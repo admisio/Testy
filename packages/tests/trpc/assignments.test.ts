@@ -1,4 +1,3 @@
-import prisma from '@testy/database/client';
 import { expect, test, beforeEach } from 'vitest';
 import { resetDb } from '../reset';
 import adminTrpc from '../trpc';
@@ -56,9 +55,17 @@ test('should submit answers and get correct results', async () => {
         });
     }
     const data = await trpc.assignments.get({ assignmentId: assignment.id });
-    console.log(data.assignment.template.questions);
-    console.log(await prisma.answer.findMany({}));
     data.assignment.template.questions.forEach((question, i) => {
         expect(question.submittedAnswers[0].value).toEqual('answer' + (i % 4));
+    });
+
+    await trpc.assignments.submittemplate({ assignmentId: assignment.id });
+
+    const submission = await trpc.submissions.get({ assignmentId: assignment.id });
+    expect(submission.evaluation).toEqual(Math.floor(QUESTIONS.length / 4));
+    expect(submission.assignment.submittedAnswers).toHaveLength(QUESTIONS.length);
+    submission.assignment.submittedAnswers.forEach((answer, i) => {
+        expect(answer.value).toEqual('answer' + (i % 4));
+        expect(answer.evaluation).toEqual(QUESTIONS[i].correctAnswer === answer.value ? 1 : 0);
     });
 });
