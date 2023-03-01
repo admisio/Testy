@@ -25,6 +25,7 @@ importers:
   apps/web:
     specifiers:
       '@iconify/svelte': ^3.1.0
+      '@playwright/test': ^1.31.1
       '@sveltejs/adapter-node': ^1.2.0
       '@sveltejs/kit': ^1.8.3
       '@testy/database': workspace:*
@@ -65,6 +66,7 @@ importers:
       trpc-sveltekit: 3.4.2_wazxat3ehptqnii6bifqrsnjom
     devDependencies:
       '@iconify/svelte': 3.1.0_svelte@3.55.1
+      '@playwright/test': 1.31.1
       '@sveltejs/adapter-node': 1.2.0_@sveltejs+kit@1.8.3
       '@sveltejs/kit': 1.8.3_svelte@3.55.1+vite@4.1.4
       '@types/bcrypt': 5.0.0
@@ -120,6 +122,7 @@ importers:
       date-fns: ^2.29.3
       dotenv: ^16.0.3
       dotenv-cli: ^7.0.0
+      node: ^19.6.1
       ts-node: ^10.9.1
       vitest: ^0.28.5
       vitest-mock-extended: ^1.0.9
@@ -131,6 +134,7 @@ importers:
       date-fns: 2.29.3
       dotenv: 16.0.3
       dotenv-cli: 7.0.0
+      node: 19.6.1
       vitest: 0.28.5
     devDependencies:
       '@types/bcrypt': 5.0.0
@@ -460,6 +464,17 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+
+  /@playwright/test/1.31.1:
+    resolution: {integrity: sha512-IsytVZ+0QLDh1Hj83XatGp/GsI1CDJWbyDaBGbainsh0p2zC7F4toUocqowmjS6sQff2NGT3D9WbDj/3K2CJiA==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      '@types/node': 18.14.1
+      playwright-core: 1.31.1
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
 
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
@@ -1989,6 +2004,10 @@ packages:
     resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
     dev: false
 
+  /node-bin-setup/1.1.3:
+    resolution: {integrity: sha512-opgw9iSCAzT2+6wJOETCpeRYAQxSopqQ2z+N6BXwIMsQQ7Zj5M8MaafQY8JMlolRR6R1UXg2WmhKp0p9lSOivg==}
+    dev: false
+
   /node-fetch/2.6.9:
     resolution: {integrity: sha512-DJm/CJkZkRjKKj4Zi4BsKVZh3ValV5IR5s7LVZnW+6YMh0W1BfNA8XSs6DLMGYlId5F3KnA70uu2qepcR08Qqg==}
     engines: {node: 4.x || >=6.0.0}
@@ -1999,6 +2018,15 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+    dev: false
+
+  /node/19.6.1:
+    resolution: {integrity: sha512-byYg3LxtFgNG0vINZMk4iX3Aa7p8Uc3t3WOQfZMwXcIiCzSTOXNbPOEmbrTSI73yrrfhr6IsutbLnN+/PBSaSA==}
+    engines: {npm: '>=5.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      node-bin-setup: 1.1.3
     dev: false
 
   /nopt/5.0.0:
@@ -2125,6 +2153,12 @@ packages:
       jsonc-parser: 3.2.0
       mlly: 1.1.1
       pathe: 1.1.0
+
+  /playwright-core/1.31.1:
+    resolution: {integrity: sha512-JTyX4kV3/LXsvpHkLzL2I36aCdml4zeE35x+G5aPc4bkLsiRiQshU5lWeVpHFAuC8xAcbI6FDcw/8z3q2xtJSQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
 
   /postcss/8.4.21:
     resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
