@@ -4,7 +4,8 @@
     "types": "./index.ts",
     "scripts": {
         "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate deploy --schema ../database/prisma/schema.prisma",
-        "test": "dotenv -e .env.test vitest",
+        "reset": "dotenv -e .env.test -- npx prisma migrate reset --force --schema ../database/prisma/schema.prisma",
+        "test": "dotenv -e .env.test vitest --runInBand",
         "migrate:postgres:currentenv": "npx prisma migrate deploy --schema ../database/prisma/schema.prisma",
         "test:currentenv": "vitest"
     },
@@ -16,6 +17,7 @@
         "date-fns": "^2.29.3",
         "dotenv": "^16.0.3",
         "dotenv-cli": "^7.0.0",
+        "node": "^19.6.1",
         "vitest": "^0.28.5"
     },
     "devDependencies": {

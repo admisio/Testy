@@ -1,21 +1,17 @@
 import { expect, test, beforeEach } from 'vitest';
-import { resetDb } from '../reset';
 import adminTrpc from '../trpc';
-import { USERS } from '../lib/data';
-
-beforeEach(async () => {
-    await resetDb();
-});
+import { getTestData } from '../lib/data';
 
 test('should list users', async () => {
+    const { adminTrpc, USERS } = await getTestData();
     const users = await adminTrpc.users.list();
-    const dbUsers: typeof users = USERS.map((user) => {
+    const dbUsers = USERS.map(({id, name, email, surname, username}) => {
         return {
-            id: user.id,
-            name: user.name,
-            surname: user.surname,
-            username: user.username,
-            email: user.email
+            id,
+            name,
+            email,
+            surname,
+            username
         };
     });
     expect(users).toEqual(dbUsers);

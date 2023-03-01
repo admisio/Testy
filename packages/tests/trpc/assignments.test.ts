@@ -1,28 +1,30 @@
 import { expect, test, beforeEach } from 'vitest';
-import { resetDb } from '../reset';
-import adminTrpc from '../trpc';
 import { addMinutes } from 'date-fns';
-import { QUESTIONS } from '../lib/data';
+import { getTestData } from '../lib/data';
 import { router } from '@testy/trpc/server/router';
+import { resetDb } from '../reset';
 
 beforeEach(async () => {
     await resetDb();
-});
+})
+
 
 test('should assign test template to group', async () => {
+    const {adminTrpc, GROUPS, TEMPLATE} = await getTestData();
     await adminTrpc.assignments.assignToGroup({
-        templateId: 1,
-        groupId: 1
+        templateId: TEMPLATE.id,
+        groupId: GROUPS[0].id
     });
     const assignment = (await adminTrpc.assignments.list())[0];
-    expect(assignment.groupId).toBe(1);
+    expect(assignment.groupId).toBe(GROUPS[0].id);
     expect(assignment.started).toBe(false);
 });
 
 test('should start assignment with correct endTime', async () => {
+    const {adminTrpc, GROUPS, TEMPLATE} = await getTestData();
     await adminTrpc.assignments.assignToGroup({
-        templateId: 1,
-        groupId: 1
+        templateId: TEMPLATE.id,
+        groupId: GROUPS[0].id
     });
     const assignments = await adminTrpc.assignments.list();
     expect(assignments).toHaveLength(1);
@@ -37,15 +39,16 @@ test('should start assignment with correct endTime', async () => {
 });
 
 test('should submit answers and get correct results', async () => {
+    const {adminTrpc, GROUPS, TEMPLATE, USERS, QUESTIONS} = await getTestData();
     await adminTrpc.assignments.assignToGroup({
-        templateId: 1,
-        groupId: 1
+        templateId: TEMPLATE.id,
+        groupId: GROUPS[0].id
     });
     const assignment = (await adminTrpc.assignments.list())[0];
     await adminTrpc.assignments.start({
         assignmentId: assignment.id
     });
-    const trpc = router.createCaller({ userId: '1', role: 'user' });
+    const trpc = router.createCaller({ userId: USERS[0].id.toString(), role: 'user' });
     for (let i = 0; i < QUESTIONS.length; i++) {
         const question = QUESTIONS[i];
         await trpc.assignments.submitAnswer({
@@ -54,8 +57,8 @@ test('should submit answers and get correct results', async () => {
             answer: 'answer' + (i % 4) // predictable result
         });
     }
-    const data = await trpc.assignments.get({ assignmentId: assignment.id });
-    data.assignment.template.questions.forEach((question, i) => {
+    const res = await trpc.assignments.get({ assignmentId: assignment.id });
+    res.assignment.template.questions.forEach((question, i) => {
         expect(question.submittedAnswers[0].value).toEqual('answer' + (i % 4));
     });
 
@@ -65,7 +68,6 @@ test('should submit answers and get correct results', async () => {
     expect(submission.evaluation).toEqual(Math.floor(QUESTIONS.length / 4));
     expect(submission.assignment.submittedAnswers).toHaveLength(QUESTIONS.length);
     submission.assignment.submittedAnswers.forEach((answer, i) => {
-        expect(answer.value).toEqual('answer' + (i % 4));
-        expect(answer.evaluation).toEqual(QUESTIONS[i].correctAnswer === answer.value ? 1 : 0);
+        expect(answer.evaluation).toEqual(QUESTIONS.find((q) => q.id === answer.questionId)?.correctAnswer === answer.value ? 1 : 0);
     });
 });

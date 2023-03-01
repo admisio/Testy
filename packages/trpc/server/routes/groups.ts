@@ -20,6 +20,7 @@ export const groups = t.router({
                     }
                 }
             });
+            console.log(await prisma.adminsOnGroups.findMany({}))
             await prisma.adminsOnGroups.create({
                 data: {
                     adminId: Number(ctx.userId),
