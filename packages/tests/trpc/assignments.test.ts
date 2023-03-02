@@ -1,14 +1,10 @@
-import { expect, test, beforeEach, afterEach } from 'vitest';
+import { expect, test, beforeEach } from 'vitest';
 import { addMinutes } from 'date-fns';
 import { getTestData } from '../lib/data';
 import { router } from '@testy/trpc/server/router';
 import { resetDb } from '../reset';
 
 beforeEach(async () => {
-    await resetDb();
-})
-
-afterEach(async () => {
     await resetDb();
 })
 
