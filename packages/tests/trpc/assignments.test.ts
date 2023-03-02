@@ -1,10 +1,14 @@
-import { expect, test, beforeEach } from 'vitest';
+import { expect, test, beforeEach, afterEach } from 'vitest';
 import { addMinutes } from 'date-fns';
 import { getTestData } from '../lib/data';
 import { router } from '@testy/trpc/server/router';
 import { resetDb } from '../reset';
 
 beforeEach(async () => {
+    await resetDb();
+})
+
+afterEach(async () => {
     await resetDb();
 })
 
@@ -70,4 +74,19 @@ test('should submit answers and get correct results', async () => {
     submission.assignment.submittedAnswers.forEach((answer, i) => {
         expect(answer.evaluation).toEqual(QUESTIONS.find((q) => q.id === answer.questionId)?.correctAnswer === answer.value ? 1 : 0);
     });
+});
+
+test('should list users', async () => {
+    const { adminTrpc, USERS } = await getTestData();
+    const users = await adminTrpc.users.list();
+    const dbUsers = USERS.map(({id, name, email, surname, username}) => {
+        return {
+            id,
+            name,
+            email,
+            surname,
+            username
+        };
+    });
+    expect(users).toEqual(dbUsers);
 });

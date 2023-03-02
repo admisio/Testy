@@ -3,6 +3,7 @@ import { Admin, Group, User } from '@testy/database';
 import prisma from '@testy/database/client';
 import { router } from '@testy/trpc/server/router';
 import bcrypt from 'bcrypt';
+import { resetDb } from '../reset';
 
 type UserType = {
     email: string;
@@ -120,6 +121,7 @@ export const getTestData = async (): Promise<{
     TEMPLATE: Template;
     adminTrpc: typeof TRPC_CALLER_TYPE;
 }> => {
+    await resetDb();
     const groups = await prisma.group.findMany({});
     const users = await prisma.user.findMany({});
     const questions = await prisma.question.findMany({});
