@@ -1,5 +1,4 @@
 import prisma from '@testy/database/client';
-import { exec, execSync } from 'node:child_process';
 import { ADMIN, GROUPS, QUESTIONS, TEMPLATE, USERS } from './lib/data';
 
 
@@ -38,11 +37,9 @@ export const resetDb = async (): Promise<void> => {
     await prisma.user.createMany({
         data: USERS.map((user) => ({
             ...user,
-            groupId: groups[0].id
+            groupId: groups[user.groupId - 1].id
         }))
     });
-    const newUsers = await prisma.user.findMany();
-    // console.log(newUsers)
     await prisma.admin.create({
         data: ADMIN
     });

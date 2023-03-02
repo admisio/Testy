@@ -11,6 +11,7 @@ type UserType = {
     surname: string;
     username: string;
     password: string;
+    groupId: number;
 };
 
 type GroupType = {
@@ -39,17 +40,18 @@ type TemplateType = {
 };
 
 const generateUsers = (data: {
-    idStart: number;
     count: number;
+    groupId: number;
 }): Array<UserType> => {
     const users: Array<UserType> = [];
-    for (let i = data.idStart; i < data.count; i++) {
+    for (let i = 0; i < data.count; i++) {
         users.push({
-            email: `mail${i}`,
-            name: `name${i}`,
+            email: `mail${i}${data.groupId}`,
+            name: `name${i}${data.groupId}`,
             surname: `surname${i}`,
-            username: `username${i}`,
-            password: `password${i}`
+            username: `username${i}${data.groupId}`,
+            password: `password${i}${data.groupId}`,
+            groupId: data.groupId
         });
     }
     return users;
@@ -81,8 +83,8 @@ export const GROUPS: Array<GroupType> = [
 ];
 
 export const USERS: Array<UserType> = [
-    generateUsers({ idStart: 1, count: 15 }),
-    // generateUsers({ idStart: 16, count: 15 })
+    generateUsers({ groupId: 1, count: 15 }),
+    generateUsers({ groupId: 2, count: 15 })
 ]
     .flat()
     .map((user) => {
