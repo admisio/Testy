@@ -75,6 +75,11 @@ test('should submit answers and get correct results', async () => {
         const submission = await trpc.submissions.get({ assignmentId: assignment.id });
         expect(submission.evaluation).toEqual(Math.floor(QUESTIONS.length / 4));
         expect(submission.assignment.submittedAnswers).toHaveLength(QUESTIONS.length);
+
+        const adminSubmission = await adminTrpc.submissions.getUserSubmission({ assignmentId: assignment.id, userId: user.id });
+        expect(adminSubmission.evaluation).toEqual(Math.floor(QUESTIONS.length / 4));
+        expect(adminSubmission.assignment.submittedAnswers).toHaveLength(QUESTIONS.length);
+
         submission.assignment.submittedAnswers.forEach((answer) => {
             const question = QUESTIONS.find((q) => q.id === answer.questionId)!;
             expect(answer.value).toEqual(qa.get(question.id));
@@ -84,6 +89,7 @@ test('should submit answers and get correct results', async () => {
                     : 0
             );
         });
+
     }
 });
 
