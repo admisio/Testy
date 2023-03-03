@@ -109,6 +109,9 @@ export const assignments = t.router({
                         }
                     },
                     submissions: {
+                        where: {
+                            userId: user.id
+                        },
                         select: {
                             assignmentId: true
                         }
