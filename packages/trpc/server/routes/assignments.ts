@@ -229,7 +229,8 @@ export const assignments = t.router({
                     }
                 },
                 update: {
-                    value: answer
+                    value: answer,
+                    index: input.answerIndex
                 },
                 create: {
                     user: {
@@ -247,7 +248,8 @@ export const assignments = t.router({
                             id: input.assignmentId
                         }
                     },
-                    value: answer
+                    value: answer,
+                    index: input.answerIndex
                 }
             });
         }),
