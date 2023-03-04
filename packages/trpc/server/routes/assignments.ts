@@ -180,7 +180,7 @@ export const assignments = t.router({
             z.object({
                 assignmentId: z.number(),
                 questionId: z.number(),
-                answer: z.string()
+                answerIndex: z.number()
             })
         )
         .mutation(async ({ ctx, input }) => {
@@ -188,6 +188,13 @@ export const assignments = t.router({
             const assignment = await prisma.assignment.findUnique({
                 where: {
                     id: input.assignmentId
+                },
+                include: {
+                    template: {
+                        include: {
+                            questions: true
+                        }
+                    }
                 }
             });
             if (user.submissions.length > 0) {
@@ -205,6 +212,14 @@ export const assignments = t.router({
             if (!assignment?.started || !assignment.endTime || new Date() > assignment.endTime) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
+
+            const answer = assignment.template.questions.find((q) => q.id === input.questionId)
+                ?.templateAnswers[input.answerIndex];
+            
+            if (!answer) {
+                throw new TRPCError({ code: 'NOT_FOUND', message: 'Answer not found' });
+            }
+
             await prisma.answer.upsert({
                 where: {
                     user_question_test: {
@@ -214,7 +229,7 @@ export const assignments = t.router({
                     }
                 },
                 update: {
-                    value: input.answer
+                    value: answer
                 },
                 create: {
                     user: {
@@ -232,7 +247,7 @@ export const assignments = t.router({
                             id: input.assignmentId
                         }
                     },
-                    value: input.answer
+                    value: answer
                 }
             });
         }),

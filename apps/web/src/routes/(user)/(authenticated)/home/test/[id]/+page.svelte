@@ -15,11 +15,11 @@
     $: test = data.assignment!;
 
     const submitAnswer = async (e: any, questionId: number) => {
-        const { answer, runOnSuccess } = e.detail;
+        const { answerIndex, runOnSuccess } = e.detail;
         try {
             await trpc().assignments.submitAnswer.mutate({
                 assignmentId: test.id,
-                answer,
+                answerIndex,
                 questionId
             });
             runOnSuccess();
