@@ -69,6 +69,7 @@ model Submission {
 model Answer {
   id           Int        @id @default(autoincrement())
   value        String
+  index        Int
   questionId   Int
   question     Question   @relation(fields: [questionId], references: [id])
   userId       Int
