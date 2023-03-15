@@ -1,0 +1,23 @@
+{
+    "name": "@testy/database",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "scripts": {
+        "db:generate": "prisma generate",
+        "db:push": "prisma db push --skip-generate",
+        "db:seed": "prisma db seed",
+        "db:deploy": "prisma migrate deploy"
+    },
+    "dependencies": {
+        "@prisma/client": "^4.10.1",
+        "bcrypt": "^5.1.0"
+    },
+    "devDependencies": {
+        "prisma": "^4.10.1",
+        "ts-node": "^10.9.1",
+        "@types/bcrypt": "^5.0.0"
+    },
+    "prisma": {
+        "seed": "node --loader ts-node/esm prisma/seed.ts"
+    }
+}
