@@ -101,11 +101,8 @@
                 {/if}
                 <div class="mt-6">
                     <Answers
-                        readOnly
                         answers={question.templateAnswers}
-                        selectedAnswerIndex={answers.has(question.id)
-                            ? question.templateAnswers.indexOf(answers.get(question.id)?.value ?? '')
-                            : -1}
+                        selectedAnswerIndex={question.templateAnswers.indexOf(answers.get(question.id)?.value ?? '')}
                         selectedAnswerEval={answers.get(question.id)?.evaluation ?? 0}
                     />
                 </div>
