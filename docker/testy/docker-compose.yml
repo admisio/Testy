@@ -37,7 +37,7 @@ services:
             - traefik_proxy
             - db
     app:
-        image: 'ghcr.io/starvy/testy_frontend_backend:latest'
+        image: 'ghcr.io/admisio/testy_frontend_backend:latest'
         container_name: app
         restart: unless-stopped
         labels:
