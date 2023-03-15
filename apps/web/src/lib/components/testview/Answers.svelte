@@ -25,7 +25,7 @@
         dispatch(
             'submit',
             {
-                answer: answers[index],
+                answerIndex: index,
                 runOnSuccess: () => {
                     selectedAnswerIndex = index;
                 }
