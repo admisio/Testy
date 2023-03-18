@@ -49,6 +49,7 @@ services:
         environment:
             DATABASE_URL: 'postgres://REDACTED:REDACTED@postgres:5432/postgres'
             JWT_SECRET: 'REDACTED'
+            BODY_SIZE_LIMIT: 100000000
         networks:
             - traefik_proxy
             - db
