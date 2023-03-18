@@ -24,7 +24,7 @@
             });
             runOnSuccess();
         } catch (error) {
-            pushErrorText("Test skončil");
+            pushErrorText('Test skončil');
             e.preventDefault();
         }
     };
@@ -100,14 +100,18 @@
             {#if test.template.headings.some((heading) => heading.questionRangeStart === i + 1)}
                 {#each test.template.headings.filter((heading) => heading.questionRangeStart === i + 1) as heading}
                     <div class="mt-12 w-full">
-                        <h2
-                            class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
-                        >
-                            {@html heading.title}
-                        </h2>
-                        <p class="mt-4 text-ellipsis break-all text-xl ">
-                            {@html heading.description}
-                        </p>
+                        {#if heading.title}
+                            <h2
+                                class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                            >
+                                {@html heading.title}
+                            </h2>
+                        {/if}
+                        {#if heading.description}
+                            <p class="mt-4 text-ellipsis break-all text-xl ">
+                                {@html heading.description}
+                            </p>
+                        {/if}
                     </div>
                 {/each}
             {/if}
