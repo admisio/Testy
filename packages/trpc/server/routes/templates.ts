@@ -46,7 +46,8 @@ export const templates = t.router({
                     id: input
                 },
                 include: {
-                    questions: true
+                    questions: true,
+                    headings: true
                 }
             })
         )

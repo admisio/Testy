@@ -4,6 +4,7 @@
     export let data: PageData;
     const test = data.template!;
     const questions = test.questions;
+    const headings = test.headings;
 
     import hljs from 'highlight.js';
     import 'highlight.js/styles/github.css';
@@ -25,7 +26,25 @@
 <div
     class="mx-auto mx-auto flex max-w-screen-xl  flex-col flex-wrap justify-between px-4 py-3 md:px-6"
 >
-    {#each questions as question}
+    {#each questions as question, i}
+        {#if headings.some((heading) => heading.questionRangeStart === i + 1)}
+            {#each headings.filter((heading) => heading.questionRangeStart === i + 1) as heading}
+                <div class="w-full">
+                    {#if heading.title}
+                        <h2
+                            class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                        >
+                            {@html heading.title}
+                        </h2>
+                    {/if}
+                    {#if heading.description}
+                        <p class="mt-4 text-ellipsis break-all text-xl ">
+                            {@html heading.description}
+                        </p>
+                    {/if}
+                </div>
+            {/each}
+        {/if}
         <h2>{@html question.title}</h2>
         {#if question.description}
             <div class="description">{@html question.description}</div>
