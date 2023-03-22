@@ -6,10 +6,10 @@
         "test": "vitest"
     },
     "dependencies": {
-        "@prisma/client": "^4.10.1",
         "@testy/database": "workspace:*",
-        "jest-mock-extended": "^3.0.2",
-        "vitest": "^0.28.5"
+        "@prisma/client": "^4.11.0",
+        "jest-mock-extended": "^3.0.3",
+        "vitest": "^0.29.7"
     },
     "devDependencies": {
         "ts-node": "^10.9.1"
