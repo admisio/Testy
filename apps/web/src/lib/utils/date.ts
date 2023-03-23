@@ -1,7 +1,7 @@
 export const formatDate = (date: Date | null): string | null => {
     if (!date) return null;
     return (
-        date.getDay() +
+        date.getDate() +
         '. ' +
         (date.getMonth() + 1) +
         '. ' +
