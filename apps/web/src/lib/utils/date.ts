@@ -3,7 +3,7 @@ export const formatDate = (date: Date | null): string | null => {
     return (
         date.getDay() +
         '. ' +
-        date.getMonth() +
+        (date.getMonth() + 1) +
         '. ' +
         date.getFullYear() +
         ' ' +
