@@ -62,12 +62,20 @@
                         </td>
                         <td>
                             <p>
-                                {formatDate(assignment.startTime)}
+                                {#if assignment.startTime}
+                                    {formatDate(assignment.startTime)}
+                                {:else}
+                                    -
+                                {/if}
                             </p>
                         </td>
                         <td>
                             <p>
-                                {formatDate(assignment.endTime)}
+                                {#if assignment.endTime}
+                                    {formatDate(assignment.endTime)}
+                                {:else}
+                                    -
+                                {/if}
                             </p>
                         </td>
                         <td>
@@ -97,7 +105,6 @@
                                         class="absolute inset-0 rounded-full bg-red-200 opacity-50"
                                     />
                                     <span class="relative text-red-700">Ukončeno</span>
-
                                 {:else}
                                     <button
                                         on:click={(_) => startTest(assignment.id)}
