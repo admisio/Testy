@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formatDate, remainingTime } from '$lib/utils/date';
     import type { Prisma } from '@testy/database';
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
     export let assignments: Array<
         Prisma.AssignmentGetPayload<{
@@ -28,7 +28,16 @@
     };
 
     updateTimeRemaining();
-    setInterval(() => updateTimeRemaining(), 1000);
+
+    let updateTimeRemainingInterval: NodeJS.Timer;
+
+    onMount(() => {
+        updateTimeRemainingInterval = setInterval(() => updateTimeRemaining(), 1000);
+    });
+    
+    onDestroy(() => {
+        clearInterval(updateTimeRemainingInterval);
+    });
 
     const dispatch = createEventDispatcher();
 
