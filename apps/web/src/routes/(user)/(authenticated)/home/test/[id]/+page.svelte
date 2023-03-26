@@ -102,13 +102,13 @@
                     <div class="mt-12 w-full">
                         {#if heading.title}
                             <h2
-                                class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                                class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
                             >
                                 {@html heading.title}
                             </h2>
                         {/if}
                         {#if heading.description}
-                            <p class="mt-4 text-ellipsis break-all text-xl ">
+                            <p class="text-justify mt-4 text-ellipsis break-words text-xl">
                                 {@html heading.description}
                             </p>
                         {/if}
@@ -118,13 +118,13 @@
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
                     <h2
-                        class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                        class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
                     >
                         {i + 1}. {@html question.title}
                     </h2>
                 </div>
                 {#if question.description}
-                    <div class="description mt-8 dark:text-gray-200">
+                    <div class="break-words description mt-8 dark:text-gray-200">
                         {@html '\n' + question.description}
                     </div>
                 {/if}
