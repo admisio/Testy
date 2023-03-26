@@ -39,7 +39,7 @@
     import 'highlight.js/styles/github-dark.css';
 
     import { onDestroy, onMount } from 'svelte';
-    import { goto } from '$app/navigation';
+    import { goto, invalidateAll } from '$app/navigation';
     import { pushErrorText } from '$lib/utils/toast';
 
     onMount(() => {
@@ -182,7 +182,10 @@
 </div>
 
 <div class="my-10 flex w-full items-center justify-center">
-    <Button title="Odeslat test" on:click={() => (submitModalIsOpen = true)} />
+    <Button title="Odeslat test" on:click={async () => {
+        await invalidateAll();
+        submitModalIsOpen = true
+    }} />
 </div>
 
 <style lang="postcss">
