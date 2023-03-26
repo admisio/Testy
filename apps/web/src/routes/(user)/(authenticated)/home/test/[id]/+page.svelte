@@ -79,6 +79,12 @@
     onDestroy(() => {
         clearInterval(updateTimeRemainingInterval);
     });
+    
+    $: submittedAnswersCount = test.template.questions.filter(
+        (question) => question.submittedAnswers.length > 0
+    ).length;
+
+    $: answersCount = test.template.questions.length;
 </script>
 
 <SvelteToast />
@@ -88,7 +94,16 @@
         <div
             class="md:w-screen-md mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col items-center p-4"
         >
-            <h1 class="<md:mb-3 text-4xl font-black text-black">Přejete si odevzdat test?</h1>
+            <h1 class="<md:mb-3 text-4xl font-black text-black">
+                Přejete si <u>nenávratně</u> odevzdat test?
+            </h1>
+            <p class="mt-4 text-xl text-gray-500">
+                Po odevzdání testu již nebude možné jej upravovat.
+            </p>
+            <p class="mt-4 text-xl text-gray-500">
+                Odevzdáte test s {submittedAnswersCount} / {answersCount} odpověďmi.
+            </p>
+
             <img class="w-72" src={clippy} alt="Clippy" />
             <button
                 class="mt-6 animate-bounce rounded-md bg-yellow-600 p-3 text-xl text-white shadow-md transition-colors  duration-300 hover:bg-yellow-800"
