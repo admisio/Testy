@@ -53,7 +53,7 @@
             on:click={(_) => submit(i)}
         >
             <span class="self-center font-bold">{`${alphabet[i]})`}</span>
-            <span class="ml-4">{@html answer.replaceAll(/\n/g, '<br/>')}</span>
+            <span class="ml-4 text-left w-full">{@html answer.replaceAll(/\n/g, '<br/>')}</span>
         </button>
     {/each}
 </div>
