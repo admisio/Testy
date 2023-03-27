@@ -6,7 +6,7 @@
     import { SvelteToast } from '@zerodevx/svelte-toast';
     import Button from '$lib/components/buttons/Button.svelte';
     import Modal from '$lib/components/Modal.svelte';
-    import { formatDate, formatTime } from '$lib/utils/date';
+    import { formatDate, formatTime, remainingTime } from '$lib/utils/date';
     import DarkMode from '$lib/components/DarkMode.svelte';
 
     import clippy from '$lib/assets/clippy.png';
@@ -38,7 +38,7 @@
     import hljs from 'highlight.js';
     import 'highlight.js/styles/github-dark.css';
 
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import { goto } from '$app/navigation';
     import { pushErrorText } from '$lib/utils/toast';
 
@@ -52,12 +52,33 @@
 
             hljs.highlightElement(el as HTMLElement);
         });
+        
+        updateTimeRemaining();
+        updateTimeRemainingInterval = setInterval(() => updateTimeRemaining(), 1000);
     });
 
     const submitTest = async () => {
         await trpc().assignments.submittemplate.mutate({ assignmentId: test.id });
         goto('/home/test/' + test.id + '/result');
     };
+
+    let timeRemaining: string;
+
+    const updateTimeRemaining = () => {
+        if (test.endTime && test.endTime < new Date()) {
+            timeRemaining = 'Test skončil';
+            clearInterval(updateTimeRemainingInterval);
+        } else {
+            const remaining = remainingTime(test.endTime);
+            timeRemaining = remaining ? remaining : '-';
+        }
+    };
+
+    let updateTimeRemainingInterval: NodeJS.Timer;
+
+    onDestroy(() => {
+        clearInterval(updateTimeRemainingInterval);
+    });
 </script>
 
 <SvelteToast />
@@ -86,7 +107,9 @@
     class:endTimeFixed
     class:dark={isDarkMode}
 >
-    <span class="text-sm font-medium text-gray-500">Test skončí v {formatTime(test.endTime)}</span>
+    <span class="text-sm font-medium text-gray-500"
+        >Test skončí v {formatTime(test.endTime)} / {timeRemaining}
+    </span>
     <div
         class="ml-4 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 hover:shadow-lg dark:bg-black dark:text-gray-200"
     >

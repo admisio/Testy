@@ -17,6 +17,9 @@ module.exports = {
         node: true
     },
     rules: {
-        "@typescript-eslint/no-inferrable-types": "warn"
+        '@typescript-eslint/no-inferrable-types': 'warn'
+    },
+    globals: {
+        NodeJS: true
     }
 };
