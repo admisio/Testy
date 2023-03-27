@@ -60,7 +60,7 @@
 
 <style lang="postcss">
     .selected {
-        @apply rounded-lg bg-green-600 text-white;
+        @apply rounded-lg bg-sspsBlue text-white; 
     }
     .correct {
         @apply bg-green-600 font-bold;
