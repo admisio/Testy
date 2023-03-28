@@ -52,7 +52,8 @@ export const submissions = t.router({
                             },
                             submittedAnswers: {
                                 where: {
-                                    assignment: { // TODO: je tohle potřeba?
+                                    assignment: {
+                                        // TODO: je tohle potřeba?
                                         id: input.assignmentId
                                     },
                                     user: {
@@ -100,7 +101,8 @@ export const submissions = t.router({
                             },
                             submittedAnswers: {
                                 where: {
-                                    assignment: { // TODO: je tohle potřeba?
+                                    assignment: {
+                                        // TODO: je tohle potřeba?
                                         id: input.assignmentId
                                     },
                                     user: {
