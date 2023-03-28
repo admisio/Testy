@@ -215,7 +215,7 @@ export const assignments = t.router({
 
             const answer = assignment.template.questions.find((q) => q.id === input.questionId)
                 ?.templateAnswers[input.answerIndex];
-            
+
             if (!answer) {
                 throw new TRPCError({ code: 'NOT_FOUND', message: 'Answer not found' });
             }
