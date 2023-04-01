@@ -37,7 +37,7 @@
         {assignment.template.title}
     </h5>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, expedita.
+        Zadání s časovým limitem ({assignment.template.timeLimit || 0} minut) a maximálním počtem bodů ({assignment.template.maxScore || 0}).
     </p>
     <div class="mb-2 flex">
         {#if testIsActive && !testIsFinished}
