@@ -34,7 +34,7 @@
         {template.title}
     </h5>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, expedita.
+        Zadání s časovým limitem ({template.timeLimit} minut) a maximálním počtem bodů ({template.maxScore}).
     </p>
     <a
         href={`/admin/tests/${template.id}`}
