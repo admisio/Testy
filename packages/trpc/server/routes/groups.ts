@@ -156,6 +156,11 @@ export const groups = t.router({
                             username: true,
                             password: false
                         }
+                    },
+                    assignments: {
+                        select: {
+                            id: true
+                        }
                     }
                 }
             })
