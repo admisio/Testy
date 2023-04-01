@@ -105,7 +105,9 @@ export const assignments = t.router({
                 include: {
                     template: {
                         select: {
-                            title: true
+                            title: true,
+                            timeLimit: true,
+                            maxScore: true
                         }
                     },
                     submissions: {

@@ -3,6 +3,7 @@
     import Icon from '@iconify/svelte';
     import type { Prisma } from '@testy/database';
     import { trpc } from '$lib/trpc/client';
+    import { formatDate } from '$lib/utils/date';
 
     const dispatch = createEventDispatcher();
 
@@ -10,10 +11,17 @@
         select: {
             id: true;
             name: true;
+            createdAt: true;
             users: {
                 select: {
                     id: true;
                     username: true;
+                };
+            };
+        
+            assignments: {
+                select: {
+                    id: true;
                 };
             };
         };
@@ -61,7 +69,7 @@
         {group.name}
     </h5>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, expedita.
+        Skupina {group.name} vytvořená {formatDate(group.createdAt)} obsahuje uživatelů ({group.users?.length || 0}) a testů ({group.assignments?.length || 0}).
     </p>
     <div class="mb-3">
         {#each group.users as user}
