@@ -35,7 +35,14 @@ export const templates = t.router({
         .use(adminAuth)
         .input(z.string().optional())
         .query(async () => {
-            return prisma.template.findMany({ include: { questions: true } });
+            return prisma.template.findMany({
+                select: {
+                    id: true,
+                    title: true,
+                    maxScore: true,
+                    timeLimit: true,
+                }
+            });
         }),
     get: t.procedure
         .use(adminAuth)
