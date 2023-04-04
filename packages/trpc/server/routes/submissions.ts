@@ -79,7 +79,7 @@ export const submissions = t.router({
             })
         )
         .query(async ({ ctx, input }) => {
-            const test = await prisma.submission.findUnique({
+            const submission = await prisma.submission.findUnique({
                 where: {
                     user_test: {
                         assignmentId: input.assignmentId,
@@ -116,7 +116,21 @@ export const submissions = t.router({
                     }
                 }
             });
-            if (!test) throw new Error('Test not found');
-            return test;
+            if (!submission) throw new Error('Submission not found');
+
+            const view = await prisma.view.findUniqueOrThrow({
+                where: {
+                    user_assignment: {
+                        assignmentId: input.assignmentId,
+                        userId: Number(ctx.userId)
+                    }
+                }
+            });
+
+            submission.assignment.template.questions = view.questionOrder.map(
+                (i) => submission.assignment.template.questions[i]
+            );
+
+            return submission;
         })
 });
