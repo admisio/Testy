@@ -6,6 +6,7 @@ import { addMinutes } from 'date-fns';
 import { createSubmission } from '../services/submissionService';
 import { submitExpired } from '../services/assignmentService';
 import prisma from '../../prisma';
+import { randomOrder } from '../../utils/random';
 
 export const assignments = t.router({
     assignToGroup: t.procedure
@@ -174,6 +175,33 @@ export const assignments = t.router({
             if (!assignment?.started) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
+
+            // Create view if it doesn't exist
+            const view =
+                (await prisma.view.findFirst({
+                    where: { assignmentId: assignment.id, userId: user.id }
+                })) ??
+                (await prisma.view.create({
+                    data: {
+                        user: {
+                            connect: {
+                                id: user.id
+                            }
+                        },
+                        assignment: {
+                            connect: {
+                                id: assignment.id
+                            }
+                        },
+                        questionOrder: randomOrder(assignment.template.questions.length)
+                    }
+                }));
+
+            // Sort questions by view order
+            assignment.template.questions = view.questionOrder.map((index) => {
+                return assignment.template.questions[index];
+            });
+
             return { assignment, user };
         }),
     submitAnswer: t.procedure

@@ -51,6 +51,20 @@ model Assignment {
   submissions      Submission[]
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
+  View             View[]
+}
+
+model View {
+  id            Int        @id @default(autoincrement())
+  userId        Int
+  user          User       @relation(fields: [userId], references: [id])
+  assignmentId  Int
+  assignment    Assignment @relation(fields: [assignmentId], references: [id])
+  questionOrder Int[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@unique([userId, assignmentId], name: "user_assignment")
 }
 
 model Submission {
@@ -131,6 +145,7 @@ model User {
   Feedback    Feedback[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  View        View[]
 }
 
 model Feedback {
