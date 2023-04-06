@@ -13,11 +13,11 @@ export const adminContextValid = (ctx: Context): AdminAuthResult<null, TRPCError
     return ok(null);
 };
 
-export const adminAuth = t.middleware(async ({ next, ctx }) => {
+export const adminAuth = t.middleware(async ({ next, ctx, rawInput, meta, path, type }) => {
     if (!ctx.userId) throw new TRPCError({ code: 'UNAUTHORIZED' });
     if (ctx.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
 
-    trpcInfo(ctx, `Admin Authenticated`);
+    trpcInfo(ctx, `${type} ${path} ${meta ?? ''} ADMIN AUTHENTICATED (INPUT: ${JSON.stringify(rawInput)})`);
 
     return next();
 });

@@ -4,6 +4,12 @@ import type { Context } from "../server/createContext";
 
 // const logger = pino({});
 
+export const trpcTrace = (ctx: Context, msg: string): void => {
+    logger.trace(
+        `${ctx.role == 'admin' ? 'ADMIN' : 'USER'} (${ctx.userId}): ${msg}`
+    );
+}
+
 export const trpcInfo = (ctx: Context, msg: string): void => {
     logger.info(
         `${ctx.role == 'admin' ? 'ADMIN' : 'USER'} (${ctx.userId}): ${msg}`
