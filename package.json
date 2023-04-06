@@ -11,12 +11,14 @@
         "db:seed": "turbo run db:seed"
     },
     "devDependencies": {
-        "eslint": "^8.36.0",
+        "typescript": "^5.0.3",
+        "eslint": "^8.37.0",
         "eslint-config-custom": "workspace:*",
+        "@rushstack/eslint-patch": "^1.2.0",
         "prettier": "^2.8.7",
         "prettier-plugin-svelte": "^2.10.0",
-        "prettier-plugin-tailwindcss": "^0.2.5",
-        "turbo": "^1.8.6"
+        "prettier-plugin-tailwindcss": "^0.2.7",
+        "turbo": "^1.8.8"
     },
     "packageManager": "pnpm@7.15.0",
     "dependencies": {
