@@ -1,0 +1,8 @@
+{
+    "name": "@testy/logging",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "dependencies": {
+        "pino": "8.11.0"
+    }
+}
