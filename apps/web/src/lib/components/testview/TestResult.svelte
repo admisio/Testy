@@ -26,7 +26,6 @@
     assignment.submittedAnswers.forEach((answer) => {
         const question = assignment.template.questions.find((q) => q.id === answer.questionId)!;
         answers.set(question.id, answer);
-        console.log(question.id, answer);
     });
 
     let endTimeFixed = false;

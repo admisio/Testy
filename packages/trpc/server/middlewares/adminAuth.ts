@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import type { Context } from '../createContext';
 import { t } from '../trpc';
+import { trpcInfo } from '../../utils/logging';
 
 export type AdminAuthResult<T, E = Error> = { ok: true; value: T } | { ok: false; error: E };
 const ok = <T>(value: T): AdminAuthResult<T, never> => ({ ok: true, value });
@@ -15,6 +16,8 @@ export const adminContextValid = (ctx: Context): AdminAuthResult<null, TRPCError
 export const adminAuth = t.middleware(async ({ next, ctx }) => {
     if (!ctx.userId) throw new TRPCError({ code: 'UNAUTHORIZED' });
     if (ctx.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+
+    trpcInfo(ctx, `Admin Authenticated`);
 
     return next();
 });

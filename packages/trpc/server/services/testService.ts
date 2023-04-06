@@ -3,7 +3,6 @@ import type { TemplateFull, TemplateType } from '../../model/Template';
 
 export const createTest = async (templateData: TemplateType): Promise<TemplateFull> => {
     const { title, headings, questions } = templateData;
-    console.log('should create');
     const template = await prisma.template.create({
         data: {
             title,

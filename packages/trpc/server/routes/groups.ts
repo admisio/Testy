@@ -1,6 +1,7 @@
 import { t, adminAuth } from '../trpc';
 import { z } from 'zod';
 import prisma from '../../prisma';
+import { trpcInfo } from '../../utils/logging';
 
 export const groups = t.router({
     create: t.procedure
@@ -26,7 +27,8 @@ export const groups = t.router({
                     groupId: group.id
                 }
             });
-            console.log(await prisma.adminsOnGroups.findMany());
+
+            trpcInfo(ctx, `Created group ${input.name}`);
         }),
     delete: t.procedure
         .use(adminAuth)
@@ -46,6 +48,8 @@ export const groups = t.router({
                         }
                     });
                 });
+
+            trpcInfo(ctx, `Deleted group ${input}`);
         }),
     update: t.procedure
         .use(adminAuth)
@@ -77,7 +81,7 @@ export const groups = t.router({
                 userId: z.number()
             })
         )
-        .mutation(async ({ input }) => {
+        .mutation(async ({ctx, input }) => {
             await prisma.group.update({
                 where: {
                     id: input.groupId
@@ -90,6 +94,8 @@ export const groups = t.router({
                     }
                 }
             });
+
+            trpcInfo(ctx, `Added user ${input.userId} to group ${input.groupId}`);
         }),
     rename: t.procedure
         .use(adminAuth)
@@ -99,7 +105,7 @@ export const groups = t.router({
                 name: z.string()
             })
         )
-        .mutation(async ({ input }) => {
+        .mutation(async ({ ctx, input }) => {
             await prisma.group.update({
                 where: {
                     id: input.groupId
@@ -108,6 +114,8 @@ export const groups = t.router({
                     name: input.name
                 }
             });
+
+            trpcInfo(ctx, `Renamed group ${input.groupId} to ${input.name}`);
         }),
     removeUser: t.procedure
         .use(adminAuth)
@@ -117,7 +125,7 @@ export const groups = t.router({
                 userId: z.number()
             })
         )
-        .mutation(async ({ input }) => {
+        .mutation(async ({ ctx, input }) => {
             await prisma.group.update({
                 where: {
                     id: input.groupId
@@ -130,6 +138,8 @@ export const groups = t.router({
                     }
                 }
             });
+
+            trpcInfo(ctx, `Removed user ${input.userId} from group ${input.groupId}`);
         }),
     list: t.procedure
         .use(adminAuth)
