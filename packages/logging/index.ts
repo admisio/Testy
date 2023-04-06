@@ -1,10 +1,11 @@
-import pino from "pino";
+import pino from 'pino';
 
 export default pino({
     transport: {
         target: 'pino/file',
         options: {
-            destination: 'logs.log'
+            destination: 'logs.log',
+            mkdir: true
         }
     }
 });
