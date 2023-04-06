@@ -185,6 +185,9 @@ importers:
         specifier: ^0.29.7
         version: 0.29.7
     devDependencies:
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.15.5)(typescript@4.9.5)
@@ -231,6 +234,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.1
         version: 9.0.1
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.15.5)(typescript@5.0.3)
