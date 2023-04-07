@@ -14,10 +14,30 @@
                     title: true;
                     maxScore: true;
                     questions: true;
+                    headings: true;
                 };
             };
         };
     }>;
+
+    const getVisibleHeadings = (): Array<Heading | null> => {
+        const visibleHeadingsAtQuestions: Array<Heading | null> = new Array(
+            assignment.template.questions.length
+        );
+        for (let i = 0; i < visibleHeadingsAtQuestions.length; i++) {
+            const question = assignment.template.questions[i];
+            const relatedH = assignment.template.headings.find(
+                (heading) => heading.id === question.headingId
+            );
+            console.log('relatedH: ', relatedH);
+            if (relatedH && !visibleHeadingsAtQuestions.includes(relatedH)) {
+                visibleHeadingsAtQuestions[i] = relatedH;
+            }
+        }
+        return visibleHeadingsAtQuestions;
+    };
+
+    const visibleHeadings = getVisibleHeadings();
 
     export let submission: Submission;
 
@@ -37,7 +57,7 @@
     import 'highlight.js/styles/github-dark.css';
 
     import { onMount } from 'svelte';
-    import type { Answer, Prisma, Question, Submission } from '@testy/database';
+    import type { Answer, Heading, Prisma, Question, Submission } from '@testy/database';
 
     import Answers from './Answers.svelte';
 
@@ -74,21 +94,37 @@
             </span>
         </div>
         {#each assignment.template.questions as question, i}
+            {#if visibleHeadings[i]}
+                {@const heading = visibleHeadings[i]}
+                <div class="mt-12 w-full">
+                    {#if heading.title}
+                        <h2
+                            class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                        >
+                            {@html heading.title}
+                        </h2>
+                    {/if}
+                    {#if heading.description}
+                        <p class="mt-4 text-ellipsis break-words text-justify text-xl">
+                            {@html heading.description}
+                        </p>
+                    {/if}
+                </div>
+            {/if}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
-                    <h2 class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left">
+                    <h2
+                        class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                    >
                         {i + 1}. {@html question.title}
                     </h2>
                 </div>
-                <div class="min-w-48 mt-2 ">
+                <div class="min-w-48 mt-2">
                     {#if answers.has(question.id)}
                         {#if answers.get(question.id)?.evaluation === 1}
-                            <span class="text-xl font-bold text-green-500"
-                                >Správně (1/1 bodů)</span
-                            >
+                            <span class="text-xl font-bold text-green-500">Správně (1/1 bodů)</span>
                         {:else}
-                            <span class="text-xl font-bold text-red-500">Špatně (0/1 bodů)</span
-                            >
+                            <span class="text-xl font-bold text-red-500">Špatně (0/1 bodů)</span>
                         {/if}
                     {:else}
                         <span class="text-xl font-bold text-red-500">Bez odpovědi (0/1)</span>
@@ -102,7 +138,9 @@
                 <div class="mt-6">
                     <Answers
                         answers={question.templateAnswers}
-                        selectedAnswerIndex={question.templateAnswers.indexOf(answers.get(question.id)?.value ?? '')}
+                        selectedAnswerIndex={question.templateAnswers.indexOf(
+                            answers.get(question.id)?.value ?? ''
+                        )}
                         selectedAnswerEval={answers.get(question.id)?.evaluation ?? 0}
                     />
                 </div>

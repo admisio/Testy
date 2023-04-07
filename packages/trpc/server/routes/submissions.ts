@@ -30,7 +30,7 @@ export const submissions = t.router({
             })
         )
         .query(async ({ input }) => {
-            const test = await prisma.submission.findUnique({
+            const submission = await prisma.submission.findUnique({
                 where: {
                     user_test: {
                         assignmentId: input.assignmentId,
@@ -47,6 +47,7 @@ export const submissions = t.router({
                                     id: true,
                                     title: true,
                                     questions: true,
+                                    headings: true,
                                     maxScore: true
                                 }
                             },
@@ -67,8 +68,16 @@ export const submissions = t.router({
                     }
                 }
             });
-            if (!test) throw new Error('Test not found');
-            return test;
+            if (!submission) throw new Error('Test not found');
+            
+            const template = submission.assignment.template;
+            const questionsGroupedByHeading = template.headings
+                .map((h) => template.questions.filter((q) => q.headingId === h.id) ?? [])
+                .concat(template.questions.filter((question) => !question.headingId));
+
+            submission.assignment.template.questions = questionsGroupedByHeading.flat();
+
+            return submission;
         }),
 
     get: t.procedure
