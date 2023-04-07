@@ -44,5 +44,26 @@ export const users = t.router({
                 }
             });
         }),
-    csv: t.procedure.use(adminAuth).query(async () => exportCsv())
+    csv: t.procedure.use(adminAuth).query(async () => exportCsv()),
+    resetPassword: t.procedure
+        .use(adminAuth)
+        .input(
+            z.object({
+                id: z.number()
+            })
+        )
+        .mutation(async ({ input }) => {
+            const password = Math.random().toString(36).slice(-8);
+
+            await prisma.user.update({
+                where: {
+                    id: input.id
+                },
+                data: {
+                    password: await bcrypt.hash(password, 12)
+                }
+            });
+
+            return password;
+        })
 });

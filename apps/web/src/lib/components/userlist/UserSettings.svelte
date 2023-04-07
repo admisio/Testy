@@ -1,7 +1,16 @@
 <script lang="ts">
-    import Icon from '@iconify/svelte';
+    import type { Prisma } from '@testy/database';
 
+    import { trpc } from '$lib/trpc/client';
+
+    import Icon from '@iconify/svelte';
     import { clickoutside } from '@svelte-put/clickoutside';
+
+    export let user: Prisma.UserGetPayload<{
+        select: {
+            id: true;
+        };
+    }>;
 
     let isOpen = false;
 
@@ -12,13 +21,19 @@
     const close = () => {
         isOpen = false;
     };
+
+    const resetPassword = async () => {
+        const newPassword = await trpc().users.resetPassword.mutate({ id: user.id });
+        alert(newPassword);
+        close();
+    };
 </script>
 
 <div use:clickoutside on:clickoutside={close} class="relative flex flex-col">
     <button on:click={open}><Icon icon="material-symbols:settings" /></button>
     {#if isOpen}
         <div class="menu absolute top-5 left-0 z-10 w-28">
-            <button class="!rounded-b-none">Nové heslo</button>
+            <button on:click={resetPassword} class="!rounded-b-none">Nové heslo</button>
             <button on:click={close} class="!rounded-t-none">Zavřít</button>
         </div>
     {/if}
