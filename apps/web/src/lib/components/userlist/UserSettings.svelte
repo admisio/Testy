@@ -2,6 +2,7 @@
     import type { Prisma } from '@testy/database';
 
     import { trpc } from '$lib/trpc/client';
+    import { invalidateAll } from '$app/navigation';
 
     import Icon from '@iconify/svelte';
     import { clickoutside } from '@svelte-put/clickoutside';
@@ -27,6 +28,15 @@
         alert(newPassword);
         close();
     };
+
+    const deleteUser = async () => {
+        // TODO: Lepší potvrzení než confirm..
+        if (confirm('Opravdu chcete smazat uživatele?')) {
+            await trpc().users.delete.mutate({ id: user.id });
+            await invalidateAll();
+            close();
+        }
+    };
 </script>
 
 <div use:clickoutside on:clickoutside={close} class="relative flex flex-col">
@@ -34,6 +44,7 @@
     {#if isOpen}
         <div class="menu absolute top-5 left-0 z-10 w-28">
             <button on:click={resetPassword} class="!rounded-b-none">Nové heslo</button>
+            <button on:click={deleteUser} class="!rounded-b-none !rounded-t-none">Odstranit</button>
             <button on:click={close} class="!rounded-t-none">Zavřít</button>
         </div>
     {/if}

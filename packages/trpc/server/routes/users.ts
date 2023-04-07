@@ -65,5 +65,19 @@ export const users = t.router({
             });
 
             return password;
+        }),
+    delete: t.procedure
+        .use(adminAuth)
+        .input(
+            z.object({
+                id: z.number()
+            })
+        )
+        .mutation(async ({ input }) => {
+            await prisma.user.delete({
+                where: {
+                    id: input.id
+                }
+            });
         })
 });
