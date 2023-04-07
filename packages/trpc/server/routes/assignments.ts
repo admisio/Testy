@@ -178,8 +178,8 @@ export const assignments = t.router({
 
             // Create view if it doesn't exist
             const view =
-                (await prisma.view.findFirst({
-                    where: { assignmentId: assignment.id, userId: user.id }
+                (await prisma.view.findUnique({
+                    where: { user_assignment: { assignmentId: assignment.id, userId: user.id } }
                 })) ??
                 (await prisma.view.create({
                     data: {
