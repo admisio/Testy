@@ -96,7 +96,8 @@ export const submissions = t.router({
                                     id: true,
                                     title: true,
                                     questions: true,
-                                    maxScore: true
+                                    maxScore: true,
+                                    headings: true
                                 }
                             },
                             submittedAnswers: {
@@ -126,10 +127,16 @@ export const submissions = t.router({
                     }
                 }
             });
+            const template = submission.assignment.template;
+            const questionsGroupedByHeading = template.headings
+                .map((h) => template.questions.filter((q) => q.headingId === h.id) ?? [])
+                .concat(template.questions.filter((question) => !question.headingId));
 
-            submission.assignment.template.questions = view.questionOrder.map(
-                (i) => submission.assignment.template.questions[i]
-            );
+            submission.assignment.template.questions = view.questionOrder
+                .flatMap((index) => {
+                    return questionsGroupedByHeading[index];
+                })
+                .filter((q) => q !== undefined); // TODO: fix this
 
             return submission;
         })

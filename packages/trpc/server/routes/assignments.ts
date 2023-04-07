@@ -139,13 +139,18 @@ export const assignments = t.router({
                 include: {
                     template: {
                         include: {
-                            headings: true,
+                            headings: {
+                                include: {
+                                    questions: true
+                                }
+                            },
                             questions: {
                                 select: {
                                     id: true,
                                     title: true,
                                     description: true,
                                     templateAnswers: true,
+                                    headingId: true,
                                     submittedAnswers: {
                                         where: {
                                             assignment: {
@@ -176,6 +181,10 @@ export const assignments = t.router({
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
 
+            const questionsGroupedByHeading = assignment.template.headings
+                .map((h) => assignment.template.questions.filter((q) => q.headingId === h.id) ?? [])
+                .concat(assignment.template.questions.filter((question) => !question.headingId));
+
             // Create view if it doesn't exist
             const view =
                 (await prisma.view.findUnique({
@@ -193,14 +202,16 @@ export const assignments = t.router({
                                 id: assignment.id
                             }
                         },
-                        questionOrder: randomOrder(assignment.template.questions.length)
+                        questionOrder: randomOrder(questionsGroupedByHeading.length)
                     }
                 }));
 
             // Sort questions by view order
-            assignment.template.questions = view.questionOrder.map((index) => {
-                return assignment.template.questions[index];
-            });
+            assignment.template.questions = view.questionOrder
+                .flatMap((index) => {
+                    return questionsGroupedByHeading[index];
+                })
+                .filter((q) => q !== undefined); // TODO: fix this undefined
 
             return { assignment, user };
         }),

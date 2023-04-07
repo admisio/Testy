@@ -1,39 +1,64 @@
 import prisma from '../../prisma';
 import type { TemplateFull, TemplateType } from '../../model/Template';
 
-export const createTest = async (templateData: TemplateType): Promise<TemplateFull> => {
-    const { title, headings, questions } = templateData;
-    console.log('should create');
+export const createTest = async (templateData: TemplateType): Promise<void> => {
+    const { title, headings: headingsRaw, questions: questionsRaw } = templateData;
+
+    // TODO: prisma transaction
+
+    // Create template
     const template = await prisma.template.create({
         data: {
             title,
-            questions: {
-                createMany: {
-                    data: questions.map((question) => ({
-                        title: question.title,
-                        description: question.description,
-                        templateAnswers: question.answers,
-                        correctAnswer: question.correctAnswer
-                    }))
-                }
-            },
-            headings: {
-                createMany: {
-                    data: headings.map((heading) => ({
-                        title: heading.title,
-                        description: heading.description,
-                        questionRangeStart: heading.questionRange[0],
-                        questionRangeEnd: heading.questionRange[1]
-                    }))
-                }
-            },
             timeLimit: templateData.timeLimit,
             maxScore: templateData.maxScore
-        },
-        include: {
-            headings: true,
-            questions: true
         }
     });
-    return template;
+
+    // Create questions and connect to template
+    const questions = [];
+    for (const q of questionsRaw) {
+        const dbQ = await prisma.question.create({
+            data: {
+                title: q.title,
+                description: q.description,
+                correctAnswer: q.correctAnswer,
+                templateAnswers: {
+                    set: q.answers
+                },
+                template: {
+                    connect: {
+                        id: template.id
+                    }
+                }
+            }
+        });
+        questions.push(dbQ);
+    }
+
+    console.log(questions);
+
+    // Create headings, connect with questions and connect to template
+    for (const heading of headingsRaw) {
+        await prisma.heading.create({
+            data: {
+                title: heading.title,
+                description: heading.description,
+                test: {
+                    connect: {
+                        id: template.id
+                    }
+                },
+                questions: {
+                    connect: questions
+                        .filter(
+                            (_, i) =>
+                                i + 1 >= heading.questionRange[0] &&
+                                i + 1 <= heading.questionRange[1]
+                        )
+                        .map((q) => ({ id: q.id }))
+                }
+            }
+        });
+    }
 };

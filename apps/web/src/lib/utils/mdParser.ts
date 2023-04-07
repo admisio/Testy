@@ -14,7 +14,6 @@ const parseQuestion = (questionHTML: string): Question => {
         .split(/[a-e]\)/)
         .filter((a) => a.length > 0)
         .map((a) => a.trim());
-    console.log('parsing question', title, answersRaw);
     // find correct answer (starts with * ends with *)
     const correctAnswerList = answersRaw
         .map((a) => (a.match(/\*(.|\n)+\*/) ? a : null))

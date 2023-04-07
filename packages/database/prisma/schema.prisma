@@ -18,13 +18,12 @@ model Template {
 }
 
 model Heading {
-  id                 Int      @id @default(autoincrement())
-  title              String
-  description        String?
-  questionRangeStart Int
-  questionRangeEnd   Int
-  testId             Int
-  test               Template @relation(fields: [testId], references: [id], onDelete: Cascade)
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  questions   Question[]
+  testId      Int
+  test        Template   @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 model Question {
@@ -36,6 +35,8 @@ model Question {
   testId           Int
   template         Template @relation(fields: [testId], references: [id], onDelete: Cascade)
   submittedAnswers Answer[]
+  heading          Heading? @relation(fields: [headingId], references: [id])
+  headingId        Int?
 }
 
 model Assignment {
