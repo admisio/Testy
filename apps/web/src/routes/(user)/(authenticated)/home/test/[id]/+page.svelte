@@ -70,7 +70,19 @@
             const relatedH = test.template.headings.find((heading) => heading.id === question.headingId);
             console.log('relatedH: ', relatedH);
             if (relatedH && !visibleHeadingsAtQuestions.includes(relatedH)) {
-                visibleHeadingsAtQuestions[i] = relatedH;
+                if (relatedH && !visibleHeadingsAtQuestions.find((h) => h?.id === relatedH.id)) {
+                const headingQuestions = test.template.questions
+                    .map((q, i) => ({ ...q, index: i}))    
+                    .filter(
+                        (q) => q.headingId === relatedH.id
+                    );
+                const min = headingQuestions.reduce((acc, q) => Math.min(acc, q.index), Infinity) + 1;
+                const max = headingQuestions.reduce((acc, q) => Math.max(acc, q.index), -Infinity) + 1;
+                visibleHeadingsAtQuestions[i] = {
+                    ...relatedH,
+                    title: `VÝCHOZÍ TEXT K ${headingQuestions.length == 1 ? ('ÚLOZE ' + min) : ('ÚLOHÁM ' + min + ' - ' + max)}`
+                };
+            }
             }
         }
         return visibleHeadingsAtQuestions;

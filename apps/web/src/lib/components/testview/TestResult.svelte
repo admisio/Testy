@@ -29,9 +29,18 @@
             const relatedH = assignment.template.headings.find(
                 (heading) => heading.id === question.headingId
             );
-            console.log('relatedH: ', relatedH);
-            if (relatedH && !visibleHeadingsAtQuestions.includes(relatedH)) {
-                visibleHeadingsAtQuestions[i] = relatedH;
+            if (relatedH && !visibleHeadingsAtQuestions.find((h) => h?.id === relatedH.id)) {
+                const headingQuestions = assignment.template.questions
+                    .map((q, i) => ({ ...q, index: i}))    
+                    .filter(
+                        (q) => q.headingId === relatedH.id
+                    );
+                const min = headingQuestions.reduce((acc, q) => Math.min(acc, q.index), Infinity) + 1;
+                const max = headingQuestions.reduce((acc, q) => Math.max(acc, q.index), -Infinity) + 1;
+                visibleHeadingsAtQuestions[i] = {
+                    ...relatedH,
+                    title: 'Výchozí text k ' + `${headingQuestions.length == 1 ? ('úloze ' + min) : ('úlohám ' + min + ' - ' + max)}`
+                };
             }
         }
         return visibleHeadingsAtQuestions;
@@ -97,13 +106,11 @@
             {#if visibleHeadings[i]}
                 {@const heading = visibleHeadings[i]}
                 <div class="mt-12 w-full">
-                    {#if heading.title}
-                        <h2
-                            class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
-                        >
-                            {@html heading.title}
-                        </h2>
-                    {/if}
+                    <h2
+                        class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                    >
+                        {@html heading?.title}
+                    </h2>
                     {#if heading.description}
                         <p class="mt-4 text-ellipsis break-words text-justify text-xl">
                             {@html heading.description}
