@@ -42,6 +42,7 @@
     import { goto, invalidateAll } from '$app/navigation';
     import { pushErrorText } from '$lib/utils/toast';
     import type { Heading } from '@testy/database';
+    import { getInBetweenQuestionRows } from '$lib/utils/headings';
 
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
@@ -63,32 +64,7 @@
         goto('/home/test/' + test.id + '/result');
     };
 
-    const getVisibleHeadings = (): Array<Heading | null> => {
-        const visibleHeadingsAtQuestions: Array<Heading | null> = new Array(test.template.questions.length);
-        for (let i = 0; i < visibleHeadingsAtQuestions.length; i++ ) {
-            const question = test.template.questions[i];
-            const relatedH = test.template.headings.find((heading) => heading.id === question.headingId);
-            console.log('relatedH: ', relatedH);
-            if (relatedH && !visibleHeadingsAtQuestions.includes(relatedH)) {
-                if (relatedH && !visibleHeadingsAtQuestions.find((h) => h?.id === relatedH.id)) {
-                const headingQuestions = test.template.questions
-                    .map((q, i) => ({ ...q, index: i}))    
-                    .filter(
-                        (q) => q.headingId === relatedH.id
-                    );
-                const min = headingQuestions.reduce((acc, q) => Math.min(acc, q.index), Infinity) + 1;
-                const max = headingQuestions.reduce((acc, q) => Math.max(acc, q.index), -Infinity) + 1;
-                visibleHeadingsAtQuestions[i] = {
-                    ...relatedH,
-                    title: `VÝCHOZÍ TEXT K ${headingQuestions.length == 1 ? ('ÚLOZE ' + min) : ('ÚLOHÁM ' + min + ' - ' + max)}`
-                };
-            }
-            }
-        }
-        return visibleHeadingsAtQuestions;
-    }
-
-    const visibleHeadings = getVisibleHeadings();
+    const headingRows = getInBetweenQuestionRows(test.template.questions, test.template.headings);
 
     let timeRemaining: string;
 
@@ -164,8 +140,8 @@
 <div class:dark={isDarkMode} class="w-100vw mt-12 flex h-full justify-center">
     <div class="md:w-7/10 w-[95%] px-3 py-6 shadow-2xl dark:bg-gray-700 md:px-24">
         {#each test.template.questions as question, i}
-        {#if visibleHeadings[i]}
-            {@const heading = visibleHeadings[i]}
+            {#if headingRows[i]}
+                {@const heading = headingRows[i]}
                 <div class="mt-12 w-full">
                     {#if heading.title}
                         <h2

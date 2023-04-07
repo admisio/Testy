@@ -20,33 +20,8 @@
         };
     }>;
 
-    const getVisibleHeadings = (): Array<Heading | null> => {
-        const visibleHeadingsAtQuestions: Array<Heading | null> = new Array(
-            assignment.template.questions.length
-        );
-        for (let i = 0; i < visibleHeadingsAtQuestions.length; i++) {
-            const question = assignment.template.questions[i];
-            const relatedH = assignment.template.headings.find(
-                (heading) => heading.id === question.headingId
-            );
-            if (relatedH && !visibleHeadingsAtQuestions.find((h) => h?.id === relatedH.id)) {
-                const headingQuestions = assignment.template.questions
-                    .map((q, i) => ({ ...q, index: i}))    
-                    .filter(
-                        (q) => q.headingId === relatedH.id
-                    );
-                const min = headingQuestions.reduce((acc, q) => Math.min(acc, q.index), Infinity) + 1;
-                const max = headingQuestions.reduce((acc, q) => Math.max(acc, q.index), -Infinity) + 1;
-                visibleHeadingsAtQuestions[i] = {
-                    ...relatedH,
-                    title: 'Výchozí text k ' + `${headingQuestions.length == 1 ? ('úloze ' + min) : ('úlohám ' + min + ' - ' + max)}`
-                };
-            }
-        }
-        return visibleHeadingsAtQuestions;
-    };
 
-    const visibleHeadings = getVisibleHeadings();
+    const headingRows = getInBetweenQuestionRows(assignment.template.questions, assignment.template.headings);
 
     export let submission: Submission;
 
@@ -69,6 +44,7 @@
     import type { Answer, Heading, Prisma, Question, Submission } from '@testy/database';
 
     import Answers from './Answers.svelte';
+    import { getInBetweenQuestionRows } from '$lib/utils/headings';
 
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
@@ -103,8 +79,8 @@
             </span>
         </div>
         {#each assignment.template.questions as question, i}
-            {#if visibleHeadings[i]}
-                {@const heading = visibleHeadings[i]}
+            {#if headingRows[i]}
+                {@const heading = headingRows[i]}
                 <div class="mt-12 w-full">
                     <h2
                         class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
