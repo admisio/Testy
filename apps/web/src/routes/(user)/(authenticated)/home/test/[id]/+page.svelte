@@ -84,8 +84,10 @@
         clearInterval(updateTimeRemainingInterval);
     });
 
-    // $: console.log('tempalte_questions: ', test.template.questions);
-    // $: submittedAnswersCount = ;
+    let submittedAnswersCount = 0;
+    $: submittedAnswersCount = test.template.questions.filter(
+        (question) => question.submittedAnswers.length > 0
+    ).length;
 
     $: answersCount = test.template.questions.length;
 </script>
@@ -104,9 +106,7 @@
                 Po odevzdání testu již nebude možné jej upravovat.
             </p>
             <p class="mt-4 text-xl text-gray-500">
-                Odevzdáte test s {test.template.questions.filter(
-                    (question) => question.submittedAnswers.length > 0
-                ).length} / {answersCount} odpověďmi.
+                Odevzdáte test s {submittedAnswersCount} / {answersCount} odpověďmi.
             </p>
 
             <img class="w-72" src={clippy} alt="Clippy" />

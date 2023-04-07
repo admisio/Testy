@@ -139,11 +139,7 @@ export const assignments = t.router({
                 include: {
                     template: {
                         include: {
-                            headings: {
-                                include: {
-                                    questions: true
-                                }
-                            },
+                            headings: true,
                             questions: {
                                 select: {
                                     id: true,
@@ -151,7 +147,7 @@ export const assignments = t.router({
                                     description: true,
                                     templateAnswers: true,
                                     headingId: true,
-                                    submittedAnswers: {
+                                    submittedAnswers: { // TODO: remove this
                                         where: {
                                             assignment: {
                                                 id: input.assignmentId
@@ -165,7 +161,26 @@ export const assignments = t.router({
                             }
                         }
                     },
-                    submissions: {}
+                    submittedAnswers: {
+                        where: {
+                            user: {
+                                id: user.id
+                            },
+                            assignment: {
+                                id: input.assignmentId
+                            }
+                        }
+                    },
+                    submissions: {
+                        where: {
+                            user: {
+                                id: user.id
+                            },
+                            assignment: {
+                                id: input.assignmentId
+                            }
+                        }
+                    }
                 }
             });
             if (!assignment) {
@@ -181,9 +196,11 @@ export const assignments = t.router({
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
 
-            const questionsGroupedByHeading = assignment.template.headings
-                .map((h) => assignment.template.questions.filter((q) => q.headingId === h.id) ?? [])
-                .concat(assignment.template.questions.filter((question) => !question.headingId));
+            const questions = assignment.template.questions;
+
+            const questionsGrouped = assignment.template.headings
+                .map((h) => questions.filter((q) => q.headingId === h.id) ?? [])
+                .concat(questions.filter((q) => !q.headingId));
 
             // Create view if it doesn't exist
             const view =
@@ -202,14 +219,14 @@ export const assignments = t.router({
                                 id: assignment.id
                             }
                         },
-                        questionOrder: randomOrder(questionsGroupedByHeading.length)
+                        questionOrder: randomOrder(questionsGrouped.length)
                     }
                 }));
 
             // Sort questions by view order
             assignment.template.questions = view.questionOrder
                 .flatMap((index) => {
-                    return questionsGroupedByHeading[index];
+                    return questionsGrouped[index];
                 })
                 .filter((q) => q !== undefined); // TODO: fix this undefined
 
@@ -317,7 +334,7 @@ export const assignments = t.router({
             }
 
             if (user.submissions.length > 0) {
-                throw new TRPCError({ code: 'FORBIDDEN', message: 'Test already submitted' });
+                return;
             }
 
             if (assignment.groupId !== user.groupId) {
