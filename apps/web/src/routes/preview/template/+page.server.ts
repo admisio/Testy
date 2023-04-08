@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { parseMd } from '$lib/utils/mdParser';
+import type { Heading } from '@testy/database';
 
 export const actions: Actions = {
     default: async ({ request }) => {
@@ -13,22 +14,28 @@ export const actions: Actions = {
 
             // TODO: DRY with prisma createTest, use only one function
 
-            const { title, headings, questions } = templateData;
+            const { title, headings: headingsRaw, questions } = templateData;
+
+            const headings = headingsRaw.map((heading, i) => ({
+                id: i,
+                title: heading.title,
+                description: heading.description,
+                questionRange: heading.questionRange,
+                testId: 0
+            }));
 
             const template = {
                 title,
-                questions: questions.map((question) => ({
+                questions: questions.map((question, i) => ({
                     title: question.title,
                     description: question.description || null,
                     templateAnswers: question.answers,
-                    correctAnswer: question.correctAnswer
+                    correctAnswer: question.correctAnswer,
+                    headingId: headings.find(
+                        (h) => i + 1 >= h.questionRange[0] && i + 1 <= h.questionRange[1]
+                    )?.id
                 })),
-                headings: headings.map((heading) => ({
-                    title: heading.title,
-                    description: heading.description,
-                    questionRangeStart: heading.questionRange[0],
-                    questionRangeEnd: heading.questionRange[1]
-                })),
+                headings,
                 maxScore: templateData.maxScore
             };
 
