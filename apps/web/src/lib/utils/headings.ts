@@ -12,7 +12,7 @@ export const getInBetweenQuestionRows = (
 
         // if the heading is already in the rows, skip it (we don't want same headings on the test page)
         if (relatedHeading && !rows.find((h) => h?.id === relatedHeading.id)) {
-            const headingQuestions = questions // Find heading's questions so we know how to label it 
+            const headingQuestions = questions // Find heading's questions so we know how to label it
                 .map((q, i) => ({ ...q, index: i })) // TODO: do we want to get heading's questions directly from heading???
                 .filter((q) => q.headingId === relatedHeading.id);
             const min = Math.min(...headingQuestions.map((q) => q.index)) + 1; // 1 offset because questions labels start at 1

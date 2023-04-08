@@ -40,7 +40,7 @@ export const templates = t.router({
                     id: true,
                     title: true,
                     maxScore: true,
-                    timeLimit: true,
+                    timeLimit: true
                 }
             });
         }),

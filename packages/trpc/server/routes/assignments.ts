@@ -147,7 +147,8 @@ export const assignments = t.router({
                                     description: true,
                                     templateAnswers: true,
                                     headingId: true,
-                                    submittedAnswers: { // TODO: remove this
+                                    submittedAnswers: {
+                                        // TODO: remove this
                                         where: {
                                             assignment: {
                                                 id: input.assignmentId
