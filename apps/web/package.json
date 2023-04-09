@@ -26,6 +26,7 @@
     },
     "devDependencies": {
         "@iconify/svelte": "^3.1.0",
+        "@svelte-put/clickoutside": "^2.0.0",
         "@sveltejs/adapter-node": "^1.2.3",
         "@sveltejs/kit": "^1.13.0",
         "@types/bcrypt": "^5.0.0",
