@@ -35,6 +35,9 @@
                     <li>
                         <a href="/admin/users">Uživatelé</a>
                     </li>
+                    <li>
+                        <a href="/admin/feedback">Feedback</a>
+                    </li>
                 </ul>
             </div>
         </div>
