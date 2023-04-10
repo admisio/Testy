@@ -2,7 +2,14 @@ import prisma from '../../prisma';
 import type { TemplateFull, TemplateType } from '../../model/Template';
 
 export const createTest = async (templateData: TemplateType): Promise<void> => {
-    const { title, type, headings: headingsRaw, questions: questionsRaw, timeLimit, maxScore } = templateData;
+    const {
+        title,
+        type,
+        headings: headingsRaw,
+        questions: questionsRaw,
+        timeLimit,
+        maxScore
+    } = templateData;
 
     await prisma.$transaction(async (tx) => {
         // Create template
