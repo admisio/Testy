@@ -15,6 +15,7 @@ export interface HeadingType {
 
 export interface TemplateType {
     title: string;
+    type: 'G' | 'IT' | 'KB';
     headings: HeadingType[];
     questions: Question[];
     timeLimit: number;

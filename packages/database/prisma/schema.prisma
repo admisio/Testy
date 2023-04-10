@@ -10,6 +10,7 @@ datasource db {
 model Template {
   id          Int          @id @default(autoincrement())
   title       String
+  type        String
   questions   Question[]
   assignments Assignment[]
   timeLimit   Int
@@ -101,7 +102,7 @@ model Answer {
 
 model Group {
   id          Int              @id @default(autoincrement())
-  name        String
+  name        String           @unique
   admins      AdminsOnGroups[]
   users       User[]
   assignments Assignment[]
