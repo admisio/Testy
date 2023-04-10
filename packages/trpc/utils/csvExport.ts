@@ -1,5 +1,6 @@
 import prisma from '../prisma';
 import { stringify as csvStringify } from 'csv-stringify/sync';
+import { submissions } from '../server/routes/submissions';
 
 export const exportCsv = async (): Promise<string> => {
     const users = await prisma.user.findMany({
@@ -34,7 +35,9 @@ export const exportCsv = async (): Promise<string> => {
                             template: {
                                 select: {
                                     title: true,
-                                    timeLimit: true
+                                    type: true,
+                                    timeLimit: true,
+                                    maxScore: true
                                 }
                             }
                         }
@@ -46,14 +49,17 @@ export const exportCsv = async (): Promise<string> => {
     });
     const csv = csvStringify(
         users.map((user) => {
-            const testsJson = user.submissions.map((submission) => {
+            const submittedTests = user.submissions.map((submission) => {
                 return {
-                    templateTitle: submission.assignment.template.title,
-                    startTime: submission.assignment.startTime,
-                    endTime: submission.assignment.endTime,
-                    evaluation: submission.evaluation
+                    title: submission.assignment.template.title,
+                    type: submission.assignment.template.type,
+                    evaluation: submission.evaluation,
+                    maxScore: submission.assignment.template.maxScore
                 };
             });
+            const G = submittedTests.find((test) => test.type === 'G');
+            const IT = submittedTests.find((test) => test.type === 'IT');
+            const KB = submittedTests.find((test) => test.type === 'KB');
             return [
                 user.id,
                 user.username,
@@ -61,32 +67,31 @@ export const exportCsv = async (): Promise<string> => {
                 user.surname,
                 user.email,
                 user.group?.name,
-                JSON.stringify(user.group?.admins.map((admin) => admin.admin)),
-                JSON.stringify(testsJson),
-                testsJson[0]?.templateTitle,
-                testsJson[0]?.evaluation,
-                testsJson[1]?.templateTitle,
-                testsJson[1]?.evaluation
+                G?.evaluation,
+                G?.maxScore,
+                IT?.evaluation,
+                IT?.maxScore,
+                KB?.evaluation,
+                KB?.maxScore
             ];
         }),
         {
             header: true,
             columns: [
                 'Database ID',
-                'Ev.č.',
+                'Username',
                 'Jméno',
                 'Příjmení',
                 'Email',
-                'Název skupiny',
-                'Učitelé - JSON',
-                'Testy - JSON',
-                'První test',
-                'První test - body',
-                'Druhý test',
-                'Druhý test - body'
+                'Skupina',
+                'G - body',
+                'G - max',
+                'IT - body',
+                'IT - max',
+                'KB - body',
+                'KB - max'
             ]
         }
     );
-    console.log(csv);
     return csv;
 };
