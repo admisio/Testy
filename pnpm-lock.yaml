@@ -207,6 +207,25 @@ importers:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.15.5)(typescript@5.0.2)
 
+  packages/usersplit:
+    dependencies:
+      '@testy/database':
+        specifier: workspace:*
+        version: link:../database
+      bcrypt:
+        specifier: ^5.1.0
+        version: 5.1.0
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.15.5)(typescript@5.0.2)
+    devDependencies:
+      '@types/bcrypt':
+        specifier: ^5.0.0
+        version: 5.0.0
+      prisma:
+        specifier: ^4.11.0
+        version: 4.11.0
+
 packages:
 
   /@ampproject/remapping@2.2.0:
@@ -4565,7 +4584,6 @@ packages:
       typescript: 5.0.2
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-    dev: true
 
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
