@@ -12,7 +12,10 @@
     import clippy from '$lib/assets/clippy.png';
 
     export let data: PageData;
-    const test = data.assignment!;
+    const headingRows = getInBetweenQuestionRows(data.assignment.template.questions, data.assignment.template.headings);
+
+    let test: typeof data.assignment;
+    $: test = data.assignment!;
 
     const submitAnswer = async (e: any, questionId: number) => {
         const { answerIndex, runOnSuccess } = e.detail;
@@ -63,8 +66,6 @@
         await trpc().assignments.submittemplate.mutate({ assignmentId: test.id });
         goto('/home/test/' + test.id + '/result');
     };
-
-    const headingRows = getInBetweenQuestionRows(test.template.questions, test.template.headings);
 
     let timeRemaining: string;
 
