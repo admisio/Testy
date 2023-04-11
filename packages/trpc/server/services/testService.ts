@@ -1,5 +1,6 @@
 import prisma from '../../prisma';
-import type { TemplateFull, TemplateType } from '../../model/Template';
+import type { TemplateType } from '../../model/Template';
+import { Question } from '@testy/database';
 
 export const createTest = async (templateData: TemplateType): Promise<void> => {
     const {
@@ -23,7 +24,7 @@ export const createTest = async (templateData: TemplateType): Promise<void> => {
         });
 
         // Create questions and connect to template
-        const questions = [];
+        const questions: Question[] = [];
         for (const q of questionsRaw) {
             const dbQ = await tx.question.create({
                 data: {
