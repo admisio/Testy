@@ -4,6 +4,7 @@
     "types": "./index.ts",
     "dependencies": {
         "@testy/database": "workspace:*",
+        "@testy/logging": "workspace:*",
         "@trpc/client": "^10.17.0",
         "@trpc/server": "^10.17.0",
         "bcrypt": "^5.1.0",
