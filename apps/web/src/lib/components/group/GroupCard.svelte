@@ -18,7 +18,7 @@
                     username: true;
                 };
             };
-        
+
             assignments: {
                 select: {
                     id: true;
@@ -30,7 +30,7 @@
     let userIsBeingAdded: boolean = false;
 
     const listUsers = async () => {
-        const users = await trpc().users.list.query();
+        const users = await trpc().users.list.query({ sortByName: true });
         return users;
     };
 
@@ -69,7 +69,8 @@
         {group.name}
     </h5>
     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
-        Skupina {group.name} vytvořená {formatDate(group.createdAt)} obsahuje uživatelů ({group.users?.length || 0}) a testů ({group.assignments?.length || 0}).
+        Skupina {group.name} vytvořená {formatDate(group.createdAt)} obsahuje uživatelů ({group
+            .users?.length || 0}) a testů ({group.assignments?.length || 0}).
     </p>
     <div class="mb-3">
         {#each group.users as user}
