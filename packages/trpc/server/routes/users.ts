@@ -10,7 +10,7 @@ export const users = t.router({
         .input(
             z
                 .object({
-                    sortByName: z.boolean().optional()
+                    orderByUsername: z.boolean().optional()
                 })
                 .optional()
         )
@@ -25,9 +25,9 @@ export const users = t.router({
                         password: false,
                         username: true
                     },
-                    orderBy: input?.sortByName
+                    orderBy: input?.orderByUsername
                         ? {
-                              name: 'asc'
+                              username: 'asc'
                           }
                         : {
                               id: 'asc'

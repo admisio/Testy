@@ -30,7 +30,7 @@
     let userIsBeingAdded: boolean = false;
 
     const listUsers = async () => {
-        const users = await trpc().users.list.query({ sortByName: true });
+        const users = await trpc().users.list.query({ orderByUsername: true });
         return users;
     };
 
