@@ -81,7 +81,7 @@ export const groups = t.router({
                 userId: z.number()
             })
         )
-        .mutation(async ({ctx, input }) => {
+        .mutation(async ({ ctx, input }) => {
             await prisma.group.update({
                 where: {
                     id: input.groupId

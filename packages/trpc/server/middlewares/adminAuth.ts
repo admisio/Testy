@@ -17,7 +17,10 @@ export const adminAuth = t.middleware(async ({ next, ctx, rawInput, meta, path, 
     if (!ctx.userId) throw new TRPCError({ code: 'UNAUTHORIZED' });
     if (ctx.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
 
-    trpcInfo(ctx, `${type} ${path} ${meta ?? ''} ADMIN AUTHENTICATED (INPUT: ${JSON.stringify(rawInput)})`);
+    trpcInfo(
+        ctx,
+        `${type} ${path} ${meta ?? ''} ADMIN AUTHENTICATED (INPUT: ${JSON.stringify(rawInput)})`
+    );
 
     return next();
 });
