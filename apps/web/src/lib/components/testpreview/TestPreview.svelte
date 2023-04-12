@@ -39,7 +39,7 @@
                         </h2>
                     {/if}
                     {#if heading && heading.description}
-                        <p class="mt-4 text-ellipsis break-all text-xl dark:text-gray-400">
+                        <p class="mt-4 text-ellipsis break-all text-xl font-serif dark:text-gray-400">
                             {@html heading.description}
                         </p>
                     {/if}
@@ -47,7 +47,7 @@
             {/if}
             <h2>{i + 1}. {@html question.title}</h2>
             {#if question.description}
-                <div class="description">{@html question.description}</div>
+                <div class="description font-serif">{@html question.description}</div>
             {/if}
             <ul>
                 {#each question.templateAnswers as answer}

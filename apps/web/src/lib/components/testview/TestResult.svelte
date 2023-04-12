@@ -90,7 +90,7 @@
                     </h2>
                     {#if heading && heading.description}
                         <p
-                            class="dark:text-gray-400text-xl mt-4 text-ellipsis break-words dark:text-gray-400 text-justify"
+                            class="dark:text-gray-400text-xl mt-4 text-ellipsis break-words font-serif dark:text-gray-400 text-justify"
                         >
                             {@html heading.description}
                         </p>
@@ -117,7 +117,7 @@
                     {/if}
                 </div>
                 {#if question.description}
-                    <div class="description mt-8 dark:text-gray-200">
+                    <div class="description mt-8 font-serif dark:text-gray-200">
                         {@html '\n' + question.description}
                     </div>
                 {/if}
