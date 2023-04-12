@@ -156,7 +156,7 @@
                     {/if}
                     {#if heading && heading.description}
                         <p
-                            class="mt-4 text-ellipsis break-words text-justify text-xl dark:text-gray-400"
+                            class="mt-4 text-ellipsis break-words text-justify text-xl font-serif dark:text-gray-400"
                         >
                             {@html heading.description}
                         </p>
@@ -172,7 +172,7 @@
                     </h2>
                 </div>
                 {#if question.description}
-                    <div class="description mt-8 break-words dark:text-gray-200">
+                    <div class="description mt-8 break-words font-serif dark:text-gray-200">
                         {@html '\n' + question.description}
                     </div>
                 {/if}
