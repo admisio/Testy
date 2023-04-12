@@ -1,6 +1,7 @@
 import prisma from '../prisma';
 import { stringify as csvStringify } from 'csv-stringify/sync';
 import { submissions } from '../server/routes/submissions';
+import logger from '@testy/logging';
 
 export const exportCsv = async (): Promise<string> => {
     const users = await prisma.user.findMany({
@@ -57,6 +58,14 @@ export const exportCsv = async (): Promise<string> => {
                     maxScore: submission.assignment.template.maxScore
                 };
             });
+            if (submittedTests.filter((test) => test.type === 'G').length > 1) {
+                logger.error(`USER (${user.id}): More than one G test`);
+            } else if (submittedTests.filter((test) => test.type === 'IT').length > 1) {
+                logger.error(`USER (${user.id}): More than one IT test`);
+            } else if (submittedTests.filter((test) => test.type === 'KB').length > 1) {
+                logger.error(`USER (${user.id}): More than one KB test`);
+            }
+
             const G = submittedTests.find((test) => test.type === 'G');
             const IT = submittedTests.find((test) => test.type === 'IT');
             const KB = submittedTests.find((test) => test.type === 'KB');
