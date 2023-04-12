@@ -27,7 +27,7 @@ const parseQuestion = (questionHTML: string): Question => {
     const answersSanitized = answersRaw.map((a) => a.replaceAll('*', ''));
 
     // select all md text between title and last code block
-    const description = document('ol').nextUntil('.answers').html();
+    const description = document('ol').nextUntil('.answers').toString();
 
     return {
         title,
