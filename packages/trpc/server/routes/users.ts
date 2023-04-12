@@ -8,9 +8,15 @@ import { trpcInfo } from '../../utils/logging';
 export const users = t.router({
     list: t.procedure
         .use(adminAuth)
-        .input(z.string().optional())
+        .input(
+            z
+                .object({
+                    orderByUsername: z.boolean().optional()
+                })
+                .optional()
+        )
         .query(
-            async () =>
+            async ({ input }) =>
                 await prisma.user.findMany({
                     select: {
                         id: true,
@@ -19,7 +25,14 @@ export const users = t.router({
                         surname: true,
                         password: false,
                         username: true
-                    }
+                    },
+                    orderBy: input?.orderByUsername
+                        ? {
+                              username: 'asc'
+                          }
+                        : {
+                              id: 'asc'
+                          }
                 })
         ),
 
