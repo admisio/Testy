@@ -29,17 +29,17 @@
     >
         {#each questions as question, i}
             {#if headingRows[i]}
-            {@const heading = headingRows[i]}
+                {@const heading = headingRows[i]}
                 <div class="w-full">
-                    {#if heading.title}
+                    {#if heading && heading.title}
                         <h2
                             class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
                         >
                             {@html heading.title}
                         </h2>
                     {/if}
-                    {#if heading.description}
-                        <p class="mt-4 text-ellipsis break-all text-xl">
+                    {#if heading && heading.description}
+                        <p class="mt-4 text-ellipsis break-all text-xl dark:text-gray-400">
                             {@html heading.description}
                         </p>
                     {/if}
