@@ -24,9 +24,6 @@
             <div class="flex items-center">
                 <ul class="mt-0 mr-6 flex flex-row space-x-8 text-sm font-medium">
                     <li>
-                        <a href="/admin" aria-current="page">Home</a>
-                    </li>
-                    <li>
                         <a href="/admin/groups">Skupiny</a>
                     </li>
                     <li>

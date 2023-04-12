@@ -1,17 +1,19 @@
 import { t, adminAuth } from '../trpc';
 import { z } from 'zod';
 import prisma from '../../prisma';
+import { trpcInfo, trpcWarn } from '../../utils/logging';
 
 export const templates = t.router({
     delete: t.procedure
         .use(adminAuth)
         .input(z.number())
-        .mutation(async ({ input }) => {
+        .mutation(async ({ ctx, input }) => {
             await prisma.template.deleteMany({
                 where: {
                     id: input
                 }
             });
+            trpcWarn(ctx, `Deleted template ${input}`);
         }),
     rename: t.procedure
         .use(adminAuth)
@@ -21,7 +23,7 @@ export const templates = t.router({
                 title: z.string()
             })
         )
-        .mutation(async ({ input }) => {
+        .mutation(async ({ ctx, input }) => {
             await prisma.template.update({
                 where: {
                     id: input.id
@@ -30,6 +32,7 @@ export const templates = t.router({
                     title: input.title
                 }
             });
+            trpcInfo(ctx, `Renamed template ${input.id} to ${input.title}`);
         }),
     list: t.procedure
         .use(adminAuth)
@@ -40,7 +43,7 @@ export const templates = t.router({
                     id: true,
                     title: true,
                     maxScore: true,
-                    timeLimit: true,
+                    timeLimit: true
                 }
             });
         }),

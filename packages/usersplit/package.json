@@ -1,0 +1,21 @@
+{
+    "name": "usersplit",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "scripts": {
+        "main": "ts-node index.ts"
+    },
+    "dependencies": {
+        "@testy/database": "workspace:*",
+        "bcrypt": "^5.1.0",
+        "ts-node": "^10.9.1"
+    },
+    "devDependencies": {
+        "prisma": "^4.11.0",
+        "ts-node": "^10.9.1",
+        "@types/bcrypt": "^5.0.0"
+    },
+    "prisma": {
+        "seed": "node --loader ts-node/esm prisma/seed.ts"
+    }
+}

@@ -12,6 +12,9 @@
     import clippy from '$lib/assets/clippy.png';
 
     export let data: PageData;
+    const headingRows = getInBetweenQuestionRows(data.assignment.template.questions, data.assignment.template.headings);
+
+    let test: typeof data.assignment;
     $: test = data.assignment!;
 
     const submitAnswer = async (e: any, questionId: number) => {
@@ -41,6 +44,8 @@
     import { onDestroy, onMount } from 'svelte';
     import { goto, invalidateAll } from '$app/navigation';
     import { pushErrorText } from '$lib/utils/toast';
+    import type { Heading } from '@testy/database';
+    import { getInBetweenQuestionRows } from '$lib/utils/headings';
 
     onMount(() => {
         document.querySelectorAll('.description code').forEach((el) => {
@@ -52,7 +57,7 @@
 
             hljs.highlightElement(el as HTMLElement);
         });
-        
+
         updateTimeRemaining();
         updateTimeRemainingInterval = setInterval(() => updateTimeRemaining(), 1000);
     });
@@ -79,7 +84,8 @@
     onDestroy(() => {
         clearInterval(updateTimeRemainingInterval);
     });
-    
+
+    let submittedAnswersCount = 0;
     $: submittedAnswersCount = test.template.questions.filter(
         (question) => question.submittedAnswers.length > 0
     ).length;
@@ -106,7 +112,7 @@
 
             <img class="w-72" src={clippy} alt="Clippy" />
             <button
-                class="mt-6 animate-bounce rounded-md bg-yellow-600 p-3 text-xl text-white shadow-md transition-colors  duration-300 hover:bg-yellow-800"
+                class="mt-6 animate-bounce rounded-md bg-yellow-600 p-3 text-xl text-white shadow-md transition-colors duration-300 hover:bg-yellow-800"
                 on:click={() => submitTest()}>Odevzdat test</button
             >
         </div>
@@ -135,23 +141,22 @@
 <div class:dark={isDarkMode} class="w-100vw mt-12 flex h-full justify-center">
     <div class="md:w-7/10 w-[95%] px-3 py-6 shadow-2xl dark:bg-gray-700 md:px-24">
         {#each test.template.questions as question, i}
-            {#if test.template.headings.some((heading) => heading.questionRangeStart === i + 1)}
-                {#each test.template.headings.filter((heading) => heading.questionRangeStart === i + 1) as heading}
-                    <div class="mt-12 w-full">
-                        {#if heading.title}
-                            <h2
-                                class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
-                            >
-                                {@html heading.title}
-                            </h2>
-                        {/if}
-                        {#if heading.description}
-                            <p class="text-justify mt-4 text-ellipsis break-words text-xl">
-                                {@html heading.description}
-                            </p>
-                        {/if}
-                    </div>
-                {/each}
+            {#if headingRows[i]}
+                {@const heading = headingRows[i]}
+                <div class="mt-12 w-full">
+                    {#if heading.title}
+                        <h2
+                            class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                        >
+                            {@html heading.title}
+                        </h2>
+                    {/if}
+                    {#if heading.description}
+                        <p class="mt-4 text-ellipsis break-words text-justify text-xl">
+                            {@html heading.description}
+                        </p>
+                    {/if}
+                </div>
             {/if}
             <div class="mt-12 w-full">
                 <div class="title-wrapper">
@@ -162,7 +167,7 @@
                     </h2>
                 </div>
                 {#if question.description}
-                    <div class="break-words description mt-8 dark:text-gray-200">
+                    <div class="description mt-8 break-words dark:text-gray-200">
                         {@html '\n' + question.description}
                     </div>
                 {/if}
@@ -182,10 +187,13 @@
 </div>
 
 <div class="my-10 flex w-full items-center justify-center">
-    <Button title="Odeslat test" on:click={async () => {
-        await invalidateAll();
-        submitModalIsOpen = true
-    }} />
+    <Button
+        title="Odeslat test"
+        on:click={async () => {
+            await invalidateAll();
+            submitModalIsOpen = true;
+        }}
+    />
 </div>
 
 <style lang="postcss">

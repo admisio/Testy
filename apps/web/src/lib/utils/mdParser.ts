@@ -14,7 +14,6 @@ const parseQuestion = (questionHTML: string): Question => {
         .split(/[a-e]\)/)
         .filter((a) => a.length > 0)
         .map((a) => a.trim());
-    console.log('parsing question', title, answersRaw);
     // find correct answer (starts with * ends with *)
     const correctAnswerList = answersRaw
         .map((a) => (a.match(/\*(.|\n)+\*/) ? a : null))
@@ -42,7 +41,7 @@ export const parseMd = async (md: string, timeLimit: number): Promise<TemplateTy
     const html = marked.parse(md);
     console.log(html);
     const document = load(html);
-    const title = document('h1').text();
+    const h1 = document('h1').text();
     const lines = html.split('\n');
     const olIndexes = lines
         .map((line, i) => (line.match(OL_REGEX) ? i : null))
@@ -84,6 +83,7 @@ export const parseMd = async (md: string, timeLimit: number): Promise<TemplateTy
         .filter((i) => i !== null)
         .toArray() as Array<HeadingType>;
 
-    console.log(headings);
-    return { title, headings, questions, timeLimit, maxScore: questions.length };
+    const type = h1.split('|')[1].trim() as TemplateType['type'];
+    const title = `${h1} (${timeLimit} min)`;
+    return { title, type, headings, questions, timeLimit, maxScore: questions.length };
 };

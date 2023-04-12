@@ -3,6 +3,7 @@ import { z } from 'zod';
 import prisma from '../../prisma';
 import { exportCsv } from '../../utils/csvExport';
 import bcrypt from 'bcrypt';
+import { trpcInfo } from '../../utils/logging';
 
 export const users = t.router({
     list: t.procedure
@@ -33,7 +34,7 @@ export const users = t.router({
                 password: z.string()
             })
         )
-        .mutation(async ({ input }) => {
+        .mutation(async ({ ctx, input }) => {
             await prisma.user.create({
                 data: {
                     name: input.name,
@@ -43,6 +44,8 @@ export const users = t.router({
                     password: await bcrypt.hash(input.password, 12)
                 }
             });
+
+            trpcInfo(ctx, `Created user ${input.username}`);
         }),
     csv: t.procedure.use(adminAuth).query(async () => exportCsv()),
     resetPassword: t.procedure

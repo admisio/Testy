@@ -10,6 +10,7 @@ datasource db {
 model Template {
   id          Int          @id @default(autoincrement())
   title       String
+  type        String
   questions   Question[]
   assignments Assignment[]
   timeLimit   Int
@@ -18,13 +19,12 @@ model Template {
 }
 
 model Heading {
-  id                 Int      @id @default(autoincrement())
-  title              String
-  description        String?
-  questionRangeStart Int
-  questionRangeEnd   Int
-  testId             Int
-  test               Template @relation(fields: [testId], references: [id], onDelete: Cascade)
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  questions   Question[]
+  testId      Int
+  test        Template   @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 model Question {
@@ -36,6 +36,8 @@ model Question {
   testId           Int
   template         Template @relation(fields: [testId], references: [id], onDelete: Cascade)
   submittedAnswers Answer[]
+  heading          Heading? @relation(fields: [headingId], references: [id])
+  headingId        Int?
 }
 
 model Assignment {
@@ -51,6 +53,20 @@ model Assignment {
   submissions      Submission[]
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
+  View             View[]
+}
+
+model View {
+  id            Int        @id @default(autoincrement())
+  userId        Int
+  user          User       @relation(fields: [userId], references: [id])
+  assignmentId  Int
+  assignment    Assignment @relation(fields: [assignmentId], references: [id])
+  questionOrder Int[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@unique([userId, assignmentId], name: "user_assignment")
 }
 
 model Submission {
@@ -86,7 +102,7 @@ model Answer {
 
 model Group {
   id          Int              @id @default(autoincrement())
-  name        String
+  name        String           @unique
   admins      AdminsOnGroups[]
   users       User[]
   assignments Assignment[]
@@ -131,6 +147,7 @@ model User {
   Feedback    Feedback[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  View        View[]
 }
 
 model Feedback {

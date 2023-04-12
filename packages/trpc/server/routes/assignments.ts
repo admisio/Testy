@@ -6,6 +6,9 @@ import { addMinutes } from 'date-fns';
 import { createSubmission } from '../services/submissionService';
 import { submitExpired } from '../services/assignmentService';
 import prisma from '../../prisma';
+import { randomOrder } from '../../utils/random';
+import logger from '@testy/logging';
+import { trpcInfo, trpcWarn } from '../../utils/logging';
 
 export const assignments = t.router({
     assignToGroup: t.procedure
@@ -16,7 +19,7 @@ export const assignments = t.router({
                 groupId: z.number()
             })
         )
-        .mutation(async ({ input }) => {
+        .mutation(async ({ ctx, input }) => {
             const assignment = await prisma.assignment.create({
                 data: {
                     template: {
@@ -44,6 +47,8 @@ export const assignments = t.router({
                     }
                 }
             });
+
+            trpcInfo(ctx, `Assigned template ${input.templateId} to group ${input.groupId}`);
         }),
     start: t.procedure
         .use(adminAuth)
@@ -52,7 +57,7 @@ export const assignments = t.router({
                 assignmentId: z.number()
             })
         )
-        .mutation(async ({ input }) => {
+        .mutation(async ({ ctx, input }) => {
             const assignment = await prisma.assignment.findUniqueOrThrow({
                 where: {
                     id: input.assignmentId
@@ -77,6 +82,11 @@ export const assignments = t.router({
                     endTime
                 }
             });
+
+            trpcInfo(
+                ctx,
+                `Started assignment ${input.assignmentId} at ${startTime} ending at ${endTime}`
+            );
         }),
     list: t.procedure
         .use(adminAuth)
@@ -145,7 +155,9 @@ export const assignments = t.router({
                                     title: true,
                                     description: true,
                                     templateAnswers: true,
+                                    headingId: true,
                                     submittedAnswers: {
+                                        // TODO: remove this
                                         where: {
                                             assignment: {
                                                 id: input.assignmentId
@@ -159,7 +171,26 @@ export const assignments = t.router({
                             }
                         }
                     },
-                    submissions: {}
+                    submittedAnswers: {
+                        where: {
+                            user: {
+                                id: user.id
+                            },
+                            assignment: {
+                                id: input.assignmentId
+                            }
+                        }
+                    },
+                    submissions: {
+                        where: {
+                            user: {
+                                id: user.id
+                            },
+                            assignment: {
+                                id: input.assignmentId
+                            }
+                        }
+                    }
                 }
             });
             if (!assignment) {
@@ -174,6 +205,41 @@ export const assignments = t.router({
             if (!assignment?.started) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test has not started yet' });
             }
+
+            const questions = assignment.template.questions;
+
+            const questionsGrouped = assignment.template.headings
+                .map((h) => questions.filter((q) => q.headingId === h.id) ?? [])
+                .concat(questions.filter((q) => !q.headingId));
+
+            // Create view if it doesn't exist
+            const view =
+                (await prisma.view.findUnique({
+                    where: { user_assignment: { assignmentId: assignment.id, userId: user.id } }
+                })) ??
+                (await prisma.view.create({
+                    data: {
+                        user: {
+                            connect: {
+                                id: user.id
+                            }
+                        },
+                        assignment: {
+                            connect: {
+                                id: assignment.id
+                            }
+                        },
+                        questionOrder: randomOrder(questionsGrouped.length)
+                    }
+                }));
+
+            // Sort questions by view order
+            assignment.template.questions = view.questionOrder
+                .flatMap((index) => {
+                    return questionsGrouped[index];
+                })
+                .filter((q) => q !== undefined); // TODO: fix this undefined
+
             return { assignment, user };
         }),
     submitAnswer: t.procedure
@@ -203,9 +269,17 @@ export const assignments = t.router({
                 throw new TRPCError({ code: 'FORBIDDEN', message: 'Test already submitted' });
             }
             if (!assignment) {
+                trpcWarn(
+                    ctx,
+                    `Tried to submit answer to non-existent assignment ${input.assignmentId}`
+                );
                 throw new TRPCError({ code: 'NOT_FOUND', message: 'Test not found' });
             }
             if (assignment?.groupId !== user?.groupId) {
+                trpcWarn(
+                    ctx,
+                    `Tried to submit answer to assignment ${input.assignmentId} not assigned to their group`
+                );
                 throw new TRPCError({
                     code: 'FORBIDDEN',
                     message: 'Test was not assigned to your group'
@@ -219,6 +293,10 @@ export const assignments = t.router({
                 ?.templateAnswers[input.answerIndex];
 
             if (!answer) {
+                trpcWarn(
+                    ctx,
+                    `Tried to submit non-existent answer ${input.answerIndex} to question ${input.questionId} in assignment ${input.assignmentId}`
+                );
                 throw new TRPCError({ code: 'NOT_FOUND', message: 'Answer not found' });
             }
 
@@ -254,6 +332,11 @@ export const assignments = t.router({
                     index: input.answerIndex
                 }
             });
+
+            trpcInfo(
+                ctx,
+                `Submitted answer '${answer}' with index ${input.answerIndex} to question ${input.questionId} in assignment ${input.assignmentId}`
+            );
         }),
     submitAllExpired: t.procedure.use(adminAuth).query(async ({ ctx }) => {
         await submitExpired();
@@ -278,7 +361,7 @@ export const assignments = t.router({
             }
 
             if (user.submissions.length > 0) {
-                throw new TRPCError({ code: 'FORBIDDEN', message: 'Test already submitted' });
+                return;
             }
 
             if (assignment.groupId !== user.groupId) {
