@@ -54,9 +54,9 @@
 
     <form method="POST" use:enhance class="mx-auto mt-8 mb-0 max-w-md space-y-4">
         <div>
-            <label for="username" class="sr-only">Ev. číslo</label>
+            <label for="username" class="sr-only">Uživatelské jméno</label>
 
-            <UsernameInput {error} required placeholder={'Ev. číslo'} focus />
+            <UsernameInput {error} required placeholder={'Uživatelské jméno'} focus />
         </div>
 
         <div>
