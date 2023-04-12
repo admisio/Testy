@@ -20,8 +20,10 @@
         };
     }>;
 
-
-    const headingRows = getInBetweenQuestionRows(assignment.template.questions, assignment.template.headings);
+    const headingRows = getInBetweenQuestionRows(
+        assignment.template.questions,
+        assignment.template.headings
+    );
 
     export let submission: Submission;
 
@@ -86,8 +88,10 @@
                     >
                         {@html heading?.title}
                     </h2>
-                    {#if heading.description}
-                        <p class="mt-4 text-ellipsis break-words text-justify text-xl">
+                    {#if heading && heading.description}
+                        <p
+                            class="dark:text-gray-400text-xl mt-4 text-ellipsis break-words dark:text-gray-400 text-justify"
+                        >
                             {@html heading.description}
                         </p>
                     {/if}
