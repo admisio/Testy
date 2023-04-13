@@ -76,10 +76,13 @@ export const exportCsv = async (): Promise<string> => {
                 user.surname,
                 user.email,
                 user.group?.name,
+                G?.title,
                 G?.evaluation,
                 G?.maxScore,
+                IT?.title,
                 IT?.evaluation,
                 IT?.maxScore,
+                KB?.title,
                 KB?.evaluation,
                 KB?.maxScore
             ];
@@ -93,10 +96,13 @@ export const exportCsv = async (): Promise<string> => {
                 'Příjmení',
                 'Email',
                 'Skupina',
+                'G - název',
                 'G - body',
                 'G - max',
+                'IT - název',
                 'IT - body',
                 'IT - max',
+                'KB - název',
                 'KB - body',
                 'KB - max'
             ]
