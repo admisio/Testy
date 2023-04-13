@@ -26,9 +26,16 @@ export const actions: Actions = {
                 return fail(401, { message: 'Authentication failed', incorrect: true });
             }
 
-            cookies.set('jwt', jwt.sign({ id: id, name: username, role: 'user' }, env.JWT_SECRET), {
-                path: '/'
-            });
+            cookies.set(
+                'jwt',
+                jwt.sign({ id: id, name: username, role: 'user' }, env.JWT_SECRET, {
+                    expiresIn: '16h',
+                    algorithm: 'HS512',
+                }),
+                {
+                    path: '/'
+                }
+            );
 
             return { success: true };
         } catch {
