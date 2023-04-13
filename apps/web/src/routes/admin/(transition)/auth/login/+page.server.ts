@@ -26,7 +26,10 @@ export const actions: Actions = {
 
             cookies.set(
                 'jwt',
-                jwt.sign({ id: id, name: username, role: 'admin' }, env.JWT_SECRET),
+                jwt.sign({ id: id, name: username, role: 'admin' }, env.JWT_SECRET, {
+                    expiresIn: '1w',
+                    algorithm: 'HS512'
+                }),
                 {
                     path: '/'
                 }
