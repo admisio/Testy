@@ -30,7 +30,7 @@ export const actions: Actions = {
                 'jwt',
                 jwt.sign({ id: id, name: username, role: 'user' }, env.JWT_SECRET, {
                     expiresIn: '16h',
-                    algorithm: 'HS512',
+                    algorithm: 'HS512'
                 }),
                 {
                     path: '/'
