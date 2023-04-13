@@ -36,7 +36,7 @@
     $: noTests = assignments.length === 0 || !assignments.some((test) => !isFinished(test));
 
     // TODO: Websocket
-    const interval = setInterval(invalidateAll, 1000);
+    const interval = setInterval(invalidateAll, 1650);
 
     onDestroy(() => {
         clearInterval(interval);
