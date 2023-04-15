@@ -54,7 +54,8 @@
         @apply border-2 border-[#3580b7];
     }
     button {
-        @apply p-1;
+        all: unset;
+        @apply p-1 cursor-pointer;
     }
     .error {
         @apply border-2 border-red-700;
