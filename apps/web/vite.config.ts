@@ -1,9 +1,13 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import type { UserConfig } from 'vite';
-import WindiCSS from 'vite-plugin-windicss';
+
+import UnoCSS from 'unocss/vite';
 
 const config: UserConfig = {
-    plugins: [sveltekit(), WindiCSS()]
+    plugins: [
+        UnoCSS(),
+        sveltekit()
+    ]
 };
 
 export default config;

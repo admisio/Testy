@@ -33,16 +33,16 @@
         </div>
 
         <h1
-            class="whitespace-pre-wrap text-center text-2xl font-extrabold leading-tight tracking-tight md:text-3xl lg:text-4xl xl:text-5xl"
+            class="font-sans text-center text-2xl font-extrabold leading-tight tracking-tight md:text-3xl lg:text-4xl xl:text-5xl"
         >
             Přihlášení vedoucího testů<br />Pracujeme s online daty, ne papíry!
         </h1>
         <p
-            class="mx-auto max-w-[60ch] pt-3 text-center text-sm font-medium text-zinc-600 dark:text-zinc-300 md:text-lg"
+            class="font-sans mx-auto max-w-[60ch] pt-3 text-center text-sm font-medium text-zinc-600 dark:text-zinc-300 md:text-lg"
         >
             Přihlašte se ke svému účtu pro organizaci
             <span
-                class="text-slate-900 underline decoration-blue-400 decoration-wavy decoration-from-font underline-offset-2 dark:text-slate-100"
+                class="font-sans text-slate-900 underline decoration-blue-400 decoration-wavy decoration-from-font underline-offset-2 dark:text-slate-100"
                 >plně digitálních</span
             >
             <!-- -->testů <br />

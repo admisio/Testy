@@ -1,5 +1,7 @@
 <script lang="ts">
-    import 'virtual:windi.css';
+    import 'virtual:uno.css';
+    import '@unocss/reset/tailwind.css';
+    //import 'virtual:unocss-devtools';
 </script>
 
 <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
