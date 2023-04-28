@@ -4,6 +4,7 @@ import prisma from '../../prisma';
 import { exportCsv } from '../../utils/csvExport';
 import bcrypt from 'bcrypt';
 import { trpcInfo } from '../../utils/logging';
+import { exportXlsx } from '../services/testService';
 
 export const users = t.router({
     list: t.procedure
@@ -61,6 +62,7 @@ export const users = t.router({
             trpcInfo(ctx, `Created user ${input.username}`);
         }),
     csv: t.procedure.use(adminAuth).query(async () => exportCsv()),
+    xlsx: t.procedure.use(adminAuth).query(async () => exportXlsx()),
     resetPassword: t.procedure
         .use(adminAuth)
         .input(
