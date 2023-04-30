@@ -10,6 +10,7 @@
     <img src="https://img.shields.io/badge/SvelteKit-orange.svg">
     <img src="https://img.shields.io/badge/WindiCSS-lightblue.svg">
     <img src="https://img.shields.io/badge/Bcrypt-black.svg">
+    <img src="https://img.shields.io/badge/Prisma-purple.svg">
     <img src="https://img.shields.io/badge/Turborepo-black.svg">
     <img src="https://img.shields.io/badge/TRPC-blue.svg">
     <br />
