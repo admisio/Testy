@@ -5,6 +5,10 @@ import bcrypt from 'bcrypt';
 
 async function main() {
     const lines = fs.readFileSync(path.join(__dirname, 'users.txt'), 'utf8').split('\n');
+    const passwords = fs.readFileSync(path.join(__dirname, 'passwords.txt'), 'utf8').split('\n');
+    let passIndex = 0;
+
+    let adminLogins: string[] = [];
 
     await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE`;
     await prisma.$executeRaw`TRUNCATE TABLE "Group" CASCADE`;
@@ -34,15 +38,17 @@ async function main() {
             }
         });
         if (!dbAdmin) {
+            const password = passwords[passIndex++];
             dbAdmin = await prisma.admin.create({
                 data: {
                     username: admin,
                     name: admin,
                     surname: admin,
                     email: admin,
-                    password: bcrypt.hashSync('REDACTED', 12)
+                    password: bcrypt.hashSync(password, 12)
                 }
             });
+            adminLogins.push(`${admin} ${password}`);
         }
 
         let dbGroup = await prisma.group.findUnique({
@@ -85,6 +91,7 @@ async function main() {
 
         console.log(dbUser);
     }
+    console.log(adminLogins);
 }
 
 main().then(() => {
