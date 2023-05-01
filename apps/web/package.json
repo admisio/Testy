@@ -25,6 +25,7 @@
         "trpc-sveltekit": "^3.5.1"
     },
     "devDependencies": {
+        "eslint-config-custom": "workspace:*",
         "@iconify/svelte": "^3.1.0",
         "@svelte-put/clickoutside": "^2.0.0",
         "@sveltejs/adapter-node": "^1.2.3",

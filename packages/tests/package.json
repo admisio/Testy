@@ -12,6 +12,7 @@
         "vitest": "^0.29.7"
     },
     "devDependencies": {
+        "eslint-config-custom": "workspace:*",
         "ts-node": "^10.9.1"
     },
     "prisma": {
