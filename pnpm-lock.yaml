@@ -60,8 +60,11 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0
       marked:
-        specifier: ^4.3.0
-        version: 4.3.0
+        specifier: ^5.0.0
+        version: 5.0.0
+      marked-highlight:
+        specifier: ^1.0.0
+        version: 1.0.0(marked@5.0.0)
       trpc-sveltekit:
         specifier: ^3.5.1
         version: 3.5.1(@sveltejs/adapter-node@1.2.3)(@trpc/client@10.17.0)(@trpc/server@10.17.0)(@types/ws@8.5.4)(ws@8.12.1)
@@ -88,8 +91,8 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
       '@types/marked':
-        specifier: ^4.0.8
-        version: 4.0.8
+        specifier: ^4.3.0
+        version: 4.3.0
       '@types/node':
         specifier: 18.15.5
         version: 18.15.5
@@ -1441,8 +1444,8 @@ packages:
       '@types/node': 18.15.5
     dev: true
 
-  /@types/marked@4.0.8:
-    resolution: {integrity: sha512-HVNzMT5QlWCOdeuBsgXP8EZzKUf0+AXzN+sLmjvaB3ZlLqO+e4u0uXrdw9ub69wBKFs+c6/pA4r9sy6cCDvImw==}
+  /@types/marked@4.3.0:
+    resolution: {integrity: sha512-zK4gSFMjgslsv5Lyvr3O1yCjgmnE4pr8jbG8qVn4QglMwtpvPCf4YT2Wma7Nk95OxUUJI8Z+kzdXohbM7mVpGw==}
     dev: true
 
   /@types/node@18.15.5:
@@ -3622,9 +3625,17 @@ packages:
       tmpl: 1.0.5
     dev: false
 
-  /marked@4.3.0:
-    resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
-    engines: {node: '>= 12'}
+  /marked-highlight@1.0.0(marked@5.0.0):
+    resolution: {integrity: sha512-1oiuOuV20HCh+4ATBdVpEmIBeM2PQ9NaxCE6vuqo9JF1+lvZwIBgt7PHzZ0iaxrYeYs1cZc9bTDdHvh5QwMmKw==}
+    peerDependencies:
+      marked: ^4.3.0
+    dependencies:
+      marked: 5.0.0
+    dev: false
+
+  /marked@5.0.0:
+    resolution: {integrity: sha512-YQ6+L9l/NSBDjFgCQQebmTCc62EUdZ5RpIZ7A/FmC8IYMB5s7Cz8sT7imuMAkbIL4CvXpQLdW45fpK5UwiU7DA==}
+    engines: {node: '>= 18'}
     hasBin: true
     dev: false
 
