@@ -7,7 +7,7 @@
     },
     "dependencies": {
         "@testy/database": "workspace:*",
-        "@prisma/client": "^4.11.0",
+        "@prisma/client": "^4.13.0",
         "jest-mock-extended": "^3.0.3",
         "vitest": "^0.29.7"
     },
