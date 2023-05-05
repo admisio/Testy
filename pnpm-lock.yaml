@@ -63,8 +63,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       marked-highlight:
-        specifier: ^1.0.0
-        version: 1.0.0(marked@5.0.0)
+        specifier: ^1.0.1
+        version: 1.0.1(marked@5.0.0)
       trpc-sveltekit:
         specifier: ^3.5.1
         version: 3.5.1(@sveltejs/adapter-node@1.2.3)(@trpc/client@10.17.0)(@trpc/server@10.17.0)(@types/ws@8.5.4)(ws@8.12.1)
@@ -3625,10 +3625,10 @@ packages:
       tmpl: 1.0.5
     dev: false
 
-  /marked-highlight@1.0.0(marked@5.0.0):
-    resolution: {integrity: sha512-1oiuOuV20HCh+4ATBdVpEmIBeM2PQ9NaxCE6vuqo9JF1+lvZwIBgt7PHzZ0iaxrYeYs1cZc9bTDdHvh5QwMmKw==}
+  /marked-highlight@1.0.1(marked@5.0.0):
+    resolution: {integrity: sha512-dL9nk6dDRJ0BiSfhEilY0SWGgAgJTea9BY80rVHSEeZCECIqR3ytkvQEhlDYV7eOJ03GUUlqYcCtJKkymVMj8A==}
     peerDependencies:
-      marked: ^4.3.0
+      marked: ^4 || ^5
     dependencies:
       marked: 5.0.0
     dev: false

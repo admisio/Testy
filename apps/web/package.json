@@ -19,7 +19,7 @@
         "date-fns": "^2.29.3",
         "debounce": "^1.2.1",
         "marked": "^5.0.0",
-        "marked-highlight": "^1.0.0",
+        "marked-highlight": "^1.0.1",
         "cheerio": "1.0.0-rc.12",
         "highlight.js": "^11.8.0",
         "jsonwebtoken": "^9.0.0",
