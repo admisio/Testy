@@ -9,15 +9,15 @@
         "db:deploy": "prisma migrate deploy"
     },
     "dependencies": {
-        "@prisma/client": "^4.11.0",
+        "@prisma/client": "^4.13.0",
         "bcrypt": "^5.1.0"
     },
     "devDependencies": {
-        "prisma": "^4.11.0",
+        "prisma": "^4.13.0",
         "ts-node": "^10.9.1",
         "@types/bcrypt": "^5.0.0"
     },
     "prisma": {
-        "seed": "node --loader ts-node/esm prisma/seed.ts"
+        "seed": "ts-node prisma/seed.ts"
     }
 }
