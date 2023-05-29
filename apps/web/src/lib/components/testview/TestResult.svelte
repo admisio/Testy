@@ -38,20 +38,12 @@
 
     let isDarkMode: boolean = false;
 
-    import hljs from 'highlight.js';
     import 'highlight.js/styles/github-dark.css';
 
-    import { onMount } from 'svelte';
     import type { Answer, Heading, Prisma, Question, Submission } from '@testy/database';
 
     import Answers from './Answers.svelte';
     import { getInBetweenQuestionRows } from '$lib/utils/headings';
-
-    onMount(() => {
-        document.querySelectorAll('.description code').forEach((el) => {
-            hljs.highlightElement(el as HTMLElement);
-        });
-    });
 </script>
 
 <div

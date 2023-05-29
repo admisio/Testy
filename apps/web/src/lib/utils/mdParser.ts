@@ -1,4 +1,7 @@
 import { marked } from 'marked';
+import { markedHighlight } from 'marked-highlight';
+import hljs from 'highlight.js';
+
 import { load } from 'cheerio';
 import type { HeadingType, TemplateType, Question } from '@testy/trpc';
 
@@ -38,6 +41,15 @@ const parseQuestion = (questionHTML: string): Question => {
 };
 
 export const parseMd = async (md: string, timeLimit: number): Promise<TemplateType> => {
+    marked.use(
+        markedHighlight({
+            langPrefix: 'hljs language-',
+            highlight(code: string, lang: string) {
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            }
+        })
+    );
     const html = marked.parse(md);
     console.log(html);
     const document = load(html);

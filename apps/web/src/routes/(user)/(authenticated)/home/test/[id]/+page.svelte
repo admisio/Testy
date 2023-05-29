@@ -41,7 +41,6 @@
 
     let isDarkMode: boolean = false;
 
-    import hljs from 'highlight.js';
     import 'highlight.js/styles/github-dark.css';
 
     import { onDestroy, onMount } from 'svelte';
@@ -51,16 +50,6 @@
     import { getInBetweenQuestionRows } from '$lib/utils/headings';
 
     onMount(() => {
-        document.querySelectorAll('.description code').forEach((el) => {
-            // create pre element and insert it before the code element and put the code element inside the pre element
-            const pre = document.createElement('pre');
-            pre.className = 'hljs';
-            el.parentNode?.insertBefore(pre, el);
-            pre.appendChild(el);
-
-            hljs.highlightElement(el as HTMLElement);
-        });
-
         updateTimeRemaining();
         updateTimeRemainingInterval = setInterval(() => updateTimeRemaining(), 1000);
     });
@@ -156,7 +145,7 @@
                     {/if}
                     {#if heading && heading.description}
                         <p
-                            class="mt-4 text-ellipsis break-words text-justify text-xl font-serif dark:text-gray-400"
+                            class="mt-4 text-ellipsis break-words text-justify font-serif text-xl dark:text-gray-400"
                         >
                             {@html heading.description}
                         </p>
@@ -203,7 +192,7 @@
 
 <style lang="postcss">
     .title-wrapper :global(code) {
-        @apply rounded-md bg-[#1D1D1E] py-1 px-1 text-[#D4D4D4];
+        @apply rounded-md bg-[#1D1D1E] px-1 py-1 text-[#D4D4D4];
     }
     .endTimeFixed {
         @apply fixed;
