@@ -1,14 +1,28 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import fs from 'fs';
 import path from 'path';
 import prisma from './prisma';
 import bcrypt from 'bcrypt';
+import { program } from 'commander';
 
-async function main() {
-    const lines = fs.readFileSync(path.join(__dirname, 'users.txt'), 'utf8').split('\n');
-    const passwords = fs.readFileSync(path.join(__dirname, 'passwords.txt'), 'utf8').split('\n');
+async function main({
+    usersFile,
+    passwordsFile,
+    outputFile,
+    superadminFile
+}: {
+    usersFile: string;
+    passwordsFile: string;
+    outputFile: string;
+    superadminFile: string;
+}) {
+    const superadminPassword = fs.readFileSync(path.join(__dirname, superadminFile), 'utf8');
+    const lines = fs.readFileSync(path.join(__dirname, usersFile), 'utf8').split('\n');
+    const passwords = fs.readFileSync(path.join(__dirname, passwordsFile), 'utf8').split('\n');
+
     let passIndex = 0;
 
-    let adminLogins: string[] = [];
+    const adminLogins: string[] = [];
 
     await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE`;
     await prisma.$executeRaw`TRUNCATE TABLE "Group" CASCADE`;
@@ -26,7 +40,7 @@ async function main() {
             surname: 'Superadmin',
             email: 'superadmin',
             username: 'superadmin',
-            password: bcrypt.hashSync('REDACTED', 12)
+            password: bcrypt.hashSync(superadminPassword, 12)
         }
     });
 
@@ -91,9 +105,46 @@ async function main() {
 
         console.log(dbUser);
     }
+
+    // if file doesn't exist, it will be created
+    fs.writeFileSync(path.join(__dirname, outputFile), adminLogins.join('\n'));
     console.log(adminLogins);
 }
+console.log(process.argv);
+program
+    .option('-u, --usersfile <usersfile>', 'Path to users file (default users.txt)', 'users.txt')
+    .option(
+        '-p, --passwordsfile <passwordsfile>',
+        'Path to passwords file (default passwords.txt)',
+        'passwords.txt'
+    )
+    .option(
+        '-o, --output <output>',
+        'Path to output file with admin logins (default: admins.txt)',
+        'admins.txt'
+    )
+    .option(
+        '-s, --superadminfile <superadminfile>',
+        'Path to superadmin password (default: superadmin.txt)',
+        'superadmin.txt'
+    )
+    .parse(process.argv);
 
-main().then(() => {
+const options = program.opts();
+
+const {
+    usersfile: usersFile,
+    passwordsfile: passwordsFile,
+    output: outputFile,
+    superadminfile: superadminFile
+} = options;
+
+if (!usersFile || !passwordsFile || !outputFile || !superadminFile) {
+    console.error('Missing arguments');
+    process.exit(1);
+}
+
+main({ usersFile, passwordsFile, outputFile, superadminFile }).then(() => {
     console.log('done');
+    process.exit(0);
 });
