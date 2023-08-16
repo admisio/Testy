@@ -2,13 +2,13 @@
 
 ## Vytvoření docker sítě
 
-```
+```bash
 docker network create -d bridge traefik_proxy
 ```
 
 ## Traefik
 
-```
+```bash
 docker compose -f docker/traefik/docker-compose.yml up
 ```
 
@@ -20,15 +20,22 @@ Traefik běží na portu 80
 
 Použijte `docker login` se svými přihlašovacími údaji
 
-```
+```bash
 docker login
+```
+
+S GitHub tokenem
+
+```bash
+export CR_PAT=TOKEN_TU
+echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
 ```
 
 ### Spuštění
 
 Nakonfigurujte šablonu: `docker/testy/docker-compose.yml` a spusťte ji
 
-```
+```bash
 docker compose -f docker/testy/docker-compose.yml up
 ```
 

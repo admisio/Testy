@@ -37,7 +37,7 @@ cd packages/usersplit/
 
 Ke spuštění scriptu je potřeba .env s DATABASE_URL proměnnou
 
-```
+```bash
 echo "DATABASE_URL=postgres://REDACTED:REDACTED@localhost:5432/postgres" > .env
 ```
 
