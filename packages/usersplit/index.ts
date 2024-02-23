@@ -45,6 +45,9 @@ async function main({
     });
 
     for (const line of lines) {
+        if (!line) {
+            continue;
+        }
         const [group, admin, username, password] = line.split(' ');
         let dbAdmin = await prisma.admin.findUnique({
             where: {
