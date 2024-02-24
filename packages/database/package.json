@@ -13,11 +13,12 @@
         "bcrypt": "^5.1.0"
     },
     "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
         "prisma": "^4.13.0",
         "ts-node": "^10.9.1",
-        "@types/bcrypt": "^5.0.0"
+        "tsx": "^4.7.1"
     },
     "prisma": {
-        "seed": "ts-node prisma/seed.ts"
+        "seed": "tsx prisma/seed.ts"
     }
 }
