@@ -16,7 +16,7 @@ async function main({
     outputFile: string;
     superadminFile: string;
 }) {
-    const superadminPassword = fs.readFileSync(path.join(__dirname, superadminFile), 'utf8');
+    const superadminPassword = fs.readFileSync(path.join(__dirname, superadminFile), 'utf8').trim();
     const lines = fs.readFileSync(path.join(__dirname, usersFile), 'utf8').split('\n');
     const passwords = fs.readFileSync(path.join(__dirname, passwordsFile), 'utf8').split('\n');
 
