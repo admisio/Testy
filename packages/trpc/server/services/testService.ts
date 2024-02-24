@@ -118,7 +118,7 @@ class ResultCellMap extends Map<string, Record[]> {
     }
 }
 
-export const exportXlsx = async (): Promise<void> => {
+export const exportXlsx = async (): Promise<string> => {
     const workbook = XLXS.utils.book_new();
     XLXS.set_fs(fs);
 
@@ -230,7 +230,7 @@ export const exportXlsx = async (): Promise<void> => {
     const userSheet = getUserSheet(usersDb, resultCell);
     XLXS.utils.book_append_sheet(workbook, userSheet, 'users');
 
-    XLXS.writeFileXLSX(workbook, 'vysledky.xlsx');
+    return XLXS.write(workbook, { bookType: 'xlsx', type: 'base64' });
 };
 
 const getUserSheet = (users: User[], resultCell: ResultCellMap): XLXS.WorkSheet => {
@@ -283,7 +283,7 @@ const getSumXlsxFnString = (headers: string[], row: number, correctRow: number):
             };
         })
         .filter((h) => h.s.startsWith('Q'))
-        .map(({i}) => i);
+        .map(({ i }) => i);
 
     const [colMin, colMax] = [colRange[0], colRange[colRange.length - 1]].map((c) => ALPHABET[c]);
     const correctRange = `${colMin}$${correctRow}:${colMax}$${correctRow}`;

@@ -11,16 +11,27 @@
     export let data: PageServerData;
 
     // TODO: xlsx download
-    const downloadCsv = async () => {
-        const csv = await trpc().users.csv.query();
-        const blob = new Blob([csv], { type: 'text/csv' });
+    const downloadXlsx = async (e: Event) => {
+        const base64 = await trpc().users.xlsx.query();
+        const byteCharacters = atob(base64);
+
+        // Create a Uint8Array
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+
+        // Create a Blob from the Uint8Array
+        const blob = new Blob([byteArray], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
         // download the file
+
         const anchor = window.document.createElement('a');
         anchor.href = window.URL.createObjectURL(blob);
-        anchor.download = 'users.csv';
-        document.body.appendChild(anchor);
+        anchor.download = 'vysledky.xlsx';
         anchor.click();
-        document.body.removeChild(anchor);
         window.URL.revokeObjectURL(anchor.href);
     };
 
@@ -77,7 +88,7 @@
             icon="material-symbols:add-circle-outline-rounded"
             title="Přidat uživatele"
         />
-        <Button on:click={downloadCsv} icon="material-symbols:download" title="Stáhnout CSV" />
+        <Button on:click={downloadXlsx} icon="material-symbols:download" title="Stáhnout výsledky" />
     </div>
 </div>
 <div class="mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col px-4 py-3 md:px-6 md:px-6">
