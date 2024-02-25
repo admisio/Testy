@@ -62,6 +62,10 @@ export const users = t.router({
             trpcInfo(ctx, `Created user ${input.username}`);
         }),
     csv: t.procedure.use(adminAuth).query(async () => exportCsv()),
+    /**
+     * @description Export users to xlsx, Only SSR
+     * @returns ArrayBuffer
+     */
     xlsx: t.procedure.use(adminAuth).query(async () => exportXlsx()),
     resetPassword: t.procedure
         .use(adminAuth)
