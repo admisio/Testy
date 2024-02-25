@@ -64,7 +64,7 @@ export const users = t.router({
     csv: t.procedure.use(adminAuth).query(async () => exportCsv()),
     /**
      * @description Export users to xlsx, Only SSR
-     * @returns ArrayBuffer
+     * @returns Promise<ArrayBuffer>
      */
     xlsx: t.procedure.use(adminAuth).query(async () => exportXlsx()),
     resetPassword: t.procedure
