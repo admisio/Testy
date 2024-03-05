@@ -1,26 +1,17 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
+    import { goto } from '$app/navigation';
     import Button from '$lib/components/buttons/Button.svelte';
     import Submit from '$lib/components/buttons/Submit.svelte';
     import TextInput from '$lib/components/inputs/TextInput.svelte';
     import Modal from '$lib/components/Modal.svelte';
     import UserListItem from '$lib/components/userlist/UserListItem.svelte';
-    import { trpc } from '$lib/trpc/client';
     import type { ActionData, PageServerData } from './$types';
 
     export let data: PageServerData;
 
-    const downloadCsv = async () => {
-        const csv = await trpc().users.csv.query();
-        const blob = new Blob([csv], { type: 'text/csv' });
-        // download the file
-        const anchor = window.document.createElement('a');
-        anchor.href = window.URL.createObjectURL(blob);
-        anchor.download = 'users.csv';
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        window.URL.revokeObjectURL(anchor.href);
+    const downloadXlsx = async () => {
+        window.open(`/admin/export/xlsx`, '_blank');
     };
 
     const openModal = async () => {
@@ -76,7 +67,11 @@
             icon="material-symbols:add-circle-outline-rounded"
             title="Přidat uživatele"
         />
-        <Button on:click={downloadCsv} icon="material-symbols:download" title="Stáhnout CSV" />
+        <Button
+            on:click={downloadXlsx}
+            icon="material-symbols:download"
+            title="Stáhnout výsledky"
+        />
     </div>
 </div>
 <div class="mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col px-4 py-3 md:px-6 md:px-6">
