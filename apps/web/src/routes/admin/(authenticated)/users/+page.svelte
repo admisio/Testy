@@ -1,38 +1,17 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
+    import { goto } from '$app/navigation';
     import Button from '$lib/components/buttons/Button.svelte';
     import Submit from '$lib/components/buttons/Submit.svelte';
     import TextInput from '$lib/components/inputs/TextInput.svelte';
     import Modal from '$lib/components/Modal.svelte';
     import UserListItem from '$lib/components/userlist/UserListItem.svelte';
-    import { trpc } from '$lib/trpc/client';
     import type { ActionData, PageServerData } from './$types';
 
     export let data: PageServerData;
 
-    // TODO: xlsx download
-    const downloadXlsx = async (e: Event) => {
-        const base64 = await trpc().users.xlsx.query();
-        const byteCharacters = atob(base64);
-
-        // Create a Uint8Array
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-
-        // Create a Blob from the Uint8Array
-        const blob = new Blob([byteArray], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        });
-        // download the file
-
-        const anchor = window.document.createElement('a');
-        anchor.href = window.URL.createObjectURL(blob);
-        anchor.download = 'vysledky.xlsx';
-        anchor.click();
-        window.URL.revokeObjectURL(anchor.href);
+    const downloadXlsx = async () => {
+        window.open(`/admin/export/xlsx`, '_blank');
     };
 
     const openModal = async () => {
@@ -88,7 +67,11 @@
             icon="material-symbols:add-circle-outline-rounded"
             title="Přidat uživatele"
         />
-        <Button on:click={downloadXlsx} icon="material-symbols:download" title="Stáhnout výsledky" />
+        <Button
+            on:click={downloadXlsx}
+            icon="material-symbols:download"
+            title="Stáhnout výsledky"
+        />
     </div>
 </div>
 <div class="mx-auto mx-auto mb-6 flex max-w-screen-xl flex-col px-4 py-3 md:px-6 md:px-6">

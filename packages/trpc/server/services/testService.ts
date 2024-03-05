@@ -118,7 +118,7 @@ class ResultCellMap extends Map<string, Record[]> {
     }
 }
 
-export const exportXlsx = async (): Promise<string> => {
+export const exportXlsx = async (): Promise<ArrayBuffer> => {
     const workbook = XLXS.utils.book_new();
     XLXS.set_fs(fs);
 
@@ -230,7 +230,7 @@ export const exportXlsx = async (): Promise<string> => {
     const userSheet = getUserSheet(usersDb, resultCell);
     XLXS.utils.book_append_sheet(workbook, userSheet, 'users');
 
-    return XLXS.write(workbook, { bookType: 'xlsx', type: 'base64' });
+    return XLXS.write(workbook, { bookType: 'xlsx', type: 'buffer' });
 };
 
 const getUserSheet = (users: User[], resultCell: ResultCellMap): XLXS.WorkSheet => {
