@@ -33,13 +33,13 @@
                 <div class="w-full">
                     {#if heading && heading.title}
                         <h2
-                            class="text-ellipsis break-all text-center text-2xl font-bold dark:text-gray-400 md:text-left"
+                            class="text-ellipsis break-words text-center text-2xl font-bold dark:text-gray-400 md:text-left"
                         >
                             {@html heading.title}
                         </h2>
                     {/if}
                     {#if heading && heading.description}
-                        <p class="mt-4 text-ellipsis break-all text-xl font-serif dark:text-gray-400">
+                        <p class="mt-4 text-ellipsis break-words text-xl font-serif dark:text-gray-400">
                             {@html heading.description}
                         </p>
                     {/if}
